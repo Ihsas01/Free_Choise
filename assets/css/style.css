@@ -1,0 +1,2751 @@
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #ff6347; /* Tomato - A vibrant reddish-orange */
+    --secondary-color: #2c3e50; /* Wet Asphalt - Dark and modern */
+    --accent-color: #2ecc71; /* Emerald - A fresh green */
+    --background-color: #f8f9fa; /* Light gray background for content */
+    --text-color: #34495e; /* Peter River - Dark blue-grey for main text */
+    --light-gray: #dcdcdc; /* Slightly lighter gray */
+    --white: #ffffff; /* Pure white */
+    --shadow: 0 8px 25px rgba(0,0,0,0.1); /* More prominent but soft shadow */
+    --transition: all 0.4s ease-in-out; /* Slower, smoother transition */
+}
+
+body {
+    font-family: 'Roboto', sans-serif; /* Using Roboto for a cleaner look */
+    line-height: 1.6; /* Adjusted line height for paragraphs */
+    color: var(--text-color);
+    background-color: var(--background-color);
+    scroll-behavior: smooth; /* Smooth scrolling */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 25px; /* Adjusted horizontal padding */
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--secondary-color);
+    margin-bottom: 20px; /* Increased margin below headings */
+    font-weight: 700; /* Bolder headings */
+}
+
+h1 {
+    font-size: 2.8em; /* Larger main headings */
+}
+
+h2 {
+    font-size: 2.2em; /* Larger section headings */
+}
+
+h3 {
+    font-size: 1.8em; /* Larger sub-headings */
+}
+
+p {
+    margin-bottom: 20px; /* Increased margin below paragraphs */
+    font-size: 1.05em; /* Slightly larger paragraph text */
+}
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s ease; /* Smooth color transition for links */
+}
+
+a:hover {
+    color: var(--accent-color); /* Change color on hover */
+    text-decoration: underline; /* Add underline on hover */
+}
+
+/* Header styles */
+.main-header {
+    background-color: var(--white);
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: var(--transition);
+}
+
+.main-header:hover {
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.header-top {
+    padding: 15px 0;
+    border-bottom: 1px solid var(--light-gray);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo a {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--secondary-color);
+    text-decoration: none;
+    transition: var(--transition);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.logo a:hover {
+    color: var(--primary-color);
+    transform: scale(1.05);
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.login-btn, .register-btn {
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition);
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.login-btn {
+    color: var(--secondary-color);
+    border: 2px solid var(--secondary-color);
+}
+
+.login-btn:hover {
+    background-color: var(--secondary-color);
+    color: var(--white);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+.register-btn {
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: 2px solid var(--primary-color);
+}
+
+.register-btn:hover {
+    background-color: transparent;
+    color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+.profile-icon, .cart-icon {
+    font-size: 22px;
+    color: var(--secondary-color);
+    text-decoration: none;
+    position: relative;
+    transition: var(--transition);
+    padding: 8px;
+    border-radius: 50%;
+    background-color: rgba(0,0,0,0.03); /* subtle background */
+}
+
+.profile-icon:hover, .cart-icon:hover {
+    color: var(--primary-color);
+    background-color: rgba(255, 68, 68, 0.1);
+    transform: translateY(-2px);
+}
+
+.cart-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: var(--primary-color);
+    color: var(--white);
+    font-size: 12px;
+    padding: 3px 7px;
+    border-radius: 50%;
+    font-weight: bold;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* Navigation styles */
+.main-nav {
+    background-color: var(--secondary-color);
+    padding: 15px 0; /* Increased padding */
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+.nav-list {
+    list-style: none;
+    display: flex;
+    gap: 25px; /* Adjusted gap */
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-list li {
+    display: inline-block;
+}
+
+.nav-list a {
+    color: var(--black);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition);
+    padding: 10px 15px; /* Adjusted padding */
+    border-radius: 20px;
+    text-transform: uppercase;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+}
+
+.nav-list a.site-title {
+    font-size: 26px; /* Slightly larger */
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-right: 30px;
+    padding: 0;
+    background: none;
+    flex-shrink: 0;
+    transition: var(--transition);
+}
+
+.nav-list a.site-title:hover {
+    opacity: 0.9;
+}
+
+.nav-list a:not(.site-title):hover {
+    color: var(--primary-color);
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Style for the active/selected navigation link */
+.nav-list a.active {
+    color: var(--secondary-color); /* Black text color */
+    background-color: rgba(255, 255, 255, 0.9); /* Subtle light background to indicate active */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.nav-list a.active:hover {
+    color: var(--primary-color); /* Maintain hover color or change as desired */
+    background-color: rgba(255, 255, 255, 1); /* Slightly brighter background on hover */
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Adjusted gap */
+    flex-shrink: 0;
+}
+
+/* Admin specific styles for the navigation right section */
+.admin-logged-in .nav-right {
+    /* Adjustments for admin view if needed */
+    /* For example, less gap or different alignment */
+    gap: 15px; /* Slightly less gap for admin links */
+}
+
+.admin-logged-in .nav-right a {
+     /* Style adjustments for admin links if needed */
+     font-weight: 600; /* Make admin links slightly bolder */
+}
+
+.admin-logged-in .nav-right .profile-icon,
+.admin-logged-in .nav-right .cart-icon {
+    /* Adjustments for admin profile/cart icons */
+     background-color: rgba(255, 255, 255, 0.1); /* Subtle background for icons in admin header */
+}
+
+.admin-logged-in .nav-right .btn {
+     /* Style adjustments for admin buttons (like Logout) if needed */
+     padding: 8px 15px; /* Slightly smaller padding for buttons */
+     font-size: 13px; /* Slightly smaller font size */
+}
+
+.nav-right a {
+    color: var(--black);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition);
+    padding: 10px 15px; /* Adjusted padding */
+    border-radius: 20px;
+    text-transform: uppercase;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+}
+
+.nav-right a:hover {
+    color: var(--primary-color);
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Style for active links in the right section (profile, cart, etc.) if needed */
+/* .nav-right a.active { ... } */
+
+.cart-icon {
+    position: relative;
+    font-size: 20px; /* Slightly larger */
+    color: var(--white);
+    text-decoration: none;
+    transition: var(--transition);
+    padding: 10px; /* Adjusted padding */
+    border-radius: 50%;
+    margin-left: 10px; /* Increased margin */
+}
+
+.cart-icon:hover {
+    color: var(--primary-color);
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Main content styles */
+.main-content {
+    min-height: calc(100vh - 250px); /* Adjusted minimum height */
+    padding: 60px 0; /* Increased padding */
+    padding-top: 40px; /* Add padding at the top of main content */
+}
+
+/* Section styles */
+section {
+    margin-bottom: 80px; /* Consistent bottom margin for all main sections */
+    padding: 80px 0; /* Add vertical padding to sections */
+}
+
+section h2 {
+    text-align: center;
+    font-size: 32px; /* Consistent main heading size */
+    color: var(--secondary-color);
+    margin-bottom: 40px; /* Increased margin below section headings */
+    position: relative;
+    padding-bottom: 15px;
+}
+
+section h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px; /* Wider underline */
+    height: 4px; /* Thicker underline */
+    background: linear-gradient(to right, var(--primary-color), var(--accent-color)); /* Gradient underline */
+}
+
+/* Hero section */
+.hero-section {
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('../images/hero-bg.jpg'); /* Darker overlay */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: var(--white);
+    text-align: center;
+    padding: 220px 0; /* More padding */
+    margin-bottom: 100px; /* More space below */
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 180px; /* Taller fade out */
+    background: linear-gradient(to top, var(--background-color), transparent); /* Fade to background color */
+}
+
+.hero-section h1 {
+    font-size: 72px; /* Larger font size */
+    margin-bottom: 30px; /* More space below heading */
+    text-transform: uppercase;
+    letter-spacing: 5px; /* More letter spacing */
+    animation: fadeInDown 1.5s ease forwards; /* Slower animation */
+    text-shadow: 4px 4px 10px rgba(0,0,0,0.5); /* More pronounced shadow */
+}
+
+.hero-section p {
+    font-size: 28px; /* Larger font size */
+    margin-bottom: 60px; /* More space below paragraph */
+    animation: fadeInUp 1.5s ease forwards; /* Slower animation */
+}
+
+.hero-section .btn {
+    padding: 18px 40px; /* Larger button padding */
+    font-size: 22px; /* Larger button font size */
+    animation: zoomIn 1.8s ease forwards; /* Slower animation */
+    border-radius: 30px; /* More rounded button */
+    background: linear-gradient(to right, var(--primary-color), #ff7e5f); /* Different gradient */
+    box-shadow: 0 8px 25px rgba(255, 68, 68, 0.4); /* More pronounced shadow */
+}
+
+.hero-section .btn:hover {
+    background: linear-gradient(to right, #ff7e5f, var(--primary-color)); /* Reverse gradient on hover */
+    transform: translateY(-5px); /* More pronounced lift */
+    box-shadow: 0 12px 30px rgba(0,0,0,0.4); /* More pronounced hover shadow */
+}
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes zoomIn {
+    from { opacity: 0; transform: scale(0.7); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Category grid */
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Wider min column size */
+    gap: 50px; /* More gap */
+    margin-top: 50px; /* More space above grid */
+}
+
+.category-card {
+    background: linear-gradient(145deg, #ffffff, #f8f9fa); /* Subtle gradient background */
+    padding: 40px; /* More padding */
+    border-radius: 20px; /* More rounded corners */
+    text-align: center;
+    text-decoration: none;
+    color: var(--text-color);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1); /* More pronounced shadow */
+    transition: transform 0.4s ease, box-shadow 0.4s ease; /* Slower transition */
+    position: relative;
+    overflow: hidden;
+    display: block;
+    border: 1px solid rgba(0,0,0,0.08); /* Subtle border */
+}
+
+.category-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6px; /* Thicker line */
+    background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease; /* Slower transition */
+}
+
+.category-card:hover {
+    transform: translateY(-15px); /* More pronounced lift */
+    box-shadow: 0 15px 50px rgba(0,0,0,0.2); /* More pronounced shadow */
+    border-color: var(--primary-color); /* Highlight border on hover */
+}
+
+.category-card:hover::before {
+    transform: scaleX(1);
+}
+
+.category-card h3 {
+    font-size: 24px; /* Larger font size */
+    margin-bottom: 15px; /* More space below heading */
+    color: var(--secondary-color); /* Ensure consistent color */
+}
+
+.category-card p {
+    font-size: 17px; /* Larger font size */
+    color: #555; /* Slightly softer text */
+}
+
+/* Product grid */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Wider min column size */
+    gap: 50px; /* More gap */
+    margin-top: 50px; /* More space above grid */
+}
+
+.product-card {
+    background-color: var(--white);
+    border-radius: 20px; /* More rounded corners */
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1); /* More pronounced shadow */
+    transition: transform 0.4s ease, box-shadow 0.4s ease; /* Slower transition */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(0,0,0,0.08); /* Subtle border */
+}
+
+.product-card:hover {
+    transform: translateY(-15px); /* More pronounced lift */
+    box-shadow: 0 15px 50px rgba(0,0,0,0.2); /* More pronounced shadow */
+    border-color: var(--primary-color); /* Highlight border on hover */
+}
+
+.product-image {
+    width: 100%;
+    height: 280px; /* Taller images */
+    object-fit: cover;
+    transition: transform 0.4s ease; /* Slower transition */
+}
+
+.product-card:hover .product-image {
+    transform: scale(1.1); /* More pronounced scale */
+}
+
+.product-info {
+    padding: 25px; /* More padding */
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-title {
+    font-size: 22px; /* Larger font size */
+    margin-bottom: 10px; /* More space below */
+    font-weight: 700; /* Bolder title */
+    color: var(--secondary-color);
+}
+
+.product-category {
+    font-size: 15px; /* Slightly larger font size */
+    color: #666;
+    margin-bottom: 20px; /* More space below */
+}
+
+.product-price {
+    font-size: 26px; /* Larger font size */
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-top: auto;
+    margin-bottom: 20px; /* More space below */
+}
+
+.product-actions {
+    display: flex;
+    gap: 15px; /* More gap */
+    margin-top: 20px; /* More space above actions */
+}
+
+/* Buttons within product cards */
+.product-card .btn {
+    width: 100%;
+    padding: 12px 18px; /* More padding */
+    font-size: 16px; /* Slightly larger font size */
+    border-radius: 8px; /* Consistent border radius */
+    /* Inherits other button styles */
+}
+
+/* Style for the login required message */
+.login-required-message {
+    text-align: center;
+    font-size: 18px;
+    color: #d32f2f; /* Reddish color for warning */
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #ffebee; /* Light red background */
+    border: 1px solid #ef9a9a; /* Light red border */
+    border-radius: 8px;
+}
+
+/* Special offers styles */
+.special-offers-content {
+    padding: 60px 0; /* Increased padding */
+}
+
+.offers-hero {
+    text-align: center;
+    margin-bottom: 80px; /* Increased margin */
+    background: linear-gradient(to right, rgba(255, 68, 68, 0.1), rgba(76, 175, 80, 0.1)); /* Subtle gradient background */
+    padding: 60px 20px; /* Added padding */
+    border-radius: 15px; /* Rounded corners */
+    box-shadow: var(--shadow); /* Add shadow */
+}
+
+.offers-hero h1 {
+    font-size: 48px; /* Larger font size */
+    margin-bottom: 20px; /* Adjusted margin */
+    color: var(--secondary-color); /* Ensure consistent color */
+}
+
+.offers-hero p {
+    font-size: 20px; /* Larger font size */
+    color: #555; /* Slightly softer text color */
+    max-width: 800px;
+    margin: 0 auto 30px; /* Center and add bottom margin */
+}
+
+.promotions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 40px; /* Increased gap */
+    margin: 40px 0; /* Increased margin */
+}
+
+.promotion-card {
+    background-color: var(--white);
+    padding: 40px; /* Consistent padding */
+    border-radius: 15px; /* More rounded corners */
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--light-gray); /* Added subtle border */
+}
+
+.promotion-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 5px; /* Slightly thicker underline */
+    background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: var(--transition);
+}
+
+.promotion-card:hover {
+    transform: translateY(-10px); /* More pronounced lift */
+    box-shadow: 0 10px 40px rgba(0,0,0,0.12); /* More pronounced shadow */
+    border-color: var(--primary-color); /* Highlight border on hover */
+}
+
+.promotion-card:hover::after {
+    transform: scaleX(1);
+}
+
+.promotion-icon {
+    font-size: 60px; /* Larger icons */
+    color: var(--primary-color); /* Primary color for icons */
+    margin-bottom: 25px; /* Increased margin */
+    transition: var(--transition);
+}
+
+.promotion-card:hover .promotion-icon {
+    transform: scale(1.2) rotate(5deg); /* Scale and rotate slightly on hover */
+}
+
+.discount-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 8px 15px;
+    border-radius: 25px;
+    font-weight: bold;
+    font-size: 14px;
+    box-shadow: 0 2px 10px rgba(255, 68, 68, 0.3);
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+/* Form styles (Login, Register, Contact, etc.) */
+.form-container {
+    max-width: 500px; /* Slightly wider form */
+    margin: 60px auto; /* Increased top/bottom margin */
+    padding: 40px; /* Increased padding */
+    background: linear-gradient(145deg, #ffffff, #f8f9fa); /* Subtle gradient background */
+    border-radius: 15px; /* More rounded corners */
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1); /* More pronounced shadow */
+    border: 1px solid rgba(0,0,0,0.08); /* Subtle border */
+}
+
+.form-container h2 {
+    text-align: center;
+    color: var(--secondary-color);
+    font-size: 30px; /* Larger font size */
+    margin-bottom: 30px; /* Increased margin */
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.form-container h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70px; /* Wider underline */
+    height: 4px; /* Thicker underline */
+    background: linear-gradient(to right, var(--primary-color), var(--accent-color)); /* Gradient underline */
+}
+
+.form-group {
+    margin-bottom: 25px; /* Consistent margin */
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 10px; /* Increased margin */
+    font-weight: 600; /* Bolder label */
+    color: var(--secondary-color);
+    font-size: 16px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 14px 18px; /* Increased padding */
+    border: 2px solid var(--light-gray); /* Thicker initial border */
+    border-radius: 8px;
+    font-size: 16px;
+    transition: var(--transition);
+    background-color: rgba(255,255,255,0.95); /* Slightly more opaque background */
+    box-shadow: inset 0 1px 5px rgba(0,0,0,0.08); /* More pronounced inner shadow */
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(255, 68, 68, 0.2); /* Softer and larger focus shadow */
+    background-color: var(--white); /* White background on focus */
+}
+
+.btn {
+    display: block; /* Make button full width */
+    width: 100%;
+    padding: 14px 25px; /* Increased padding */
+    background: linear-gradient(to right, var(--primary-color), var(--accent-color)); /* Gradient background */
+    color: var(--white);
+    border: none;
+    border-radius: 8px; /* Less rounded corners */
+    cursor: pointer;
+    font-size: 18px; /* Larger font size */
+    text-decoration: none;
+    transition: var(--transition);
+    text-transform: uppercase;
+    letter-spacing: 1px; /* Increased letter spacing */
+    font-weight: 600; /* Bolder text */
+    box-shadow: 0 6px 20px rgba(255, 68, 68, 0.3); /* More pronounced shadow */
+    margin-top: 20px; /* Add margin above the button */
+}
+
+.btn:hover {
+    background: linear-gradient(to right, var(--accent-color), var(--primary-color)); /* Reverse gradient on hover */
+    transform: translateY(-3px); /* More pronounced lift */
+    box-shadow: 0 8px 25px rgba(0,0,0,0.35); /* More pronounced hover shadow */
+}
+
+.form-footer {
+    text-align: center;
+    margin-top: 30px; /* Increased margin */
+    font-size: 16px;
+    color: #555;
+}
+
+.form-footer a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.form-footer a:hover {
+    color: var(--secondary-color); /* Change color on hover */
+    text-decoration: underline;
+}
+
+/* Message styles (re-using and enhancing existing) */
+.message, .error-message, .success-message {
+    padding: 18px 25px; /* Increased padding */
+    border-radius: 8px;
+    margin-bottom: 30px; /* Increased margin */
+    font-weight: 500;
+    animation: slideIn 0.4s ease-out; /* Slightly slower animation */
+    box-shadow: 0 2px 15px rgba(0,0,0,0.08); /* Softer shadow */
+    text-align: center;
+}
+
+.error-message {
+    background-color: #ffebee; /* Lighter error background */
+    color: #c62828; /* Darker error text */
+    border: 1px solid #ef9a9a; /* Lighter error border */
+}
+
+.success-message {
+    background-color: #e8f5e9; /* Lighter success background */
+    color: #388e3c; /* Darker success text */
+    border: 1px solid #a5d6a7; /* Lighter success border */
+}
+
+/* Footer styles */
+.main-footer {
+    background-color: #2c3e50; /* A deeper, more appealing dark color */
+    color: #ecf0f1; /* Light text color */
+    padding: 30px 0 20px; /* Adjusted padding: further decreased top and bottom padding */
+    position: relative;
+    overflow: hidden;
+    font-size: 0.95em; /* Slightly smaller base font size for a tighter look */
+}
+
+.main-footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40px; /* Decreased height for smoother transition */
+    background: linear-gradient(to bottom, var(--background-color), rgba(44, 62, 80, 0)); /* Transition to footer color */
+    z-index: 1;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px; /* Slightly reduced gap */
+    margin-bottom: 40px; /* Slightly reduced margin */
+    flex-wrap: wrap;
+}
+
+.footer-section {
+    flex: 1; /* Allow sections to grow */
+    min-width: 200px; /* Adjusted min-width */
+}
+
+.footer-section h3 {
+    color: var(--primary-color); /* Primary color for headings */
+    margin-bottom: 20px; /* Adjusted margin */
+    position: relative;
+    font-size: 1.2em; /* Adjusted heading size */
+    font-weight: 700; /* Bolder heading */
+}
+
+.footer-section h3::after {
+    content: '';
+    display: block;
+    width: 40px; /* Adjusted underline width */
+    height: 3px; /* Adjusted underline thickness */
+    background: var(--primary-color); /* Primary color underline */
+    margin-top: 8px; /* Adjusted space below heading */
+    border-radius: 2px;
+}
+
+.footer-section p {
+    color: #bdc3c7; /* Slightly lighter text for paragraphs */
+    font-size: 0.9em; /* Slightly smaller paragraph text */
+    margin-bottom: 12px; /* Adjusted margin */
+    line-height: 1.6; /* Adjusted readability */
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: 8px; /* Slightly reduced margin for list items */
+}
+
+/* Quick Links specific styling for two columns */
+.footer-section.quick-links-section ul {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two equal columns by default */
+    gap: 8px 20px; /* Adjusted gap */
+    padding-right: 20px; /* Add some padding to the right */
+}
+
+.footer-section.quick-links-section ul li {
+    margin-bottom: 0; /* Remove bottom margin when using grid gap */
+}
+
+.footer-section a {
+    color: #ecf0f1; /* Light text color */
+    text-decoration: none;
+    font-size: 1em; /* Consistent font size */
+    transition: color 0.3s ease, transform 0.2s ease; /* Smooth transition with slight transform */
+    position: relative;
+    display: inline-block;
+}
+
+.footer-section a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -3px; /* Adjust position */
+    width: 0;
+    height: 2px; /* Thicker underline */
+    background: var(--primary-color); /* Primary color underline */
+    transition: width 0.3s ease; /* Smooth transition */
+}
+
+.footer-section a:hover {
+    color: var(--primary-color); /* Highlight color on hover */
+    transform: translateX(5px); /* Slight horizontal shift on hover */
+}
+
+.footer-section a:hover::after {
+    width: 100%;
+}
+
+.social-links {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.social-links a {
+    color: #bdc3c7; /* Muted icon color */
+    font-size: 1.8em; /* Slightly larger icons */
+    transition: color 0.3s ease, transform 0.3s ease; /* Smooth transition */
+    text-decoration: none; /* Ensure no underline on social icons */
+}
+
+.social-links a:hover {
+    color: var(--primary-color); /* Highlight color on hover */
+    transform: translateY(-5px) scale(1.1); /* More pronounced lift and slight scale */
+}
+
+.footer-bottom {
+    text-align: center;
+    border-top: 1px solid rgba(255,255,255,0.1); /* Subtle border */
+    padding-top: 25px; /* Increased padding */
+    font-size: 0.95em; /* Slightly larger font size */
+    color: #bdc3c7; /* Muted text color */
+}
+
+/* Responsive adjustments for Footer */
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column; /* Stack sections vertically */
+        gap: 25px; /* Adjusted gap */
+    }
+
+    .footer-section {
+        flex: none; /* Remove flex grow */
+        width: 100%; /* Sections take full width */
+        min-width: unset; /* Remove min-width */
+        text-align: center; /* Center text in sections */
+    }
+
+    .footer-section h3::after {
+        margin: 8px auto 0; /* Center the underline */
+    }
+
+    .footer-section.quick-links-section ul {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Allow grid to adjust, potentially more than 2 columns if space */
+        gap: 8px 20px; /* Adjusted gap */
+        padding-right: 0; /* Remove right padding on smaller screens */
+        justify-content: center; /* Center grid items */
+    }
+
+     .footer-section.quick-links-section ul li {
+         text-align: center; /* Center text in list items when stacked */
+     }
+
+    .social-links {
+        justify-content: center; /* Center social icons */
+    }
+
+    .footer-section a:hover {
+        transform: none; /* Disable horizontal shift on smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .main-footer {
+        padding: 30px 0 15px; /* Adjust padding for smaller screens */
+    }
+
+    .footer-content {
+        gap: 15px; /* Reduce gap further */
+        margin-bottom: 25px;
+    }
+
+    .footer-section h3 {
+        font-size: 1.1em; /* Reduce heading size */
+        margin-bottom: 12px;
+    }
+
+     .footer-section h3::after {
+        margin: 6px auto 0; /* Adjust underline position */
+    }
+
+    .footer-section p,
+    .footer-section a {
+        font-size: 0.85em; /* Reduce font size */
+    }
+
+    .footer-section.quick-links-section ul {
+        grid-template-columns: 1fr; /* Stack columns on very small screens */
+        gap: 4px 0; /* Adjusted gap */
+        padding-right: 0; /* Ensure no right padding */
+    }
+
+     .footer-section.quick-links-section ul li {
+         width: 100%; /* Full width when stacked */
+         margin-bottom: 4px; /* Add back some margin when stacked */
+         text-align: center; /* Center text */
+     }
+
+    .social-links {
+        gap: 8px; /* Reduce gap between social icons */
+        margin-top: 10px;
+    }
+
+    .social-links a {
+        font-size: 1.4em; /* Reduce social icon size */
+    }
+
+    .footer-bottom {
+        padding-top: 12px; /* Reduce padding */
+        font-size: 0.75em; /* Reduce copyright text size */
+    }
+}
+
+/* Loading animation */
+.loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.loading::after {
+    content: '';
+    width: 50px;
+    height: 50px;
+    border: 5px solid var(--light-gray);
+    border-top-color: var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Scroll to top button */
+.scroll-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background-color: var(--primary-color);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+}
+
+.scroll-top.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.scroll-top:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-5px);
+}
+
+/* Cart styles */
+.cart-items {
+    background-color: var(--white);
+    padding: 30px; /* Consistent padding */
+    border-radius: 12px; /* Slightly more rounded */
+    box-shadow: var(--shadow);
+    margin-bottom: 40px; /* Space below cart items */
+}
+
+.cart-item {
+    display: grid;
+    grid-template-columns: 120px 1fr auto auto; /* Image, Details, Quantity, Remove */
+    gap: 20px; /* Adjusted gap based on image */
+    padding: 25px 0; /* Consistent padding */
+    border-bottom: 1px solid var(--light-gray); /* Subtle border */
+    align-items: center; /* Vertically align items */
+}
+
+.cart-item:last-child {
+    border-bottom: none;
+}
+
+.cart-item-image {
+    width: 100px; /* Adjusted image size based on image */
+    height: 100px; /* Adjusted image size based on image */
+    object-fit: cover;
+    border-radius: 8px; /* Rounded corners */
+    border: 1px solid var(--light-gray); /* Subtle border */
+}
+
+.cart-item-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Vertically center text */
+}
+
+.cart-item-details h3 {
+    margin-bottom: 5px; /* Adjusted margin based on image */
+    font-size: 18px; /* Adjusted font size based on image */
+    color: var(--secondary-color);
+}
+
+.cart-item-details .price {
+    font-size: 16px; /* Adjusted font size based on image */
+    color: #666;
+    margin-bottom: 10px; /* Adjusted margin based on image */
+}
+
+.quantity-form {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Slightly smaller gap */
+    margin-bottom: 0;
+}
+
+.quantity-form label {
+    font-weight: 500;
+    margin-bottom: 0;
+    color: var(--secondary-color);
+}
+
+.quantity-form input[type="number"] {
+    width: 50px; /* Smaller input width */
+    padding: 6px; /* Adjusted padding */
+    border: 1px solid var(--light-gray);
+    border-radius: 4px;
+    font-size: 14px; /* Slightly smaller font size */
+    text-align: center;
+}
+
+.quantity-form button {
+    padding: 6px 12px; /* Adjusted button padding */
+    font-size: 14px; /* Slightly smaller font size */
+    border-radius: 4px;
+}
+
+.cart-item-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.cart-item-details .subtotal {
+    font-size: 16px; /* Adjusted font size based on image */
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-top: 10px;
+}
+
+.remove-form {
+    margin-top: 0;
+    display: inline-block; /* Make the form inline-block */
+}
+
+.remove-form button {
+    background: linear-gradient(to right, #ff6b6b, #ee5253); /* Gradient background for remove button */
+    color: var(--white); /* White text color */
+    border: none;
+    padding: 8px 15px; /* Adjusted padding for smaller size */
+    font-size: 14px; /* Adjusted font size for smaller size */
+    width: 100px; /* Fixed width for the remove button */
+    cursor: pointer;
+    transition: var(--transition);
+    border-radius: 4px; /* Rounded corners */
+    text-transform: uppercase; /* Uppercase text */
+    font-weight: 500; /* Medium font weight */
+    box-shadow: 0 4px 10px rgba(255, 107, 107, 0.3); /* Subtle shadow */
+}
+
+.remove-form button:hover {
+    background: linear-gradient(to right, #ee5253, #ff6b6b); /* Reverse gradient on hover */
+    transform: translateY(-2px); /* Lift effect */
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+.cart-summary {
+    margin-top: 40px;
+    padding: 30px;
+    border-top: 2px solid var(--light-gray);
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    text-align: right; /* Align text to the right */
+}
+
+.cart-summary h3 {
+    margin-bottom: 15px;
+    font-size: 22px;
+    color: var(--secondary-color);
+}
+
+.cart-summary .total {
+    font-size: 28px;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 25px;
+}
+
+.cart-summary .btn {
+    width: auto; /* Auto width for checkout button */
+    display: inline-block; /* Display inline-block */
+    padding: 12px 30px; /* Adjusted padding */
+    font-size: 18px; /* Adjusted font size */
+    background: linear-gradient(to right, var(--primary-color), var(--accent-color)); /* Gradient background */
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: var(--transition);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    box-shadow: 0 6px 20px rgba(255, 68, 68, 0.3);
+}
+
+.cart-summary .btn:hover {
+    background: linear-gradient(to right, var(--accent-color), var(--primary-color)); /* Reverse gradient on hover */
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.35);
+}
+
+.empty-cart {
+    text-align: center;
+    font-size: 20px;
+    color: #666;
+    padding: 60px 0;
+    background-color: var(--white);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+}
+
+/* Responsive adjustments for cart */
+@media (max-width: 768px) {
+    .cart-item {
+        grid-template-columns: 100px 1fr; /* Image and details stack */
+        gap: 20px;
+    }
+
+    .cart-item-actions {
+        flex-direction: row; /* Arrange actions in a row */
+        justify-content: center; /* Center align actions */
+        grid-column: 1 / span 2; /* Span across both columns */
+        margin-top: 15px; /* Add space above actions */
+    }
+
+    .cart-summary .btn {
+        float: none; /* Remove float */
+        width: 100%; /* Full width button */
+    }
+
+    .empty-cart {
+        padding: 40px 0;
+    }
+}
+
+/* Profile styles */
+.profile-content {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr; /* Adjusted column ratio */
+    gap: 40px; /* Consistent gap */
+    margin: 40px 0; /* Consistent margin */
+    align-items: start; /* Align items to the top */
+}
+
+.profile-section, .order-history-section {
+    background-color: var(--white);
+    padding: 30px; /* Consistent padding */
+    border-radius: 12px; /* Slightly more rounded */
+    box-shadow: var(--shadow);
+    border: 1px solid var(--light-gray); /* Subtle border */
+}
+
+.profile-section h3, .order-history-section h3 {
+    margin-bottom: 25px; /* Increased margin */
+    font-size: 22px; /* Slightly larger font size */
+    color: var(--secondary-color);
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.profile-section h3::after, .order-history-section h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 3px; /* Thicker underline */
+    background-color: var(--primary-color);
+}
+
+.profile-form .form-group input:disabled {
+    background-color: #e9ecef; /* Lighter disabled background */
+    cursor: not-allowed;
+    color: #6c757d; /* Muted text color */
+}
+
+.order-history-section h3 {
+    /* Styles defined above */
+}
+
+.order-card {
+    background-color: #fefefe; /* Lighter background */
+    border: 1px solid var(--light-gray);
+    padding: 20px; /* Consistent padding */
+    border-radius: 8px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05); /* Softer shadow */
+    transition: var(--transition);
+}
+
+.order-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border-color: var(--primary-color); /* Highlight border on hover */
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-weight: 600;
+    font-size: 16px; /* Consistent font size */
+    color: var(--secondary-color); /* Consistent color */
+}
+
+.order-details p {
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #555; /* Slightly darker grey */
+}
+
+.order-items-list {
+    margin-top: 15px; /* Add space above items */
+    padding-top: 15px; /* Add space below border */
+    border-top: 1px solid var(--light-gray); /* Separator */
+}
+
+.order-item-summary {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.status-pending { color: #ffc107; font-weight: bold; }
+.status-processing { color: #17a2b8; font-weight: bold; }
+.status-shipped { color: #007bff; font-weight: bold; }
+.status-delivered { color: var(--accent-color); font-weight: bold; }
+
+.logout-section {
+    text-align: center;
+    margin-top: 40px; /* Increased margin */
+    padding-top: 30px; /* Increased padding */
+    border-top: 1px solid var(--light-gray); /* Consistent border */
+}
+
+.logout-section .btn-danger {
+    width: auto; /* Allow button to size based on content */
+    padding: 10px 25px; /* Adjusted padding */
+    display: inline-block; /* Ensure it's inline-block */
+    font-size: 16px; /* Consistent font size */
+}
+
+/* Responsive adjustments for profile page */
+@media (max-width: 768px) {
+    .profile-content {
+        grid-template-columns: 1fr; /* Stack sections */
+        gap: 20px;
+    }
+}
+
+/* Admin styles */
+.admin-content {
+    display: grid;
+    grid-template-columns: 250px 1fr; /* Sidebar width and main content */
+    gap: 40px;
+    margin: 40px 0;
+    align-items: start; /* Align items to the top */
+}
+
+.admin-sidebar {
+    background-color: var(--white);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+}
+
+.admin-sidebar h3 {
+    margin-bottom: 20px;
+    font-size: 20px;
+    color: var(--secondary-color);
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.admin-sidebar h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background-color: var(--primary-color);
+}
+
+.admin-sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.admin-sidebar ul li {
+    margin-bottom: 15px;
+}
+
+.admin-sidebar ul li a {
+    text-decoration: none;
+    color: var(--secondary-color);
+    font-weight: 500;
+    font-size: 16px;
+    display: block;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: var(--transition);
+}
+
+.admin-sidebar ul li a:hover {
+    background-color: var(--light-gray);
+    color: var(--primary-color);
+}
+
+.admin-main-content {
+    background-color: var(--white);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+}
+
+.dashboard-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
+    margin-bottom: 40px;
+}
+
+.stat-card {
+    background-color: #f8f9fa; /* Lighter background for cards */
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--light-gray);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    text-align: center;
+}
+
+.stat-card h4 {
+    font-size: 18px;
+    color: var(--secondary-color);
+    margin-bottom: 10px;
+}
+
+.stat-card p {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.admin-quick-links {
+    margin-top: 40px;
+}
+
+.admin-quick-links h3 {
+    margin-bottom: 20px;
+    font-size: 20px;
+    color: var(--secondary-color);
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.admin-quick-links h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background-color: var(--primary-color);
+}
+
+.quick-link-buttons {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+.quick-link-buttons .btn {
+    width: auto; /* Adjust button width based on content */
+    padding: 10px 20px;
+}
+
+/* Responsive adjustments for admin dashboard */
+@media (max-width: 768px) {
+    .admin-content {
+        grid-template-columns: 1fr; /* Stack sidebar and main content */
+        gap: 20px;
+    }
+
+    .admin-sidebar ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center; /* Center align nav items */
+    }
+
+    .admin-sidebar ul li {
+        margin-bottom: 0;
+    }
+
+    .quick-link-buttons {
+        justify-content: center; /* Center align buttons */
+    }
+}
+
+/* About page styles */
+.about-content {
+    padding: 60px 0; /* Increased padding */
+}
+
+.about-hero {
+    text-align: center;
+    margin-bottom: 80px; /* Increased margin */
+    background: linear-gradient(to right, rgba(255, 68, 68, 0.1), rgba(76, 175, 80, 0.1)); /* Subtle gradient background */
+    padding: 60px 20px; /* Added padding */
+    border-radius: 15px; /* Rounded corners */
+    box-shadow: var(--shadow); /* Add shadow */
+}
+
+.about-hero h1 {
+    font-size: 48px; /* Larger font size */
+    margin-bottom: 20px; /* Adjusted margin */
+    color: var(--secondary-color); /* Ensure consistent color */
+}
+
+.about-hero p {
+    font-size: 20px; /* Larger font size */
+    color: #555; /* Slightly softer text color */
+    max-width: 800px;
+    margin: 0 auto 30px; /* Center and add bottom margin */
+}
+
+.about-section {
+    margin-bottom: 80px; /* Increased margin */
+}
+
+.about-section h2 {
+    text-align: center;
+    margin-bottom: 40px; /* Increased margin */
+    position: relative;
+    padding-bottom: 15px; /* Increased padding */
+    font-size: 32px; /* Larger font size */
+    color: var(--secondary-color);
+}
+
+.about-section h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px; /* Wider underline */
+    height: 4px; /* Thicker underline */
+    background: linear-gradient(to right, var(--primary-color), var(--accent-color)); /* Gradient underline */
+}
+
+.values-grid, .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Slightly wider min column size */
+    gap: 40px; /* Increased gap */
+    margin: 40px 0; /* Increased margin */
+}
+
+.value-item, .feature-item {
+    text-align: center;
+    padding: 40px 30px; /* Increased padding */
+    background: linear-gradient(145deg, #ffffff, #f8f9fa); /* Subtle gradient background */
+    border-radius: 15px; /* More rounded corners */
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08); /* Softer shadow */
+    transition: var(--transition);
+    border: 1px solid var(--light-gray); /* Subtle border */
+}
+
+.value-item:hover, .feature-item:hover {
+    transform: translateY(-10px); /* More pronounced lift */
+    box-shadow: 0 10px 40px rgba(0,0,0,0.12); /* More pronounced shadow */
+    border-color: var(--primary-color); /* Highlight border on hover */
+}
+
+.value-item i, .feature-item i {
+    font-size: 60px; /* Larger icons */
+    color: var(--primary-color); /* Primary color for icons */
+    margin-bottom: 25px; /* Increased margin */
+    transition: var(--transition);
+}
+
+.value-item:hover i, .feature-item:hover i {
+    color: var(--accent-color); /* Change icon color on hover */
+    transform: scale(1.2) rotate(5deg); /* Scale and rotate slightly on hover */
+}
+
+.value-item h4, .feature-item h4 {
+    font-size: 22px; /* Larger font size */
+    color: var(--secondary-color);
+    margin-bottom: 15px;
+}
+
+.value-item p, .feature-item p {
+    font-size: 16px; /* Consistent paragraph font size */
+    color: #555;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Slightly wider min column size */
+    gap: 40px; /* Increased gap */
+    margin: 40px 0; /* Increased margin */
+}
+
+.team-member {
+    text-align: center;
+    background-color: var(--white);
+    padding: 30px 20px; /* Increased padding */
+    border-radius: 15px; /* More rounded corners */
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08); /* Softer shadow */
+    transition: var(--transition);
+    border: 1px solid var(--light-gray); /* Subtle border */
+}
+
+.team-member:hover {
+    transform: translateY(-10px); /* More pronounced lift */
+    box-shadow: 0 10px 40px rgba(0,0,0,0.12); /* More pronounced shadow */
+    border-color: var(--accent-color); /* Highlight border on hover */
+}
+
+.team-member img {
+    width: 150px; /* Larger images */
+    height: 150px; /* Larger images */
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px; /* Increased margin */
+    border: 5px solid var(--primary-color); /* Thicker colored border */
+    transition: var(--transition);
+}
+
+.team-member:hover img {
+    transform: scale(1.08); /* More pronounced scale */
+    border-color: var(--secondary-color); /* Border color change on hover */
+    box-shadow: 0 0 15px rgba(0,0,0,0.1); /* Inner shadow for image */
+}
+
+.team-member h4 {
+    font-size: 20px; /* Larger font size */
+    color: var(--secondary-color);
+    margin-bottom: 8px;
+}
+
+.team-member p {
+    font-size: 15px;
+    color: #666; /* Slightly darker grey */
+    margin-bottom: 15px; /* Increased margin */
+}
+
+.team-member .social-links { /* Style for social links within team member */
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.team-member .social-links a {
+    width: 35px;
+    height: 35px;
+    font-size: 18px;
+}
+
+/* CTA buttons styles (already present, just ensuring consistency) */
+.cta-buttons {
+    text-align: center;
+    margin-top: 60px; /* Increased margin */
+    display: flex;
+    justify-content: center;
+    gap: 25px; /* Increased gap */
+    flex-wrap: wrap; /* Allow wrapping */
+}
+
+.cta-buttons .btn {
+    padding: 12px 30px; /* Adjusted padding */
+    font-size: 17px; /* Slightly larger font size */
+}
+
+/* Contact page styles */
+.contact-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px; /* Increased gap */
+    margin: 40px 0;
+}
+
+.contact-info {
+    background-color: var(--white);
+    padding: 40px; /* Increased padding */
+    border-radius: 15px; /* More rounded corners */
+    box-shadow: var(--shadow);
+}
+
+.contact-info h2 {
+    margin-bottom: 20px;
+}
+
+.contact-details {
+    margin-top: 40px; /* Increased margin */
+}
+
+.contact-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 25px; /* Increased margin */
+}
+
+.contact-item i {
+    font-size: 28px; /* Larger icons */
+    color: var(--primary-color);
+    margin-right: 20px; /* Increased margin */
+}
+
+.contact-form-container {
+    background-color: var(--white);
+    padding: 40px; /* Increased padding */
+    border-radius: 15px; /* More rounded corners */
+    box-shadow: var(--shadow);
+}
+
+.contact-form-container h3 {
+    margin-bottom: 30px;
+}
+
+/* FAQ styles */
+.faq-content {
+    max-width: 800px; /* Keep consistent max width */
+    margin: 60px auto; /* Increased top/bottom margin */
+    padding: 0 20px; /* Add horizontal padding */
+}
+
+.faq-section {
+    margin-bottom: 50px; /* Increased margin */
+}
+
+.faq-section h3 {
+    margin-bottom: 30px; /* Increased margin */
+    font-size: 28px; /* Larger font size */
+    color: var(--secondary-color);
+    position: relative;
+    padding-bottom: 12px; /* Increased padding */
+}
+
+.faq-section h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px; /* Wider underline */
+    height: 3px; /* Thicker underline */
+    background-color: var(--primary-color);
+}
+
+.faq-item {
+    background-color: var(--white);
+    padding: 25px; /* Increased padding */
+    border-radius: 10px; /* More rounded corners */
+    margin-bottom: 20px; /* Increased margin */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08); /* Softer shadow */
+    transition: var(--transition);
+    border: 1px solid var(--light-gray); /* Subtle border */
+}
+
+.faq-item:hover {
+    transform: translateY(-5px); /* Lift effect */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12); /* More pronounced shadow */
+    border-color: var(--primary-color); /* Highlight border on hover */
+}
+
+.faq-item h4 {
+    color: var(--secondary-color);
+    margin-bottom: 10px;
+    font-weight: 600; /* Bolder font weight */
+    cursor: pointer;
+    font-size: 18px; /* Slightly larger font size */
+    transition: color 0.3s ease;
+}
+
+.faq-item h4:hover {
+    color: var(--primary-color); /* Highlight color on hover */
+}
+
+.faq-item p {
+    font-size: 16px; /* Consistent paragraph font size */
+    color: #555;
+    margin-top: 15px; /* Increased margin */
+    border-top: 1px solid var(--light-gray); /* Separator line */
+    padding-top: 15px; /* Padding above separator */
+}
+
+/* Assuming you'll implement accordion functionality with a class like 'active-faq' on the clicked question */
+/* .faq-item.active-faq h4 { color: var(--primary-color); } */
+/* .faq-item.active-faq p { display: block; } */
+/* Initially hide answers if using accordion */
+/* .faq-item p { display: none; } */
+
+.faq-contact {
+    text-align: center;
+    margin-top: 50px; /* Increased margin */
+    font-size: 18px;
+    color: var(--secondary-color);
+}
+
+.faq-contact p {
+    margin-bottom: 15px; /* Margin below text */
+    color: #555;
+}
+
+.faq-contact a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600; /* Bolder link */
+    transition: var(--transition);
+}
+
+.faq-contact a:hover {
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+
+/* Special Offers Page Specific Styles */
+.offers-grid .btn,
+.special-offers-content .btn,
+.offers-hero .btn {
+    width: auto; /* Allow width to be determined by content */
+    display: inline-block; /* Display as inline-block for centering and auto width */
+    margin-top: 20px; /* Adjust top margin as needed */
+    padding: 14px 30px; /* Adjust padding for button size */
+    font-size: 18px; /* Adjust font size */
+    text-align: center;
+    border-radius: 8px; /* Consistent border radius */
+    /* Inherits gradient, color, and other styles from general .btn */
+    box-shadow: 0 6px 20px rgba(255, 68, 68, 0.3); /* Consistent shadow */
+    transition: var(--transition);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.offers-grid .btn:hover,
+.special-offers-content .btn:hover,
+.offers-hero .btn:hover {
+     transform: translateY(-3px); /* Consistent lift effect */
+     box-shadow: 0 8px 25px rgba(0,0,0,0.35); /* Consistent hover shadow */
+     /* Inherits hover background gradient */
+}
+
+.featured-deals .product-card {
+    box-shadow: var(--shadow);
+}
+
+.featured-deals .product-card:hover {
+     box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+}
+
+.featured-deals .discount-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: var(--accent-color); /* Green badge */
+    color: var(--white);
+    padding: 8px 15px;
+    border-radius: 25px;
+    font-weight: bold;
+    font-size: 14px;
+    box-shadow: 0 2px 10px rgba(76, 175, 80, 0.3); /* Green shadow */
+    animation: bounce 2s infinite;
+}
+
+.price-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.original-price {
+    text-decoration: line-through;
+    color: #666;
+    font-size: 16px;
+}
+
+.newsletter-section {
+    background-color: var(--white);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    text-align: center;
+    margin-top: 60px;
+}
+
+.newsletter-section h2 {
+    margin-bottom: 20px;
+}
+
+.newsletter-section p {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+.newsletter-form {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.newsletter-form input[type="email"] {
+    padding: 12px 15px;
+    border: 1px solid var(--light-gray);
+    border-radius: 25px;
+    font-size: 16px;
+    width: 300px; /* Fixed width */
+    max-width: 80%;
+}
+
+.newsletter-form button {
+    padding: 12px 25px;
+    border-radius: 25px;
+}
+
+.terms-section {
+    margin-top: 60px;
+    background-color: var(--white);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+}
+
+.terms-section h2 {
+    margin-bottom: 20px;
+}
+
+.terms-content ul {
+    list-style: disc;
+    margin-left: 20px;
+    font-size: 15px;
+    color: #555;
+}
+
+.terms-content li {
+    margin-bottom: 10px;
+}
+
+/* Specific Product Page Styles (Add if needed) */
+/* .product-detail-container { ... } */
+
+/* Specific Order Details Page Styles (Add if needed) */
+/* .order-details-container { ... } */
+
+/* Admin Login Styles */
+.admin-login {
+    max-width: 450px;
+    margin: 60px auto;
+    background: linear-gradient(145deg, #ffffff, #f8f9fa);
+    border: 1px solid rgba(0,0,0,0.1);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+}
+
+.admin-login h2 {
+    text-align: center;
+    color: var(--secondary-color);
+    font-size: 28px;
+    margin-bottom: 30px;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.admin-login h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+}
+
+.admin-login .form-group {
+    margin-bottom: 25px;
+}
+
+.admin-login .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--secondary-color);
+}
+
+.admin-login .form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid var(--light-gray);
+    border-radius: 8px;
+    font-size: 16px;
+    transition: var(--transition);
+    background-color: rgba(255,255,255,0.9);
+}
+
+.admin-login .form-group input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 68, 68, 0.15);
+}
+
+.admin-login .btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-top: 10px;
+}
+
+.admin-login .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.admin-login .form-footer {
+    text-align: center;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--light-gray);
+}
+
+.admin-login .form-footer a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.admin-login .form-footer a:hover {
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+
+.admin-login .error-message {
+    background-color: #fff3f3;
+    border: 1px solid #ffcdd2;
+    color: #d32f2f;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-weight: 500;
+    text-align: center;
+}
+
+/* Category page styles */
+.category-page-content {
+    padding: 60px 0; /* Consistent padding */
+}
+
+.category-header {
+    text-align: center;
+    margin-bottom: 40px; /* Increased margin */
+}
+
+.category-header h1 {
+    font-size: 36px; /* Consistent heading size */
+    color: var(--secondary-color);
+}
+
+.category-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px; /* Increased margin */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    gap: 20px; /* Add gap */
+}
+
+.category-filter,
+.category-search {
+    flex-grow: 1; /* Allow filter and search to grow */
+    min-width: 250px; /* Ensure a minimum width before wrapping */
+}
+
+.category-filter label {
+    font-size: 17px; /* Slightly larger font size */
+    font-weight: 500;
+    margin-right: 10px;
+    color: var(--secondary-color);
+}
+
+.category-filter select {
+    padding: 10px 15px; /* Increased padding */
+    border: 2px solid var(--light-gray); /* Thicker border */
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: var(--white); /* White background */
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05); /* Inner shadow */
+    transition: var(--transition);
+}
+
+.category-filter select:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 68, 68, 0.15);
+}
+
+.category-search .form-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 0; /* Remove bottom margin */
+}
+
+.category-search input[type="text"] {
+    flex-grow: 1; /* Allow input to grow */
+    padding: 10px 15px; /* Consistent padding */
+    border: 2px solid var(--light-gray);
+    border-radius: 8px;
+    font-size: 16px;
+    transition: var(--transition);
+    background-color: var(--white);
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.category-search input[type="text"]:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 68, 68, 0.15);
+}
+
+.category-search .btn {
+    padding: 10px 20px; /* Consistent button padding */
+    font-size: 16px; /* Consistent button font size */
+    /* Inherits other button styles from general .btn */
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 40px; /* Consistent gap */
+    margin-top: 40px; /* Add consistent top margin below the section heading */
+}
+
+.product-card {
+    background-color: var(--white);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--light-gray); /* Subtle border */
+}
+
+.product-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    border-color: var(--primary-color); /* Highlight border on hover */
+}
+
+.product-image {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    transition: var(--transition);
+}
+
+.product-card:hover .product-image {
+    transform: scale(1.05);
+}
+
+.product-info {
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-title {
+    font-size: 20px;
+    margin-bottom: 8px; /* Adjusted margin */
+    font-weight: 600;
+    color: var(--secondary-color);
+}
+
+.product-category {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px; /* Increased margin */
+}
+
+.product-price {
+    font-size: 22px; /* Slightly larger font size */
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-top: auto;
+    margin-bottom: 15px; /* Consistent margin */
+}
+
+.product-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px; /* Increased margin */
+}
+
+/* Buttons within product cards */
+.product-card .btn {
+    width: 100%; /* Full width button in card */
+    padding: 10px 15px; /* Adjusted padding for smaller size */
+    font-size: 15px; /* Slightly smaller font size */
+    text-align: center;
+    display: block; /* Ensure it's a block element */
+    background: linear-gradient(to right, var(--primary-color), var(--accent-color)); /* Gradient background */
+    color: var(--white);
+    border: none;
+    border-radius: 8px; /* Rounded corners */
+    cursor: pointer;
+    text-decoration: none;
+    transition: var(--transition);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(255, 68, 68, 0.18); /* Slightly softer shadow */
+}
+
+.product-card .btn:hover {
+    background: linear-gradient(to right, var(--accent-color), var(--primary-color)); /* Reverse gradient on hover */
+    transform: translateY(-2px); /* Slightly less pronounced lift */
+    box-shadow: 0 5px 18px rgba(0,0,0,0.2);
+}
+
+/* Style for the login required message */
+.login-required-message {
+    text-align: center;
+    font-size: 18px;
+    color: #d32f2f; /* Reddish color for warning */
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #ffebee; /* Light red background */
+    border: 1px solid #ef9a9a; /* Light red border */
+    border-radius: 8px;
+}
+
+/* Home Page Specific Styles */
+
+/* Hero Section Enhancements */
+.hero-section {
+    /* Existing styles */
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('../images/hero-bg.jpg'); /* Darker overlay */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: var(--white);
+    text-align: center;
+    padding: 220px 0; /* More padding */
+    margin-bottom: 100px; /* More space below */
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 180px; /* Taller fade out */
+    background: linear-gradient(to top, var(--background-color), transparent); /* Fade to background color */
+}
+
+.hero-section h1 {
+    font-size: 72px; /* Larger font size */
+    margin-bottom: 30px; /* More space below heading */
+    text-transform: uppercase;
+    letter-spacing: 5px; /* More letter spacing */
+    animation: fadeInDown 1.5s ease forwards; /* Slower animation */
+    text-shadow: 4px 4px 10px rgba(0,0,0,0.5); /* More pronounced shadow */
+}
+
+.hero-section p {
+    font-size: 28px; /* Larger font size */
+    margin-bottom: 60px; /* More space below paragraph */
+    animation: fadeInUp 1.5s ease forwards; /* Slower animation */
+}
+
+.hero-section .btn {
+    padding: 18px 40px; /* Larger button padding */
+    font-size: 22px; /* Larger button font size */
+    animation: zoomIn 1.8s ease forwards; /* Slower animation */
+    border-radius: 30px; /* More rounded button */
+    background: linear-gradient(to right, var(--primary-color), #ff7e5f); /* Different gradient */
+    box-shadow: 0 8px 25px rgba(255, 68, 68, 0.4); /* More pronounced shadow */
+}
+
+.hero-section .btn:hover {
+    background: linear-gradient(to right, #ff7e5f, var(--primary-color)); /* Reverse gradient on hover */
+    transform: translateY(-5px); /* More pronounced lift */
+    box-shadow: 0 12px 30px rgba(0,0,0,0.4); /* More pronounced hover shadow */
+}
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes zoomIn {
+    from { opacity: 0; transform: scale(0.7); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Category Grid Enhancements */
+.categories-section h2, .featured-products h2, .special-offers h2 {
+    /* Existing styles */
+    text-align: center;
+    font-size: 36px; /* Larger section titles */
+    margin-bottom: 50px; /* More space below titles */
+    position: relative;
+    padding-bottom: 20px; /* More padding */
+    font-weight: 700; /* Bolder titles */
+    color: var(--secondary-color);
+}
+
+.categories-section h2::after, .featured-products h2::after, .special-offers h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px; /* Wider underline */
+    height: 5px; /* Thicker underline */
+    background: linear-gradient(to right, var(--primary-color), var(--accent-color)); /* Gradient underline */
+}
+
+.category-grid {
+    /* Existing styles */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Wider min column size */
+    gap: 50px; /* More gap */
+    margin-top: 50px; /* More space above grid */
+}
+
+.category-card {
+    /* Existing styles */
+    background: linear-gradient(145deg, #ffffff, #f8f9fa); /* Subtle gradient background */
+    padding: 40px; /* More padding */
+    border-radius: 20px; /* More rounded corners */
+    text-align: center;
+    text-decoration: none;
+    color: var(--text-color);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1); /* More pronounced shadow */
+    transition: transform 0.4s ease, box-shadow 0.4s ease; /* Slower transition */
+    position: relative;
+    overflow: hidden;
+    display: block;
+    border: 1px solid rgba(0,0,0,0.08); /* Subtle border */
+}
+
+.category-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6px; /* Thicker line */
+    background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease; /* Slower transition */
+}
+
+.category-card:hover {
+    transform: translateY(-15px); /* More pronounced lift */
+    box-shadow: 0 15px 50px rgba(0,0,0,0.2); /* More pronounced shadow */
+    border-color: var(--primary-color); /* Highlight border on hover */
+}
+
+.category-card:hover::before {
+    transform: scaleX(1);
+}
+
+.category-card h3 {
+    font-size: 24px; /* Larger font size */
+    margin-bottom: 15px; /* More space below heading */
+    color: var(--secondary-color); /* Ensure consistent color */
+}
+
+.category-card p {
+    font-size: 17px; /* Larger font size */
+    color: #555; /* Slightly softer text */
+}
+
+/* Product Grid Enhancements */
+.product-grid {
+    /* Existing styles */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Wider min column size */
+    gap: 50px; /* More gap */
+    margin-top: 50px; /* More space above grid */
+}
+
+.product-card {
+    /* Existing styles */
+    background-color: var(--white);
+    border-radius: 20px; /* More rounded corners */
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1); /* More pronounced shadow */
+    transition: transform 0.4s ease, box-shadow 0.4s ease; /* Slower transition */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(0,0,0,0.08); /* Subtle border */
+}
+
+.product-card:hover {
+    transform: translateY(-15px); /* More pronounced lift */
+    box-shadow: 0 15px 50px rgba(0,0,0,0.2); /* More pronounced shadow */
+    border-color: var(--primary-color); /* Highlight border on hover */
+}
+
+.product-image {
+    width: 100%;
+    height: 280px; /* Taller images */
+    object-fit: cover;
+    transition: transform 0.4s ease; /* Slower transition */
+}
+
+.product-card:hover .product-image {
+    transform: scale(1.1); /* More pronounced scale */
+}
+
+.product-info {
+    padding: 25px; /* More padding */
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-title {
+    font-size: 22px; /* Larger font size */
+    margin-bottom: 10px; /* More space below */
+    font-weight: 700; /* Bolder title */
+    color: var(--secondary-color);
+}
+
+.product-category {
+    font-size: 15px; /* Slightly larger font size */
+    color: #666;
+    margin-bottom: 20px; /* More space below */
+}
+
+.product-price {
+    font-size: 26px; /* Larger font size */
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-top: auto;
+    margin-bottom: 20px; /* More space below */
+}
+
+.product-actions {
+    display: flex;
+    gap: 15px; /* More gap */
+    margin-top: 20px; /* More space above actions */
+}
+
+/* Buttons within product cards */
+.product-card .btn {
+    width: 100%;
+    padding: 12px 18px; /* More padding */
+    font-size: 16px; /* Slightly larger font size */
+    border-radius: 8px; /* Consistent border radius */
+    /* Inherits other button styles */
+}
+
+/* Style for the login required message */
+.login-required-message {
+    text-align: center;
+    font-size: 18px;
+    color: #d32f2f; /* Reddish color for warning */
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #ffebee; /* Light red background */
+    border: 1px solid #ef9a9a; /* Light red border */
+    border-radius: 8px;
+}
+
+/* Special Offers Section Enhancements */
+.special-offers .offers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Wider min column size */
+    gap: 50px; /* More gap */
+    margin: 50px 0; /* More margin */
+}
+
+.special-offers .offer-card {
+    background: linear-gradient(145deg, #ffffff, #f8f9fa); /* Subtle gradient background */
+    padding: 40px; /* More padding */
+    border-radius: 20px; /* More rounded corners */
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1); /* More pronounced shadow */
+    transition: transform 0.4s ease, box-shadow 0.4s ease; /* Slower transition */
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.08); /* Subtle border */
+}
+
+.special-offers .offer-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 6px; /* Thicker line */
+    background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease; /* Slower transition */
+}
+
+.special-offers .offer-card:hover {
+    transform: translateY(-15px); /* More pronounced lift */
+    box-shadow: 0 15px 50px rgba(0,0,0,0.2); /* More pronounced shadow */
+    border-color: var(--primary-color); /* Highlight border on hover */
+}
+
+.special-offers .offer-card:hover::after {
+    transform: scaleX(1);
+}
+
+.special-offers .offer-card h3 {
+    font-size: 24px; /* Larger font size */
+    margin-bottom: 15px; /* More space below */
+    color: var(--secondary-color); /* Ensure consistent color */
+}
+
+.special-offers .offer-card p {
+    font-size: 17px; /* Larger font size */
+    color: #555; /* Slightly softer text */
+    margin-bottom: 25px; /* More space below */
+}
+
+.special-offers .offer-card .btn {
+     width: auto; /* Auto width button */
+     padding: 12px 25px; /* More padding */
+     font-size: 16px; /* Slightly larger font size */
+     border-radius: 30px; /* More rounded */
+     /* Inherits other button styles */
+}
+
+/* Adding some general section padding for consistency */
+.container section {
+    padding: 80px 0; /* Add vertical padding to sections */
+}
+
+/* Adjust padding for the container if needed */
+.container {
+    padding: 0 30px; /* More horizontal padding */
+}
+
+/* Ensure the main content has some top padding */
+.main-content {
+    padding-top: 40px; /* Add padding at the top of main content */
+}
+
+/* Responsive adjustments for Header */
+@media (max-width: 992px) {
+    .container {
+        padding: 0 20px; /* Slightly less padding on tablets */
+    }
+
+    .nav-list {
+        gap: 15px; /* Reduce gap */
+    }
+
+    .nav-list a:not(.site-title) {
+        padding: 8px 12px; /* Reduce padding */
+        font-size: 12px; /* Reduce font size */
+    }
+
+    .nav-right {
+        gap: 15px; /* Reduce gap */
+    }
+
+    .profile-icon, .cart-icon {
+        font-size: 20px; /* Reduce icon size */
+        padding: 6px; /* Reduce padding */
+    }
+
+    .cart-count {
+        font-size: 10px; /* Reduce font size */
+        padding: 2px 5px; /* Reduce padding */
+    }
+
+    .login-btn, .register-btn {
+        padding: 8px 15px; /* Reduce padding */
+        font-size: 12px; /* Reduce font size */
+    }
+}
+
+@media (max-width: 768px) {
+    .main-header .container {
+        padding: 10px 15px; /* More padding for mobile */
+    }
+    
+    .nav-container {
+        flex-direction: column; /* Stack items vertically */
+        align-items: center; /* Center items */
+        gap: 15px; /* Add space between stacked items */
+    }
+
+    .nav-list {
+        flex-direction: column; /* Stack nav items vertically */
+        align-items: center; /* Center nav items */
+        gap: 10px; /* Reduce gap between stacked nav items */
+        width: 100%; /* Take full width */
+    }
+
+    .nav-list li {
+        width: 100%; /* Make list items take full width */
+        text-align: center; /* Center text */
+    }
+
+    .nav-list a {
+        padding: 10px; /* Adjust padding */
+        font-size: 14px; /* Increase font size for readability */
+        width: 100%; /* Make links take full width */
+        display: block; /* Make links block elements */
+        border-radius: 5px; /* Adjust border radius */
+        background-color: rgba(0,0,0,0.05); /* Add subtle background */
+    }
+
+    .nav-list a.site-title {
+        margin-right: 0; /* Remove right margin */
+        margin-bottom: 10px; /* Add bottom margin */
+        font-size: 24px; /* Adjust font size */
+        width: auto; /* Revert width for site title */
+        display: inline-block; /* Revert display for site title */
+        background: none; /* Remove background */
+    }
+
+    .nav-list a:not(.site-title):hover {
+        background-color: rgba(0,0,0,0.1); /* Adjust hover background */
+    }
+
+    .nav-right {
+        width: 100%; /* Take full width */
+        justify-content: center; /* Center items */
+        gap: 10px; /* Adjust gap */
+    }
+
+    .profile-icon, .cart-icon, .nav-right .btn {
+        padding: 8px; /* Adjust padding */
+        font-size: 18px; /* Adjust font size */
+    }
+
+    .cart-count {
+        top: -2px; /* Adjust position */
+        right: -2px; /* Adjust position */
+        font-size: 10px; /* Adjust font size */
+        padding: 2px 5px; /* Adjust padding */
+    }
+
+    .login-btn, .register-btn {
+        padding: 8px 15px; /* Adjust padding */
+        font-size: 14px; /* Adjust font size */
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-list a:not(.site-title) {
+        font-size: 13px; /* Further adjust font size */
+        padding: 8px; /* Further adjust padding */
+    }
+
+    .nav-right {
+        gap: 8px; /* Further adjust gap */
+    }
+
+    .profile-icon, .cart-icon, .nav-right .btn {
+        font-size: 16px; /* Further adjust font size */
+        padding: 6px; /* Further adjust padding */
+    }
+
+     .login-btn, .register-btn {
+        padding: 6px 10px; /* Further adjust padding */
+        font-size: 12px; /* Further adjust font size */
+    }
+} 
