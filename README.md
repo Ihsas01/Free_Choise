@@ -79,8 +79,8 @@ FREE CHOISE is a modern e-commerce platform that provides a seamless shopping ex
 4. Run the application
 
 ## Contact
-- Email: info@freechoise.com
-- Phone: +1 234 567 890
+- Email: Mohamedihsas001@gmail.com
+- Phone: 0763913526
 
 ## License
 © 2024 FREE CHOISE. All rights reserved. 
