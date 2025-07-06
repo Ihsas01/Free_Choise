@@ -31,6 +31,14 @@ $categories_result = $conn->query($categories_query);
     --shadow-strong: 0 20px 60px rgba(0, 0, 0, 0.2);
     --transition-smooth: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-fast: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --card-glass-bg: rgba(255,255,255,0.55);
+    --card-glass-border: rgba(255,255,255,0.25);
+    --card-shadow: 0 8px 32px rgba(102, 126, 234, 0.10);
+    --card-shadow-hover: 0 16px 48px rgba(102, 126, 234, 0.18);
+    --card-hover-scale: 1.045;
+    --card-hover-brightness: 1.08;
+    --category-badge-bg: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    --category-badge-color: #fff;
 }
 
 /* Global Styles */
@@ -211,11 +219,19 @@ body {
 }
 
 .section-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin: 60px 0 30px 0;
     text-align: center;
-    margin-bottom: 80px;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+    letter-spacing: -0.01em;
     opacity: 0;
-    transform: translateY(30px);
-    transition: var(--transition-smooth);
+    transform: translateY(40px);
+    animation: fadeSlideIn 1.2s 0.2s cubic-bezier(0.4,0,0.2,1) forwards;
 }
 
 .section-title.active {
@@ -708,6 +724,133 @@ html {
 ::-webkit-scrollbar-thumb:hover {
     background: var(--secondary-gradient);
 }
+
+/* --- Product & Category Grid --- */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2.2rem;
+    margin-bottom: 60px;
+    margin-top: 10px;
+}
+
+.card {
+    background: var(--card-glass-bg);
+    border: 1.5px solid var(--card-glass-border);
+    border-radius: 22px;
+    box-shadow: var(--card-shadow);
+    padding: 2.2rem 1.5rem 1.5rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: var(--transition-smooth), box-shadow 0.3s;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    opacity: 0;
+    transform: translateY(60px) scale(0.98);
+    animation: fadeSlideIn 1.1s cubic-bezier(0.4,0,0.2,1) forwards;
+}
+
+.card:hover {
+    box-shadow: var(--card-shadow-hover);
+    transform: translateY(-8px) scale(var(--card-hover-scale));
+    filter: brightness(var(--card-hover-brightness));
+}
+
+.card .category-badge {
+    display: inline-block;
+    background: var(--category-badge-bg);
+    color: var(--category-badge-color);
+    font-size: 0.85rem;
+    font-weight: 700;
+    border-radius: 8px;
+    padding: 0.3rem 1rem;
+    margin-bottom: 1.1rem;
+    letter-spacing: 0.04em;
+    box-shadow: 0 2px 8px #667eea22;
+}
+
+.card img {
+    width: 100%;
+    max-height: 180px;
+    object-fit: cover;
+    border-radius: 14px;
+    margin-bottom: 1.2rem;
+    box-shadow: 0 2px 12px #667eea11;
+    transition: var(--transition-smooth);
+}
+
+.card h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.7rem;
+    color: #2d3748;
+}
+
+.card p {
+    font-size: 1rem;
+    color: #4a5568;
+    margin-bottom: 1.1rem;
+    min-height: 48px;
+}
+
+.card .price {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #764ba2;
+    margin-bottom: 1.1rem;
+}
+
+.card .card-btn {
+    display: inline-block;
+    padding: 0.7rem 1.7rem;
+    border-radius: 12px;
+    background: var(--primary-gradient);
+    color: #fff;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    box-shadow: 0 2px 12px #667eea22;
+    transition: var(--transition-smooth);
+    border: none;
+    outline: none;
+    cursor: pointer;
+    letter-spacing: 0.03em;
+    position: relative;
+    overflow: hidden;
+}
+.card .card-btn:hover {
+    background: var(--secondary-gradient);
+    transform: scale(1.05);
+    box-shadow: 0 4px 24px #f093fb33;
+}
+
+/* --- Animations --- */
+@keyframes fadeSlideIn {
+    0% { opacity: 0; transform: translateY(60px) scale(0.98); }
+    60% { opacity: 0.7; transform: translateY(-8px) scale(1.02); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Staggered animation for grid cards */
+.card { animation-delay: var(--card-delay, 0s); }
+
+/* --- Responsive --- */
+@media (max-width: 900px) {
+    .container { padding: 0 10px; }
+    .grid { gap: 1.2rem; }
+    .card { padding: 1.2rem 0.7rem 1rem 0.7rem; }
+}
+@media (max-width: 600px) {
+    .hero-content h1 { font-size: 2.1rem; }
+    .section-title { font-size: 1.3rem; }
+    .card { padding: 1rem 0.5rem; }
+}
+
+/* --- Parallax effect for hero shapes --- */
+.floating-shapes .shape {
+    will-change: transform;
+    transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
+}
 </style>
 
 <!-- Hero Section with Floating Elements -->
@@ -991,6 +1134,22 @@ document.addEventListener('DOMContentLoaded', function() {
             requestAnimationFrame(updateOnScroll);
             ticking = true;
         }
+    });
+
+    // Parallax effect for floating shapes
+    window.addEventListener('scroll', () => {
+        const shapes = document.querySelectorAll('.floating-shapes .shape');
+        const scrollY = window.scrollY;
+        shapes.forEach((shape, i) => {
+            shape.style.transform = `translateY(${scrollY * (0.08 + i*0.03)}px)`;
+        });
+    });
+
+    // Staggered animation for grid cards
+    window.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.grid .card').forEach((card, i) => {
+            card.style.setProperty('--card-delay', `${0.12 * i + 0.2}s`);
+        });
     });
 });
 </script> 

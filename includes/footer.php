@@ -12,6 +12,9 @@
         --footer-shadow: 0 -8px 32px rgba(0, 0, 0, 0.1);
         --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        --newsletter-bg: rgba(255,255,255,0.08);
+        --newsletter-border: rgba(255,255,255,0.18);
+        --newsletter-success: linear-gradient(90deg, #43e97b 0%, #38f9d7 100%);
     }
 
     .main-footer {
@@ -297,51 +300,86 @@
 
     .newsletter-form {
         display: flex;
-        gap: 1rem;
+        gap: 0.7rem;
+        margin-top: 1.5rem;
+        background: var(--newsletter-bg);
+        border: 1.5px solid var(--newsletter-border);
+        border-radius: 16px;
+        padding: 0.5rem 0.7rem;
+        box-shadow: 0 2px 12px #667eea11;
+        align-items: center;
         max-width: 400px;
-        margin: 0 auto;
-        flex-wrap: wrap;
+        transition: var(--transition-smooth);
     }
 
     .newsletter-form input[type="email"] {
         flex: 1;
-        padding: 0.8rem 1.2rem;
-        border: 1px solid var(--footer-border);
-        border-radius: 12px;
-        background: rgba(255, 255, 255, 0.1);
-        color: white;
-        font-size: 0.9rem;
-        transition: var(--transition-smooth);
-        min-width: 200px;
-    }
-
-    .newsletter-form input[type="email"]::placeholder {
-        color: var(--footer-text-muted);
-    }
-
-    .newsletter-form input[type="email"]:focus {
+        border: none;
+        background: transparent;
+        color: var(--footer-text);
+        font-size: 1rem;
+        padding: 0.7rem 0.5rem;
         outline: none;
-        border-color: var(--footer-accent);
-        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
     }
 
     .newsletter-form button {
-        padding: 0.8rem 1.5rem;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
+        background: var(--footer-accent);
+        color: #fff;
         border: none;
         border-radius: 12px;
-        font-weight: 600;
+        padding: 0.7rem 1.3rem;
+        font-weight: 700;
+        font-size: 1rem;
         cursor: pointer;
         transition: var(--transition-smooth);
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        font-size: 0.9rem;
+        box-shadow: 0 2px 12px #667eea22;
     }
 
     .newsletter-form button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        background: var(--footer-hover);
+        transform: scale(1.06);
+    }
+
+    .newsletter-success {
+        background: var(--newsletter-success);
+        color: #fff;
+        border-radius: 12px;
+        padding: 0.7rem 1.3rem;
+        margin-top: 1rem;
+        font-weight: 700;
+        font-size: 1rem;
+        box-shadow: 0 2px 12px #43e97b33;
+        animation: fadeSlideIn 0.8s;
+        text-align: center;
+    }
+
+    /* Social icon animation */
+    .social-links a {
+        position: relative;
+        z-index: 1;
+        overflow: hidden;
+    }
+
+    .social-links a .fa {
+        position: relative;
+        z-index: 2;
+        transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    .social-links a:hover .fa {
+        transform: scale(1.18) rotate(-8deg);
+    }
+
+    /* Footer fade/slide-in for all elements */
+    .footer-section, .newsletter-form, .social-links a {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: var(--transition-smooth);
+    }
+
+    .footer-section.animate, .newsletter-form.animate, .social-links a.animate {
+        opacity: 1;
+        transform: translateY(0);
     }
 
     /* Responsive Design */
@@ -395,6 +433,12 @@
             height: 2.5rem;
             font-size: 1rem;
         }
+    }
+
+    @media (max-width: 600px) {
+        .footer-content { gap: 1.2rem; padding: 2.5rem 0.5rem 1.2rem; }
+        .newsletter-form { flex-direction: column; align-items: stretch; }
+        .newsletter-form button { width: 100%; }
     }
 
     /* Scroll-triggered animations */
@@ -460,10 +504,10 @@
             <div class="newsletter-section">
                 <h3>Stay Updated</h3>
                 <p>Subscribe to our newsletter for the latest offers and updates</p>
-                <form class="newsletter-form">
-                    <input type="email" placeholder="Enter your email address" required>
-                    <button type="submit">Subscribe</button>
-                </form>
+                <div class="newsletter-form">
+                    <input type="email" placeholder="Your email address" required>
+                    <button type="button" onclick="showNewsletterSuccess()">Subscribe</button>
+                </div>
             </div>
         </div>
         
@@ -566,6 +610,18 @@
             }, index * 200);
         });
     });
+
+    // Newsletter form success animation
+    function showNewsletterSuccess() {
+        const form = document.querySelector('.newsletter-form');
+        if (form) {
+            form.style.display = 'none';
+            const success = document.createElement('div');
+            success.className = 'newsletter-success';
+            success.textContent = 'Thank you for subscribing!';
+            form.parentNode.appendChild(success);
+        }
+    }
     </script>
     
     <script src="assets/js/script.js"></script>
