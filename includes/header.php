@@ -32,388 +32,186 @@ if (isset($_SESSION['user_id']) && isset($conn)) {
 <body class="<?php echo (isset($_SESSION['is_admin']) && $_SESSION['is_admin']) ? 'admin-logged-in' : ''; ?>">
 
 <style>
-/* Modern Header Styles */
 :root {
-    --header-bg: rgba(255, 255, 255, 0.95);
-    --header-border: rgba(255, 255, 255, 0.2);
-    --header-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    --header-shadow-scrolled: 0 8px 32px rgba(0, 0, 0, 0.15);
+    --header-bg: rgba(255, 255, 255, 0.96);
+    --header-shadow: 0 4px 24px rgba(102, 126, 234, 0.08);
     --nav-link-color: #2d3748;
-    --nav-link-hover: #667eea;
-    --nav-link-active: #4c51bf;
-    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --nav-link-hover: #5a67d8;
+    --nav-link-active: #5a67d8;
+    --nav-link-bg-active: rgba(102, 126, 234, 0.10);
+    --nav-link-bg-hover: rgba(102, 126, 234, 0.07);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --search-bg: #f7f9fa;
+    --search-border: #d1d9e6;
+    --search-focus: #a3bffa;
+    --btn-shadow: 0 2px 12px rgba(102, 126, 234, 0.10);
+    --btn-shadow-strong: 0 4px 24px rgba(102, 126, 234, 0.18);
 }
 
 .main-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
     background: var(--header-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--header-border);
     box-shadow: var(--header-shadow);
+    border-bottom: 1px solid #f0f4fa;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
     transition: var(--transition-smooth);
-    transform: translateY(0);
-}
-
-.main-header.scrolled {
-    background: rgba(255, 255, 255, 0.98);
-    box-shadow: var(--header-shadow-scrolled);
-    transform: translateY(0);
-}
-
-.main-header.hidden {
-    transform: translateY(-100%);
 }
 
 .nav-container {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 1rem 0;
+    justify-content: space-between;
+    width: 100%;
     max-width: 1400px;
     margin: 0 auto;
-    padding-left: 2rem;
-    padding-right: 2rem;
+    padding: 0 2.5rem;
+    height: 80px;
 }
 
-/* Logo/Brand Styling */
+.site-title {
+    font-size: 2rem;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+    margin-right: 2.5rem;
+    text-decoration: none;
+    transition: var(--transition-smooth);
+}
+.site-title:hover {
+    filter: brightness(1.1) drop-shadow(0 2px 8px #667eea22);
+}
+
 .nav-list {
-    list-style: none;
     display: flex;
     align-items: center;
-    gap: 2rem;
+    gap: 2.2rem;
+    list-style: none;
     margin: 0;
     padding: 0;
 }
 
-.site-title {
-    font-size: 1.8rem;
-    font-weight: 800;
-    color: #667eea;
-    text-decoration: none;
-    position: relative;
-    transition: var(--transition-smooth);
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    letter-spacing: -0.02em;
-}
-
-.site-title::before {
-    content: '';
-    position: absolute;
-    bottom: -5px;
-    left: 0;
-    width: 0;
-    height: 3px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    transition: var(--transition-smooth);
-    border-radius: 2px;
-}
-
-.site-title:hover::before {
-    width: 100%;
-}
-
-.site-title:hover {
-    transform: translateY(-2px);
-}
-
-/* Navigation Links */
 .nav-list a:not(.site-title) {
     color: var(--nav-link-color);
+    font-weight: 600;
+    font-size: 1.05rem;
     text-decoration: none;
-    font-weight: 500;
-    font-size: 0.95rem;
-    padding: 0.75rem 1.25rem;
-    border-radius: 12px;
+    padding: 0.7rem 1.3rem;
+    border-radius: 14px;
+    background: transparent;
     transition: var(--transition-smooth);
     position: relative;
-    overflow: hidden;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.nav-list a:not(.site-title)::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
-    transition: left 0.5s;
-}
-
-.nav-list a:not(.site-title):hover::before {
-    left: 100%;
+    box-shadow: none;
+    letter-spacing: 0.02em;
 }
 
 .nav-list a:not(.site-title):hover {
+    background: var(--nav-link-bg-hover);
     color: var(--nav-link-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+    box-shadow: 0 2px 8px #667eea11;
+    transform: translateY(-2px) scale(1.04);
 }
 
 .nav-list a.active {
     color: var(--nav-link-active);
-    background: rgba(102, 126, 234, 0.1);
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+    background: var(--nav-link-bg-active);
+    box-shadow: 0 4px 16px #667eea18;
+    font-weight: 700;
 }
 
-/* Right Navigation Section */
+.search-container {
+    margin: 0 2rem;
+    position: relative;
+    flex: 1 1 320px;
+    max-width: 350px;
+    min-width: 220px;
+    display: flex;
+    align-items: center;
+}
+.search-input {
+    width: 100%;
+    padding: 0.8rem 1.1rem 0.8rem 2.5rem;
+    border: 2px solid var(--search-border);
+    border-radius: 25px;
+    background: var(--search-bg);
+    font-size: 1rem;
+    transition: var(--transition-smooth);
+    outline: none;
+    box-shadow: var(--btn-shadow);
+}
+.search-input:focus {
+    border-color: var(--search-focus);
+    background: #fff;
+    box-shadow: 0 0 0 3px #a3bffa33;
+}
+.search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #a0aec0;
+    font-size: 1.1rem;
+    pointer-events: none;
+}
+
 .nav-right {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 1.1rem;
 }
 
-/* Icon Styling */
-.profile-icon, .cart-icon {
-    position: relative;
-    color: var(--nav-link-color);
-    text-decoration: none;
-    font-size: 1.2rem;
-    padding: 0.75rem;
-    border-radius: 50%;
-    transition: var(--transition-smooth);
-    background: rgba(102, 126, 234, 0.05);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 2.5rem;
-    height: 2.5rem;
-}
-
-.profile-icon:hover, .cart-icon:hover {
-    color: var(--nav-link-hover);
-    background: rgba(102, 126, 234, 0.15);
-    transform: translateY(-2px) scale(1.05);
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
-}
-
-/* Cart Count Badge */
-.cart-count {
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    color: white;
-    font-size: 0.7rem;
+.btn {
+    padding: 0.8rem 1.7rem;
+    border-radius: 14px;
     font-weight: 700;
-    padding: 0.2rem 0.5rem;
-    border-radius: 10px;
-    min-width: 1.2rem;
-    height: 1.2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    animation: pulse 2s infinite;
-    box-shadow: 0 2px 8px rgba(245, 87, 108, 0.3);
-}
-
-@keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-}
-
-/* Button Styling */
-.nav-right .btn {
-    padding: 0.75rem 1.5rem;
-    border-radius: 12px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.9rem;
-    transition: var(--transition-smooth);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    position: relative;
-    overflow: hidden;
+    font-size: 1rem;
     border: none;
+    outline: none;
     cursor: pointer;
+    transition: var(--transition-smooth);
+    box-shadow: var(--btn-shadow);
+    letter-spacing: 0.04em;
 }
-
 .login-btn {
-    color: var(--nav-link-color);
-    background: rgba(102, 126, 234, 0.05);
-    border: 2px solid rgba(102, 126, 234, 0.2);
+    background: #fff;
+    color: #2d3748;
+    border: 2px solid #f093fb22;
 }
-
 .login-btn:hover {
-    color: white;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-color: transparent;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    background: #f7f9fa;
+    color: #764ba2;
+    box-shadow: var(--btn-shadow-strong);
 }
-
 .register-btn {
-    color: white;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border: 2px solid transparent;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    border: none;
+    box-shadow: var(--btn-shadow-strong);
 }
-
 .register-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    background: linear-gradient(90deg, #764ba2 0%, #667eea 100%);
+    color: #fff;
+    transform: scale(1.04);
 }
 
-/* Mobile Menu Toggle */
-.mobile-menu-toggle {
-    display: none;
-    flex-direction: column;
-    cursor: pointer;
-    padding: 0.5rem;
-    border-radius: 8px;
-    background: rgba(102, 126, 234, 0.05);
-    transition: var(--transition-fast);
-}
-
-.mobile-menu-toggle:hover {
-    background: rgba(102, 126, 234, 0.1);
-}
-
-.mobile-menu-toggle span {
-    width: 25px;
-    height: 3px;
-    background: var(--nav-link-color);
-    margin: 3px 0;
-    transition: var(--transition-fast);
-    border-radius: 2px;
-}
-
-.mobile-menu-toggle.active span:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
-}
-
-.mobile-menu-toggle.active span:nth-child(2) {
-    opacity: 0;
-}
-
-.mobile-menu-toggle.active span:nth-child(3) {
-    transform: rotate(-45deg) translate(7px, -6px);
-}
-
-/* Responsive Design */
 @media (max-width: 1024px) {
-    .nav-container {
-        padding-left: 1.5rem;
-        padding-right: 1.5rem;
-    }
-    
-    .nav-list {
-        gap: 1.5rem;
-    }
-    
-    .nav-list a:not(.site-title) {
-        padding: 0.6rem 1rem;
-        font-size: 0.9rem;
-    }
+    .nav-container { padding: 0 1.2rem; }
+    .nav-list { gap: 1.2rem; }
+    .search-container { margin: 0 0.7rem; }
 }
-
 @media (max-width: 768px) {
-    .nav-container {
-        padding-left: 1rem;
-        padding-right: 1rem;
-    }
-    
-    .mobile-menu-toggle {
-        display: flex;
-    }
-    
-    .nav-list {
-        position: fixed;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: rgba(255, 255, 255, 0.98);
-        backdrop-filter: blur(20px);
-        flex-direction: column;
-        gap: 0;
-        padding: 1rem 0;
-        transform: translateY(-100%);
-        opacity: 0;
-        visibility: hidden;
-        transition: var(--transition-smooth);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    }
-    
-    .nav-list.active {
-        transform: translateY(0);
-        opacity: 1;
-        visibility: visible;
-    }
-    
-    .nav-list a:not(.site-title) {
-        width: 100%;
-        text-align: center;
-        padding: 1rem 2rem;
-        border-radius: 0;
-        border-bottom: 1px solid rgba(102, 126, 234, 0.1);
-    }
-    
-    .nav-list a:not(.site-title):last-child {
-        border-bottom: none;
-    }
-    
-    .nav-right {
-        gap: 0.5rem;
-    }
-    
-    .nav-right .btn {
-        padding: 0.6rem 1rem;
-        font-size: 0.8rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .site-title {
-        font-size: 1.5rem;
-    }
-    
-    .nav-right .btn {
-        padding: 0.5rem 0.8rem;
-        font-size: 0.75rem;
-    }
-    
-    .profile-icon, .cart-icon {
-        width: 2.2rem;
-        height: 2.2rem;
-        font-size: 1rem;
-    }
-}
-
-/* Scroll-based animations */
-.main-header {
-    will-change: transform, background, box-shadow;
-}
-
-/* Add smooth scroll behavior */
-html {
-    scroll-behavior: smooth;
-}
-
-/* Loading animation for header */
-@keyframes headerSlideIn {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.main-header {
-    animation: headerSlideIn 0.6s ease-out;
+    .main-header, .nav-container { height: 64px; }
+    .site-title { font-size: 1.3rem; margin-right: 1rem; }
+    .search-container { display: none; }
+    .nav-list { gap: 0.5rem; }
+    .btn { padding: 0.6rem 1.1rem; font-size: 0.9rem; }
 }
 </style>
 
@@ -432,21 +230,30 @@ html {
             <?php endif; ?>
         </ul>
         
+        <!-- Search Bar -->
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="search-input" placeholder="Search products..." id="searchInput">
+        </div>
+        
         <div class="nav-right">
             <?php if(isset($_SESSION['user_id'])): ?>
-                <a href="profile.php" class="profile-icon" title="Profile">
-                    <i class="fas fa-user"></i>
-                </a>
+                <div class="user-menu">
+                    <a href="profile.php" class="profile-icon" title="Profile">
+                        <i class="fas fa-user"></i>
+                    </a>
+                    <div class="user-dropdown">
+                        <a href="profile.php"><i class="fas fa-user"></i> My Profile</a>
+                        <a href="order-details.php"><i class="fas fa-shopping-bag"></i> My Orders</a>
+                        <a href="chat.php"><i class="fas fa-comments"></i> Support Chat</a>
+                        <a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
                 <a href="cart.php" class="cart-icon" title="Cart">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-count"><?php echo $cart_count; ?></span>
                 </a>
-                <?php if (!in_array($current_page, ['about.php', 'contact.php', 'faq.php'])): ?>
-                    <a href="logout.php" class="btn">Logout</a>
-                <?php endif; ?>
-            <?php endif; ?>
-
-            <?php if(!isset($_SESSION['user_id']) || (isset($_SESSION['user_id']) && in_array($current_page, ['about.php', 'contact.php', 'faq.php']))): ?>
+            <?php else: ?>
                 <a href="login.php" class="btn login-btn">Login</a>
                 <a href="register.php" class="btn register-btn">Register</a>
             <?php endif; ?>
@@ -467,3 +274,126 @@ html {
                 <?php echo $message; ?>
             </div>
         <?php endif; ?>
+
+<script>
+// Header scroll behavior
+let lastScrollTop = 0;
+const header = document.querySelector('.main-header');
+
+window.addEventListener('scroll', () => {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+    if (scrollTop > 100) {
+        header.classList.add('scrolled');
+    } else {
+        header.classList.remove('scrolled');
+    }
+    
+    if (scrollTop > lastScrollTop && scrollTop > 200) {
+        header.classList.add('hidden');
+    } else {
+        header.classList.remove('hidden');
+    }
+    
+    lastScrollTop = scrollTop;
+});
+
+// Mobile menu toggle
+const mobileToggle = document.querySelector('.mobile-menu-toggle');
+const navList = document.querySelector('.nav-list');
+
+mobileToggle.addEventListener('click', () => {
+    mobileToggle.classList.toggle('active');
+    navList.classList.toggle('active');
+});
+
+// Search functionality
+const searchInput = document.getElementById('searchInput');
+if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.trim();
+        if (query.length > 2) {
+            // Add search functionality here
+            console.log('Searching for:', query);
+        }
+    });
+    
+    searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            const query = e.target.value.trim();
+            if (query) {
+                // Redirect to search results page
+                window.location.href = `categories.php?search=${encodeURIComponent(query)}`;
+            }
+        }
+    });
+}
+
+// Show notification function
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.classList.add('show');
+    }, 100);
+    
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 300);
+    }, 3000);
+}
+
+// Cart count animation
+const cartCount = document.querySelector('.cart-count');
+if (cartCount && parseInt(cartCount.textContent) > 0) {
+    cartCount.style.animation = 'pulse 2s infinite';
+}
+
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+});
+
+// Add loading animation to buttons
+document.querySelectorAll('.btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        this.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            this.style.transform = '';
+        }, 150);
+    });
+});
+
+// Auto-hide mobile menu when clicking outside
+document.addEventListener('click', (e) => {
+    if (!e.target.closest('.nav-list') && !e.target.closest('.mobile-menu-toggle')) {
+        mobileToggle.classList.remove('active');
+        navList.classList.remove('active');
+    }
+});
+
+// Keyboard navigation support
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        mobileToggle.classList.remove('active');
+        navList.classList.remove('active');
+    }
+});
+</script>
+</main>
+</body>
+</html>

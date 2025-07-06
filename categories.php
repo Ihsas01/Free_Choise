@@ -69,374 +69,332 @@ require_once 'includes/header.php';
 ?>
 
 <style>
+:root {
+    --cat-primary: #667eea;
+    --cat-secondary: #764ba2;
+    --cat-accent: #43e97b;
+    --cat-bg: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    --cat-glass: rgba(255,255,255,0.7);
+    --cat-glass-blur: blur(16px);
+    --cat-shadow: 0 8px 32px rgba(102, 126, 234, 0.08);
+    --cat-shadow-strong: 0 16px 48px rgba(102, 126, 234, 0.15);
+    --cat-transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+    background: var(--cat-bg);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.categories-hero-bg {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    opacity: 0.08;
+    filter: blur(40px);
+    animation: heroParallax 20s linear infinite alternate;
+}
+@keyframes heroParallax {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 100% 100%; }
+}
+
+.categories-section {
+    position: relative;
+    z-index: 2;
+    padding: 60px 0 40px 0;
+}
+
+.categories-title {
+    text-align: center;
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    color: #2d3748;
+    margin-bottom: 18px;
+    letter-spacing: -0.02em;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: var(--cat-transition);
+}
+.categories-title.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.categories-desc {
+    text-align: center;
+    color: #64748b;
+    font-size: 1.2rem;
+    margin-bottom: 40px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: var(--cat-transition);
+}
+.categories-desc.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 .category-controls {
     display: flex;
-    justify-content: space-between; /* Distribute filter and search */
+    justify-content: space-between;
     align-items: center;
-    margin-bottom: 40px; /* Add space below controls */
-    padding: 20px; /* Add padding */
-    background: #f8f8f8; /* Light background */
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Subtle shadow */
-    flex-wrap: wrap; /* Wrap on smaller screens */
-    gap: 20px; /* Gap between filter and search */
+    margin-bottom: 40px;
+    padding: 24px 32px;
+    background: var(--cat-glass);
+    border-radius: 24px;
+    box-shadow: var(--cat-shadow);
+    flex-wrap: wrap;
+    gap: 24px;
+    backdrop-filter: var(--cat-glass-blur);
+    border: 1px solid rgba(102,126,234,0.08);
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: var(--cat-transition);
 }
-
-.category-filter,
-.category-search {
-    flex: 1; /* Allow items to grow */
-    min-width: 200px; /* Reduced min-width to give search more space initially */
-}
-
-.category-search {
-    flex: 2; /* Give search more flexibility to be larger */
-}
-
-.filter-form .form-group,
-.search-form .form-group {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 0; /* Remove default form-group margin */
-    width: 100%; /* Ensure form group takes full width of parent */
+.category-controls.active {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .category-filter label {
-    font-weight: bold;
+    font-weight: 600;
     color: #555;
+    margin-right: 10px;
 }
-
 .category-filter select {
-    padding: 8px 12px;
+    padding: 10px 16px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 8px;
     font-size: 1em;
-    flex: 1; /* Allow select to grow */
+    background: #f8f8fa;
+    transition: var(--cat-transition);
+}
+.category-filter select:focus {
+    border-color: var(--cat-primary);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(102,126,234,0.15);
 }
 
 .category-search input[type="text"] {
-    padding: 8px 12px; /* Keep existing padding */
+    padding: 10px 16px;
     border: 1px solid #ccc;
-    border-radius: 4px; 
+    border-radius: 8px;
     font-size: 1em;
-    flex: 1; /* Allow input to grow and take available space */
-    min-width: 150px; /* Ensure input has a minimum size */
+    background: #f8f8fa;
+    transition: var(--cat-transition);
+    min-width: 180px;
+}
+.category-search input[type="text"]:focus {
+    border-color: var(--cat-primary);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(102,126,234,0.15);
 }
 
 .search-form .btn {
-    padding: 8px 12px; /* Adjust padding to make button smaller */
-    font-size: 1em; /* Keep font size */
-    border-radius: 4px; 
-    background: #4CAF50; 
+    padding: 10px 18px;
+    font-size: 1em;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     border: none;
     cursor: pointer;
-    transition: background 0.3s ease;
-    display: flex; /* Use flex to center icon */
+    transition: var(--cat-transition);
+    display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px; /* Fixed width for the icon button */
-    height: 38px; /* Match height of input */
-    flex-shrink: 0; /* Prevent button from shrinking */
+    box-shadow: 0 2px 8px rgba(102,126,234,0.08);
+    margin-left: 10px;
 }
-
 .search-form .btn:hover {
-    background: #45a049; 
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 24px rgba(102,126,234,0.15);
 }
 
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 40px;
     padding: 0;
+    position: relative;
+    z-index: 2;
 }
 
 .product-card {
-    background: white;
-    border-radius: 10px;
+    background: var(--cat-glass);
+    border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    
+    box-shadow: var(--cat-shadow);
     display: flex;
     flex-direction: column;
+    position: relative;
+    transition: var(--cat-transition);
+    opacity: 0;
+    transform: translateY(40px) scale(0.97);
 }
-
+.product-card.active {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
 .product-card:hover {
-    transform: none; /* Removed transform on hover */
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* Revert to normal shadow on hover */
+    box-shadow: var(--cat-shadow-strong);
+    transform: translateY(-8px) scale(1.03);
+    background: rgba(255,255,255,0.95);
 }
 
 .product-image {
     width: 100%;
-    height: auto;
+    height: 240px;
     object-fit: cover;
-    
+    transition: var(--cat-transition);
+    background: #f8f8fa;
 }
-
 .product-card:hover .product-image {
-    transform: none; /* Removed scale on hover */
+    transform: scale(1.07) rotate(-1deg);
 }
 
 .product-info {
-    padding: 15px;
+    padding: 28px 20px 20px 20px;
     text-align: center;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
-
 .product-title {
-    font-size: 1.1em;
-    margin-bottom: 5px;
-    color: #333;
-    font-weight: 600;
+    font-size: 1.25em;
+    margin-bottom: 8px;
+    color: #2d3748;
+    font-weight: 700;
+    letter-spacing: -0.01em;
 }
-
 .product-category {
-    color: #777;
-    font-size: 0.8em;
-    margin-bottom: 10px;
+    color: #667eea;
+    font-size: 0.95em;
+    margin-bottom: 12px;
+    font-weight: 500;
 }
-
 .product-price {
-    font-size: 1.4em;
-    color: #28a745;
-    font-weight: bold;
-    margin-bottom: 15px;
+    font-size: 1.3em;
+    color: var(--cat-accent);
+    font-weight: 700;
+    margin-bottom: 18px;
 }
-
 .product-actions {
     display: flex;
-    gap: 8px;
+    gap: 12px;
     justify-content: center;
-    margin-top: auto;
+    flex-wrap: wrap;
 }
-
 .product-actions .btn {
-    flex: 1;
-    text-align: center;
-    padding: 8px 15px;
-    border-radius: 20px;
+    padding: 10px 22px;
+    border-radius: 12px;
     text-decoration: none;
     font-weight: 600;
-    transition: background 0.3s ease, transform 0.1s ease;
-    font-size: 0.9em;
-}
-
-.product-actions .btn:first-child {
-    background: #007bff;
+    transition: var(--cat-transition);
+    font-size: 1em;
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
     color: white;
+    box-shadow: 0 2px 8px rgba(67,233,123,0.08);
+    position: relative;
+    z-index: 2;
+}
+.product-actions .btn:hover {
+    background: linear-gradient(135deg, #38f9d7 0%, #43e97b 100%);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 24px rgba(67,233,123,0.15);
 }
 
-.product-actions .btn:last-child {
-    background: #6c757d;
-    color: white;
+@media (max-width: 900px) {
+    .categories-section {
+        padding: 40px 0 20px 0;
+    }
+    .category-controls {
+        padding: 18px 10px;
+        border-radius: 16px;
+    }
+    .product-grid {
+        gap: 24px;
+    }
+    .product-card {
+        border-radius: 14px;
+    }
 }
-
-.product-actions .btn:first-child:hover {
-     background: #0056b3;
-     transform: translateY(-2px);
-}
-
-.product-actions .btn:last-child:hover {
-    background: #545b62;
-    transform: translateY(-2px);
-}
-
-.no-products {
-    text-align: center;
-    color: #777;
-    font-size: 1.2em;
-    margin-top: 40px;
-}
-
-@media (max-width: 768px) {
+@media (max-width: 600px) {
+    .categories-title {
+        font-size: 2rem;
+    }
     .category-controls {
         flex-direction: column;
-        align-items: stretch;
-        padding: 15px;
-        gap: 15px; /* Adjusted gap */
+        gap: 16px;
+        padding: 12px 4px;
+        border-radius: 10px;
     }
-
-    .category-filter,
-    .category-search {
-        min-width: unset;
-        width: 100%;
-    }
-
-    .filter-form .form-group,
-    .search-form .form-group {
-         flex-direction: column;
-         align-items: stretch;
-         gap: 8px; /* Adjusted gap */
-    }
-
-    .category-filter label {
-        margin-bottom: 5px; /* Added margin */
-    }
-
-    .category-filter select,
-     .category-search input[type="text"] {
-        width: 100%;
-        padding: 10px 12px; /* Adjusted padding */
-    }
-
-     .search-form .btn {
-        width: 100%;
-        padding: 10px 12px; /* Adjusted padding */
-        height: auto; /* Adjusted height */
-    }
-
     .product-grid {
         grid-template-columns: 1fr;
-        gap: 20px;
+        gap: 18px;
     }
-
     .product-card {
-        padding: 15px;
+        border-radius: 8px;
     }
-
     .product-image {
-        height: 180px; /* Adjusted height for smaller screens */
-    }
-
-    .product-info {
-        padding: 10px;
-    }
-
-    .product-actions {
-        flex-direction: column;
-        gap: 8px; /* Adjusted gap */
-    }
-
-    .product-actions .btn {
-        padding: 10px 15px; /* Adjusted padding */
-        font-size: 1em; /* Adjusted font size */
+        height: 180px;
     }
 }
-
-@media (max-width: 480px) {
-    .category-controls {
-        padding: 10px;
-        gap: 10px;
-    }
-
-    .category-filter select,
-    .category-search input[type="text"],
-    .search-form .btn {
-        padding: 8px 10px; /* Further adjusted padding */
-        font-size: 0.9em; /* Further adjusted font size */
-    }
-
-    .product-card {
-        padding: 10px;
-    }
-
-    .product-image {
-        height: 150px; /* Further adjusted height */
-    }
-
-    .product-info {
-        padding: 8px;
-    }
-
-    .product-title {
-        font-size: 1em; /* Further adjusted font size */
-    }
-
-    .product-price {
-        font-size: 1.2em; /* Further adjusted font size */
-    }
-
-    .product-actions .btn {
-        padding: 8px 10px; /* Further adjusted padding */
-        font-size: 0.8em; /* Further adjusted font size */
-    }
-}
-
-/* Animation Classes */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </style>
 
-<!-- Add loading overlay -->
-
-
-<div class="container">
+<div class="categories-hero-bg"></div>
+<div class="categories-section">
+    <div class="categories-title">Browse Our Categories</div>
+    <div class="categories-desc">Find the perfect products for you. Filter by category or search for anything!</div>
     <div class="category-controls">
-        <div class="category-filter">
-            <form method="GET" action="" class="filter-form">
-                <div class="form-group" style="margin-bottom: 0;">
-                    <label for="category">Category:</label>
-                    <select name="category" id="category" onchange="this.form.submit()">
-                        <option value="0">All Categories</option>
-                        <?php while($category = $categories_result->fetch_assoc()): ?>
-                            <option value="<?php echo $category['category_id']; ?>" 
-                                    <?php echo $selected_category == $category['category_id'] ? 'selected' : ''; ?>>
-                                <?php echo htmlspecialchars($category['category_name']); ?>
-                            </option>
-                        <?php endwhile; ?>
-                    </select>
-                     <?php if(!empty($search_term)): ?>
-                        <input type="hidden" name="search" value="<?php echo htmlspecialchars($search_term); ?>">
-                    <?php endif; ?>
-                </div>
-            </form>
-        </div>
-         <div class="category-search">
-            <form method="GET" action="" class="search-form">
-                 <?php if($selected_category > 0): ?>
-                    <input type="hidden" name="category" value="<?php echo $selected_category; ?>">
-                <?php endif; ?>
-                <div class="form-group" style="margin-bottom: 0;">
-                    <input type="text" id="search" name="search" placeholder="Search products..." value="<?php echo htmlspecialchars($search_term); ?>">
-                    <button type="submit" class="btn btn-secondary" aria-label="Search"><i class="fas fa-search"></i></button>
-                </div>
-            </form>
-        </div>
+        <form class="filter-form category-filter" method="get" action="categories.php">
+            <div class="form-group">
+                <label for="category">Category:</label>
+                <select name="category" id="category" onchange="this.form.submit()">
+                    <option value="0" <?php if($selected_category == 0) echo 'selected'; ?>>All</option>
+                    <?php while($cat = $categories_result->fetch_assoc()): ?>
+                        <option value="<?php echo $cat['category_id']; ?>" <?php if($selected_category == $cat['category_id']) echo 'selected'; ?>><?php echo htmlspecialchars($cat['category_name']); ?></option>
+                    <?php endwhile; ?>
+                </select>
+            </div>
+        </form>
+        <form class="search-form category-search" method="get" action="categories.php">
+            <div class="form-group">
+                <input type="hidden" name="category" value="<?php echo $selected_category; ?>">
+                <input type="text" name="search" placeholder="Search products..." value="<?php echo htmlspecialchars($search_term); ?>">
+                <button type="submit" class="btn" title="Search"><i class="fas fa-search"></i></button>
+            </div>
+        </form>
     </div>
-
     <div class="product-grid">
         <?php if($products_result->num_rows > 0): ?>
-            <?php while($product = $products_result->fetch_assoc()): ?>
-                <div class="product-card">
-                    <img src="<?php echo htmlspecialchars($product['image_url']); ?>" alt="<?php echo htmlspecialchars($product['product_name']); ?>" class="product-image">
+            <?php $prod_index = 0; while($product = $products_result->fetch_assoc()): ?>
+                <div class="product-card" style="transition-delay: <?php echo $prod_index * 80; ?>ms;">
+                    <img src="<?php echo htmlspecialchars($product['image_url']); ?>" alt="<?php echo htmlspecialchars($product['product_name']); ?>" class="product-image" loading="lazy">
                     <div class="product-info">
-                        <h3 class="product-title"><?php echo htmlspecialchars($product['product_name']); ?></h3>
-                        <p class="product-category"><?php echo htmlspecialchars($product['category_name']); ?></p>
-                        <p class="product-price">Rs. <?php echo number_format($product['price'], 2); ?></p>
+                        <div>
+                            <div class="product-title"><?php echo htmlspecialchars($product['product_name']); ?></div>
+                            <div class="product-category"><?php echo htmlspecialchars($product['category_name']); ?></div>
+                            <div class="product-price">Rs. <?php echo number_format($product['price'], 2); ?></div>
+                        </div>
                         <div class="product-actions">
                             <a href="product.php?id=<?php echo $product['product_id']; ?>" class="btn">View Details</a>
                             <?php if(isset($_SESSION['user_id']) && (!isset($_SESSION['is_admin']) || !$_SESSION['is_admin'])): ?>
-                                <form method="POST" action="cart.php" class="add-to-cart-form">
+                                <form method="POST" action="cart.php" class="add-to-cart-form" style="display: inline;">
                                     <input type="hidden" name="product_id" value="<?php echo $product['product_id']; ?>">
                                     <input type="hidden" name="action" value="add">
                                     <button type="submit" class="btn">Add to Cart</button>
@@ -447,32 +405,25 @@ require_once 'includes/header.php';
                         </div>
                     </div>
                 </div>
-            <?php endwhile; ?>
+            <?php $prod_index++; endwhile; ?>
         <?php else: ?>
-            <p class="no-products">No products found in this category.</p>
+            <div style="grid-column: 1 / -1; text-align: center; color: #888; font-size: 1.2em; padding: 60px 0;">No products found.</div>
         <?php endif; ?>
     </div>
 </div>
 
-<!-- Add this before closing body tag -->
+<?php require_once 'includes/footer.php'; ?>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Show loading animation
-    const loading = document.querySelector('.loading');
-    loading.classList.add('active');
+    // Animate hero title and description
+    setTimeout(() => {
+        document.querySelector('.categories-title').classList.add('active');
+        document.querySelector('.categories-desc').classList.add('active');
+        document.querySelector('.category-controls').classList.add('active');
+    }, 200);
 
-    // Hide loading animation when page is loaded
-    window.addEventListener('load', function() {
-        loading.classList.remove('active');
-    });
-
-    // Intersection Observer for scroll animations
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1
-    };
-
+    // Animate product cards on scroll
     const observer = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -480,52 +431,27 @@ document.addEventListener('DOMContentLoaded', function() {
                 observer.unobserve(entry.target);
             }
         });
-    }, observerOptions);
-
-    // Observe all animated elements
-    document.querySelectorAll('.product-card, .filter-section, .sort-section').forEach(el => {
-        observer.observe(el);
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.product-card').forEach(card => {
+        observer.observe(card);
     });
 
-    // Add stagger effect to product grid
-    const productGrid = document.querySelector('.product-grid');
-    if (productGrid) {
-        const items = productGrid.children;
-        Array.from(items).forEach((item, index) => {
-            item.style.transitionDelay = `${index * 100}ms`;
-        });
-    }
+    // Parallax effect for hero background
+    const heroBg = document.querySelector('.categories-hero-bg');
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        heroBg.style.transform = `translateY(${scrolled * 0.15}px)`;
+    });
 
-    // Add hover effect to buttons
+    // Button hover effect
     document.querySelectorAll('.btn').forEach(btn => {
-        btn.addEventListener('mouseover', function() {
-            this.style.transform = 'translateY(-3px) scale(1.05)';
+        btn.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-2px) scale(1.05)';
         });
-        btn.addEventListener('mouseout', function() {
+        btn.addEventListener('mouseleave', function() {
             this.style.transform = 'translateY(0) scale(1)';
         });
     });
-
-    // Add animation to filter and sort sections
-    const filterSection = document.querySelector('.filter-section');
-    const sortSection = document.querySelector('.sort-section');
-    
-    if (filterSection) filterSection.classList.add('animate-on-scroll');
-    if (sortSection) sortSection.classList.add('animate-on-scroll');
-
-    // Add smooth scroll to top button
-    const scrollToTop = document.querySelector('.scroll-to-top');
-    if (scrollToTop) {
-        window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 300) {
-                scrollToTop.style.opacity = '1';
-                scrollToTop.style.transform = 'translateY(0)';
-            } else {
-                scrollToTop.style.opacity = '0';
-                scrollToTop.style.transform = 'translateY(20px)';
-            }
-        });
-    }
 });
 </script>
 
@@ -534,5 +460,4 @@ document.addEventListener('DOMContentLoaded', function() {
 if (isset($conn) && $conn->ping()) {
     $conn->close();
 }
-require_once 'includes/footer.php'; 
 ?> 
