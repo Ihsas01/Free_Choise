@@ -22,16 +22,16 @@ $page_title = $page_title ?? 'Admin Panel'; // Use provided page title or defaul
 </head>
 <body>
 
-<header class="admin-header">
-    <div class="container">
-        <h1>Admin Panel</h1>
-        <nav>
-            <ul class="admin-nav">
-                <li><a href="dashboard.php"><i class="fas fa-home"></i> Dashboard</a></li>
-                <li><a href="products.php"><i class="fas fa-box"></i> Products</a></li>
-                <li><a href="users.php"><i class="fas fa-users"></i> Users</a></li>
-                <li><a href="../index.php"><i class="fas fa-store"></i> View Website</a></li>
-                <li><a href="../logout.php" class="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+<header class="admin-header-modern">
+    <div class="admin-header-card">
+        <h1 class="admin-title"><i class="fas fa-cogs"></i> Admin Panel</h1>
+        <nav class="admin-nav-modern">
+            <ul>
+                <li><a href="dashboard.php"><i class="fas fa-home"></i> <span>Dashboard</span></a></li>
+                <li><a href="products.php"><i class="fas fa-box"></i> <span>Products</span></a></li>
+                <li><a href="users.php"><i class="fas fa-users"></i> <span>Users</span></a></li>
+                <li><a href="../index.php"><i class="fas fa-store"></i> <span>View Website</span></a></li>
+                <li><a href="../logout.php" class="logout-link"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a></li>
             </ul>
         </nav>
     </div>
