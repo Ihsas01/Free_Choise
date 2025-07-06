@@ -1,7 +1,6 @@
 <?php
 session_start(); // Ensure session is started at the very beginning
 require_once 'includes/db_config.php'; // Add database configuration
-require_once 'includes/header.php';
 
 if(isset($_SESSION['user_id'])) {
     // Check if user is admin and redirect to admin dashboard
@@ -58,6 +57,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 if (isset($conn) && $conn->ping()) {
     $conn->close();
 }
+
+require_once 'includes/header.php';
 ?>
 
 <div class="container">

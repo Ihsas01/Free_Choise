@@ -552,13 +552,11 @@ if (isset($_SESSION['user_id']) && isset($conn)) {
     </div>
 </header>
 
-<main class="main-content" style="margin-top: 65px;">
-    <div class="container">
-        <?php if(isset($message)): ?>
-            <div class="message <?php echo $success ? 'success-message' : 'error-message'; ?>">
-                <?php echo $message; ?>
-            </div>
-        <?php endif; ?>
+<?php if(isset($message)): ?>
+    <div class="message <?php echo $success ? 'success-message' : 'error-message'; ?>">
+        <?php echo $message; ?>
+    </div>
+<?php endif; ?>
 
 <script>
 // Header scroll behavior with improved performance
@@ -777,6 +775,5 @@ document.querySelectorAll('.nav-list a, .btn, .search-container').forEach(el => 
     observer.observe(el);
 });
 </script>
-</main>
 </body>
 </html>
