@@ -678,17 +678,20 @@ html {
     font-size: 2.2rem;
 }
 
+/* Horizontal navigation for admin */
 .admin-nav-modern ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 2.5rem;
     list-style: none;
     padding: 0;
     margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 1.2rem;
 }
 
 .admin-nav-modern li {
-    width: 100%;
+    width: auto;
 }
 
 .admin-nav-modern a {
@@ -749,6 +752,14 @@ html {
     .admin-nav-modern a {
         font-size: 1rem;
         padding: 0.7rem 1rem;
+    }
+    .admin-nav-modern ul {
+        flex-direction: column;
+        gap: 1.2rem;
+        align-items: flex-start;
+    }
+    .admin-nav-modern li {
+        width: 100%;
     }
 }
 
