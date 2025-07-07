@@ -78,75 +78,131 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             case 'delete':
                 $user_id = (int)$_POST['user_id'];
+                $current_admin_id = $_SESSION['user_id'];
                 
-                // Don't allow deleting admin users
-                $check_query = "SELECT is_admin FROM users WHERE user_id = ?";
-                $check_stmt = $conn->prepare($check_query);
-                $check_stmt->bind_param("i", $user_id);
-                $check_stmt->execute();
-                $user = $check_stmt->get_result()->fetch_assoc();
-                 $check_stmt->close();
-            
-                if(isset($user['is_admin']) && $user['is_admin']) {
-                    $message = 'Cannot delete admin users';
+                // Don't allow deleting yourself
+                if($user_id == $current_admin_id) {
+                    $message = 'You cannot delete your own account';
                     $success = false;
                 } else {
-                    $delete_query = "DELETE FROM users WHERE user_id = ?";
-                    $delete_stmt = $conn->prepare($delete_query);
-                    $delete_stmt->bind_param("i", $user_id);
+                    // Check if target user is admin
+                    $check_query = "SELECT is_admin, username FROM users WHERE user_id = ?";
+                    $check_stmt = $conn->prepare($check_query);
+                    $check_stmt->bind_param("i", $user_id);
+                    $check_stmt->execute();
+                    $user = $check_stmt->get_result()->fetch_assoc();
+                    $check_stmt->close();
                     
-                    if($delete_stmt->execute()) {
-                        $message = 'User deleted successfully';
-                        $success = true;
+                    if($user) {
+                        $delete_query = "DELETE FROM users WHERE user_id = ?";
+                        $delete_stmt = $conn->prepare($delete_query);
+                        $delete_stmt->bind_param("i", $user_id);
+                        
+                        if($delete_stmt->execute()) {
+                            $user_type = $user['is_admin'] ? 'Admin' : 'User';
+                            $message = "$user_type deleted successfully";
+                            $success = true;
+                        } else {
+                            $message = 'Error deleting user: ' . $conn->error;
+                            $success = false;
+                        }
+                        $delete_stmt->close();
                     } else {
-                        $message = 'Error deleting user: ' . $conn->error; // Add error detail
+                        $message = 'User not found';
                         $success = false;
                     }
-                    $delete_stmt->close();
+                }
+                break;
+
+            case 'toggle_admin':
+                $user_id = (int)$_POST['user_id'];
+                $current_admin_id = $_SESSION['user_id'];
+                
+                // Don't allow demoting yourself
+                if($user_id == $current_admin_id) {
+                    $message = 'You cannot change your own admin status';
+                    $success = false;
+                } else {
+                    // Get current admin status
+                    $check_query = "SELECT is_admin, username FROM users WHERE user_id = ?";
+                    $check_stmt = $conn->prepare($check_query);
+                    $check_stmt->bind_param("i", $user_id);
+                    $check_stmt->execute();
+                    $user = $check_stmt->get_result()->fetch_assoc();
+                    $check_stmt->close();
+                    
+                    if($user) {
+                        $new_admin_status = $user['is_admin'] ? 0 : 1;
+                        $action_text = $user['is_admin'] ? 'demoted to user' : 'promoted to admin';
+                        
+                        $update_query = "UPDATE users SET is_admin = ? WHERE user_id = ?";
+                        $update_stmt = $conn->prepare($update_query);
+                        $update_stmt->bind_param("ii", $new_admin_status, $user_id);
+                        
+                        if($update_stmt->execute()) {
+                            $message = "User {$user['username']} has been $action_text successfully";
+                            $success = true;
+                        } else {
+                            $message = 'Error updating user: ' . $conn->error;
+                            $success = false;
+                        }
+                        $update_stmt->close();
+                    } else {
+                        $message = 'User not found';
+                        $success = false;
+                    }
                 }
                 break;
 
             case 'ban_user':
                 $user_id = (int)$_POST['user_id'];
                 $ban_duration = (int)$_POST['ban_duration']; // Days
-                $ban_reason = $_POST['ban_reason'] ?? 'Multiple order cancellations';
+                $ban_reason = $_POST['ban_reason'] ?? 'Admin ban';
+                $current_admin_id = $_SESSION['user_id'];
                 
-                // Don't allow banning admin users
-                $check_query = "SELECT is_admin FROM users WHERE user_id = ?";
-                $check_stmt = $conn->prepare($check_query);
-                $check_stmt->bind_param("i", $user_id);
-                $check_stmt->execute();
-                $user = $check_stmt->get_result()->fetch_assoc();
-                $check_stmt->close();
-                
-                if(isset($user['is_admin']) && $user['is_admin']) {
-                    $message = 'Cannot ban admin users';
+                // Don't allow banning yourself
+                if($user_id == $current_admin_id) {
+                    $message = 'You cannot ban your own account';
                     $success = false;
                 } else {
-                    // Calculate ban end date
-                    $ban_until = date('Y-m-d H:i:s', strtotime("+$ban_duration days"));
+                    // Check if target user exists
+                    $check_query = "SELECT is_admin, username FROM users WHERE user_id = ?";
+                    $check_stmt = $conn->prepare($check_query);
+                    $check_stmt->bind_param("i", $user_id);
+                    $check_stmt->execute();
+                    $user = $check_stmt->get_result()->fetch_assoc();
+                    $check_stmt->close();
                     
-                    // Update user ban status
-                    $ban_query = "UPDATE users SET is_banned = TRUE, ban_reason = ?, ban_until = ? WHERE user_id = ?";
-                    $ban_stmt = $conn->prepare($ban_query);
-                    $ban_stmt->bind_param("ssi", $ban_reason, $ban_until, $user_id);
-                    
-                    if($ban_stmt->execute()) {
-                        // Add to ban history
-                        $history_query = "INSERT INTO user_bans (user_id, reason, banned_by, ban_until) VALUES (?, ?, ?, ?)";
-                        $history_stmt = $conn->prepare($history_query);
-                        $admin_id = $_SESSION['user_id'];
-                        $history_stmt->bind_param("isis", $user_id, $ban_reason, $admin_id, $ban_until);
-                        $history_stmt->execute();
-                        $history_stmt->close();
+                    if($user) {
+                        // Calculate ban end date
+                        $ban_until = date('Y-m-d H:i:s', strtotime("+$ban_duration days"));
                         
-                        $message = "User banned successfully for $ban_duration days";
-                        $success = true;
+                        // Update user ban status
+                        $ban_query = "UPDATE users SET is_banned = TRUE, ban_reason = ?, ban_until = ? WHERE user_id = ?";
+                        $ban_stmt = $conn->prepare($ban_query);
+                        $ban_stmt->bind_param("ssi", $ban_reason, $ban_until, $user_id);
+                        
+                        if($ban_stmt->execute()) {
+                            // Add to ban history
+                            $history_query = "INSERT INTO user_bans (user_id, reason, banned_by, ban_until) VALUES (?, ?, ?, ?)";
+                            $history_stmt = $conn->prepare($history_query);
+                            $admin_id = $_SESSION['user_id'];
+                            $history_stmt->bind_param("isis", $user_id, $ban_reason, $admin_id, $ban_until);
+                            $history_stmt->execute();
+                            $history_stmt->close();
+                            
+                            $user_type = $user['is_admin'] ? 'Admin' : 'User';
+                            $message = "$user_type {$user['username']} banned successfully for $ban_duration days";
+                            $success = true;
+                        } else {
+                            $message = 'Error banning user: ' . $conn->error;
+                            $success = false;
+                        }
+                        $ban_stmt->close();
                     } else {
-                        $message = 'Error banning user: ' . $conn->error;
+                        $message = 'User not found';
                         $success = false;
                     }
-                    $ban_stmt->close();
                 }
                 break;
 
@@ -649,6 +705,30 @@ require_once 'includes/admin_header.php';
     font-size: 0.95rem;
 }
 
+.btn-info {
+    background: linear-gradient(135deg, #17a2b8, #138496);
+    border: 1px solid #17a2b8;
+    color: white;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-info:hover {
+    background: linear-gradient(135deg, #138496, #117a8b);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(23, 162, 184, 0.4);
+}
+
+.alert-warning {
+    background: linear-gradient(135deg, #ffc107, #e0a800);
+    border: 1px solid #ffc107;
+    color: #856404;
+    padding: 1rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    animation: pulse 2s ease-in-out infinite;
+}
+
 .user-actions {
     display: flex;
     gap: 0.5rem;
@@ -1067,43 +1147,43 @@ html {
             <h1><?php echo ($action == 'add') ? 'Add New User' : 'Manage Users'; ?></h1>
             <p><?php echo ($action == 'add') ? 'Create a new user for your store' : 'View and manage all users'; ?></p>
         </div>
-        
-        <?php if($message): ?>
+    
+    <?php if($message): ?>
             <div class="admin-alert <?php echo $success ? 'alert-success' : 'alert-danger'; ?>" id="alertMessage">
                 <i class="fas <?php echo $success ? 'fa-check-circle' : 'fa-exclamation-circle'; ?>"></i>
-                <?php echo $message; ?>
-            </div>
-        <?php endif; ?>
+            <?php echo $message; ?>
+        </div>
+    <?php endif; ?>
 
-        <?php if ($action == 'add'): ?>
-            <!-- Add New User Form -->
-            <div class="add-user-section">
-                <form method="POST" action="" class="user-form">
-                    <input type="hidden" name="action" value="add_user">
-                    <div class="form-group">
-                        <label for="username">Username</label>
+    <?php if ($action == 'add'): ?>
+        <!-- Add New User Form -->
+        <div class="add-user-section">
+            <form method="POST" action="" class="user-form">
+                <input type="hidden" name="action" value="add_user">
+                <div class="form-group">
+                    <label for="username">Username</label>
                         <input type="text" id="username" name="username" required value="<?php echo htmlspecialchars($_POST['username'] ?? ''); ?>" placeholder="Enter username">
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
                         <input type="email" id="email" name="email" required value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>" placeholder="Enter email">
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
                         <input type="password" id="password" name="password" required placeholder="Enter password">
-                    </div>
-                    <div class="form-group">
-                        <label for="first_name">First Name (Optional)</label>
+                </div>
+                 <div class="form-group">
+                    <label for="first_name">First Name (Optional)</label>
                         <input type="text" id="first_name" name="first_name" value="<?php echo htmlspecialchars($_POST['first_name'] ?? ''); ?>" placeholder="First name">
-                    </div>
-                    <div class="form-group">
-                        <label for="last_name">Last Name (Optional)</label>
+                </div>
+                <div class="form-group">
+                    <label for="last_name">Last Name (Optional)</label>
                         <input type="text" id="last_name" name="last_name" value="<?php echo htmlspecialchars($_POST['last_name'] ?? ''); ?>" placeholder="Last name">
-                    </div>
-                    <div class="form-group">
-                        <label for="is_admin">Admin User?</label>
-                        <input type="checkbox" id="is_admin" name="is_admin" value="1" <?php echo isset($_POST['is_admin']) ? 'checked' : ''; ?>> Yes
-                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="is_admin">Admin User?</label>
+                    <input type="checkbox" id="is_admin" name="is_admin" value="1" <?php echo isset($_POST['is_admin']) ? 'checked' : ''; ?>> Yes
+                </div>
                     <div class="btn-container">
                         <button type="submit" class="btn-admin btn-primary">
                             <i class="fas fa-user-plus"></i> Add User
@@ -1112,22 +1192,22 @@ html {
                             <i class="fas fa-arrow-left"></i> Back to Users
                         </a>
                     </div>
-                </form>
-            </div>
+            </form>
+        </div>
 
-        <?php else: ?>
-            <!-- Users List -->
-            <div class="users-list">
+    <?php else: ?>
+        <!-- Users List -->
+        <div class="users-list">
                 <div class="admin-actions">
                     <a href="users.php?action=add" class="btn-admin btn-primary">
                         <i class="fas fa-user-plus"></i> Add New User
                     </a>
-                </div>
+             </div>
 
-                <?php if($users_result->num_rows > 0): ?>
-                    <table class="admin-table">
-                        <thead>
-                                                    <tr>
+            <?php if($users_result->num_rows > 0): ?>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
                             <th>ID</th>
                             <th>Username</th>
                             <th>Email</th>
@@ -1137,10 +1217,10 @@ html {
                             <th>Joined</th>
                             <th>Actions</th>
                         </tr>
-                        </thead>
-                        <tbody>
-                            <?php while($user = $users_result->fetch_assoc()): ?>
-                                                            <tr>
+                    </thead>
+                    <tbody>
+                        <?php while($user = $users_result->fetch_assoc()): ?>
+                            <tr>
                                 <td><?php echo htmlspecialchars($user['user_id']); ?></td>
                                 <td><?php echo htmlspecialchars($user['username']); ?></td>
                                 <td><?php echo htmlspecialchars($user['email']); ?></td>
@@ -1166,35 +1246,57 @@ html {
                                         <a href="edit_user.php?id=<?php echo $user['user_id']; ?>" class="btn-admin btn-secondary btn-admin-small">
                                             <i class="fas fa-edit"></i> Edit
                                         </a>
-                                        <?php if(!$user['is_admin']): ?>
-                                            <?php if($user['is_banned']): ?>
-                                                <form method="POST" action="" onsubmit="return confirm('Are you sure you want to unban this user?');" style="display:inline-block;">
-                                                    <input type="hidden" name="action" value="unban_user">
-                                                    <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
-                                                    <button type="submit" class="btn-admin btn-success btn-admin-small">
-                                                        <i class="fas fa-unlock"></i> Unban
-                                                    </button>
-                                                </form>
-                                            <?php else: ?>
-                                                <button type="button" class="btn-admin btn-warning btn-admin-small" onclick="showBanModal(<?php echo $user['user_id']; ?>, '<?php echo htmlspecialchars($user['username']); ?>')">
-                                                    <i class="fas fa-ban"></i> Ban
-                                                </button>
-                                            <?php endif; ?>
-                                            <form method="POST" action="" onsubmit="return confirm('Are you sure you want to delete this user?');" style="display:inline-block;">
-                                                <input type="hidden" name="action" value="delete">
+                                        
+                                        <?php if($user['is_admin']): ?>
+                                            <!-- Admin Management Actions -->
+                                            <form method="POST" action="" onsubmit="return confirm('Are you sure you want to demote this admin to regular user?');" style="display:inline-block;">
+                                                <input type="hidden" name="action" value="toggle_admin">
                                                 <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
-                                                <button type="submit" class="btn-admin btn-danger btn-admin-small">
-                                                    <i class="fas fa-trash"></i> Delete
+                                                <button type="submit" class="btn-admin btn-info btn-admin-small">
+                                                    <i class="fas fa-user-minus"></i> Demote
+                                                </button>
+                                            </form>
+                                        <?php else: ?>
+                                            <!-- Promote to Admin -->
+                                            <form method="POST" action="" onsubmit="return confirm('Are you sure you want to promote this user to admin?');" style="display:inline-block;">
+                                                <input type="hidden" name="action" value="toggle_admin">
+                                                <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
+                                                <button type="submit" class="btn-admin btn-info btn-admin-small">
+                                                    <i class="fas fa-user-plus"></i> Promote
                                                 </button>
                                             </form>
                                         <?php endif; ?>
+                                        
+                                        <!-- Ban/Unban Actions (for all users including admins) -->
+                                        <?php if($user['is_banned']): ?>
+                                            <form method="POST" action="" onsubmit="return confirm('Are you sure you want to unban this user?');" style="display:inline-block;">
+                                                <input type="hidden" name="action" value="unban_user">
+                                                <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
+                                                <button type="submit" class="btn-admin btn-success btn-admin-small">
+                                                    <i class="fas fa-unlock"></i> Unban
+                                                </button>
+                                            </form>
+                                        <?php else: ?>
+                                            <button type="button" class="btn-admin btn-warning btn-admin-small" onclick="showBanModal(<?php echo $user['user_id']; ?>, '<?php echo htmlspecialchars($user['username']); ?>', <?php echo $user['is_admin'] ? 'true' : 'false'; ?>)">
+                                                <i class="fas fa-ban"></i> Ban
+                                            </button>
+                                        <?php endif; ?>
+                                        
+                                        <!-- Delete Action (for all users including admins) -->
+                                        <form method="POST" action="" onsubmit="return confirm('Are you sure you want to delete this user? This action cannot be undone.');" style="display:inline-block;">
+                                            <input type="hidden" name="action" value="delete">
+                                            <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
+                                            <button type="submit" class="btn-admin btn-danger btn-admin-small">
+                                                <i class="fas fa-trash"></i> Delete
+                                            </button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>
-                            <?php endwhile; ?>
-                        </tbody>
-                    </table>
-                <?php else: ?>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
+            <?php else: ?>
                     <div class="no-users">
                         <i class="fas fa-users" style="font-size: 3rem; color: #667eea; margin-bottom: 1rem;"></i>
                         <p>No users found. Start by adding your first user!</p>
@@ -1202,9 +1304,9 @@ html {
                             <i class="fas fa-user-plus"></i> Add Your First User
                         </a>
                     </div>
-                <?php endif; ?>
-            </div>
-        <?php endif; ?>
+            <?php endif; ?>
+        </div>
+    <?php endif; ?>
     </div>
 </div>
 
@@ -1328,10 +1430,31 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Ban Modal Functions
-function showBanModal(userId, username) {
+function showBanModal(userId, username, isAdmin) {
     document.getElementById('banModal').style.display = 'flex';
     document.getElementById('banUserId').value = userId;
     document.getElementById('banUsername').textContent = username;
+    
+    // Update modal title and warning based on user type
+    const modalTitle = document.querySelector('#banModal .modal-header h3');
+    const modalBody = document.querySelector('#banModal .modal-body');
+    
+    if (isAdmin) {
+        modalTitle.innerHTML = '<i class="fas fa-ban"></i> Ban Admin User';
+        // Add warning for admin bans
+        const warningDiv = document.createElement('div');
+        warningDiv.className = 'alert alert-warning';
+        warningDiv.innerHTML = '<i class="fas fa-exclamation-triangle"></i> <strong>Warning:</strong> You are about to ban an admin user. This will restrict their access to the admin panel.';
+        modalBody.insertBefore(warningDiv, modalBody.firstChild);
+    } else {
+        modalTitle.innerHTML = '<i class="fas fa-ban"></i> Ban User';
+        // Remove any existing warning
+        const existingWarning = modalBody.querySelector('.alert-warning');
+        if (existingWarning) {
+            existingWarning.remove();
+        }
+    }
+    
     document.body.style.overflow = 'hidden';
 }
 

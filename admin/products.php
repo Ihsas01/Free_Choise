@@ -730,61 +730,61 @@ html {
             <h1><?php echo ($action == 'add') ? 'Add New Product' : 'Manage Products'; ?></h1>
             <p><?php echo ($action == 'add') ? 'Create a new product for your store' : 'View and manage all your products'; ?></p>
         </div>
-        
-        <?php if($message): ?>
-            <div class="admin-alert <?php echo $success ? 'alert-success' : 'alert-danger'; ?>">
+    
+    <?php if($message): ?>
+        <div class="admin-alert <?php echo $success ? 'alert-success' : 'alert-danger'; ?>">
                 <i class="fas <?php echo $success ? 'fa-check-circle' : 'fa-exclamation-circle'; ?>"></i>
-                <?php echo htmlspecialchars($message); ?>
-            </div>
-        <?php endif; ?>
+            <?php echo htmlspecialchars($message); ?>
+        </div>
+    <?php endif; ?>
 
-        <?php if ($action == 'add'): ?>
-            <!-- Add New Product Form -->
-            <div class="add-product-section">
-                <form method="POST" action="" enctype="multipart/form-data" class="product-form">
-                    <input type="hidden" name="action" value="add">
+    <?php if ($action == 'add'): ?>
+        <!-- Add New Product Form -->
+        <div class="add-product-section">
+            <form method="POST" action="" enctype="multipart/form-data" class="product-form">
+                <input type="hidden" name="action" value="add">
                     
-                    <div class="form-group">
-                        <label for="product_name">Product Name</label>
+                <div class="form-group">
+                    <label for="product_name">Product Name</label>
                         <input type="text" id="product_name" name="product_name" required value="<?php echo htmlspecialchars($_POST['product_name'] ?? ''); ?>" placeholder="Enter product name">
-                    </div>
+                </div>
                     
-                    <div class="form-group">
-                        <label for="category_id">Category</label>
-                        <select id="category_id" name="category_id" required>
-                            <option value="">-- Select Category --</option>
-                            <?php 
-                            // Reset categories_result pointer or re-run query
-                             $categories_result_form = $conn->query($categories_query);
-                             while($category = $categories_result_form->fetch_assoc()): 
-                             $selected = (isset($_POST['category_id']) && $_POST['category_id'] == $category['category_id']) ? 'selected' : '';
-                            ?>
-                                <option value="<?php echo $category['category_id']; ?>" <?php echo $selected; ?> >
-                                    <?php echo htmlspecialchars($category['category_name']); ?>
-                                </option>
-                            <?php endwhile; ?>
-                        </select>
-                    </div>
+                <div class="form-group">
+                    <label for="category_id">Category</label>
+                    <select id="category_id" name="category_id" required>
+                        <option value="">-- Select Category --</option>
+                        <?php 
+                        // Reset categories_result pointer or re-run query
+                         $categories_result_form = $conn->query($categories_query);
+                         while($category = $categories_result_form->fetch_assoc()): 
+                         $selected = (isset($_POST['category_id']) && $_POST['category_id'] == $category['category_id']) ? 'selected' : '';
+                        ?>
+                            <option value="<?php echo $category['category_id']; ?>" <?php echo $selected; ?> >
+                                <?php echo htmlspecialchars($category['category_name']); ?>
+                            </option>
+                        <?php endwhile; ?>
+                    </select>
+                </div>
                     
-                    <div class="form-group">
-                        <label for="price">Price</label>
+                <div class="form-group">
+                    <label for="price">Price</label>
                         <input type="number" id="price" name="price" step="0.01" required min="0" value="<?php echo htmlspecialchars($_POST['price'] ?? ''); ?>" placeholder="0.00">
-                    </div>
+                </div>
                     
-                    <div class="form-group">
-                        <label for="stock_quantity">Stock Quantity</label>
+                 <div class="form-group">
+                    <label for="stock_quantity">Stock Quantity</label>
                         <input type="number" id="stock_quantity" name="stock_quantity" required min="0" value="<?php echo htmlspecialchars($_POST['stock_quantity'] ?? ''); ?>" placeholder="0">
-                    </div>
+                </div>
                     
                     <div class="form-group full-width">
-                        <label for="description">Description</label>
+                    <label for="description">Description</label>
                         <textarea id="description" name="description" required rows="4" placeholder="Enter product description"><?php echo htmlspecialchars($_POST['description'] ?? ''); ?></textarea>
-                    </div>
+                </div>
                     
                     <div class="form-group full-width">
-                        <label for="image">Product Image</label>
-                        <input type="file" id="image" name="image" accept="image/*" required>
-                    </div>
+                    <label for="image">Product Image</label>
+                    <input type="file" id="image" name="image" accept="image/*" required>
+                </div>
                     
                     <div class="btn-container">
                         <button type="submit" class="btn-admin btn-primary">
@@ -794,11 +794,11 @@ html {
                             <i class="fas fa-arrow-left"></i> Back to Products
                         </a>
                     </div>
-                </form>
-            </div>
+            </form>
+        </div>
 
-        <?php else: ?>
-            <!-- Products List -->
+    <?php else: ?>
+        <!-- Products List -->
             <div class="products-list-section">
                 <div class="admin-actions">
                     <a href="products.php?action=add" class="btn-admin btn-primary">
@@ -807,36 +807,36 @@ html {
                     <button type="button" class="btn-admin btn-danger" onclick="showDeleteModal()">
                         <i class="fas fa-trash-alt"></i> Delete All Products
                     </button>
-                </div>
+             </div>
 
-                <?php if($products_result->num_rows > 0): ?>
-                    <div class="products-grid">
-                        <?php while($product = $products_result->fetch_assoc()): ?>
-                            <div class="product-card">
+            <?php if($products_result->num_rows > 0): ?>
+                <div class="products-grid">
+                    <?php while($product = $products_result->fetch_assoc()): ?>
+                        <div class="product-card">
                                 <?php $image_src = !empty($product['image_url']) ? '../' . $product['image_url'] : '../assets/images/placeholder.png'; ?>
-                                <img src="<?php echo htmlspecialchars($image_src); ?>" alt="<?php echo htmlspecialchars($product['product_name']); ?>" class="product-image">
-                                <div class="product-info">
-                                    <h4><?php echo htmlspecialchars($product['product_name']); ?></h4>
-                                    <p class="category">Category: <?php echo htmlspecialchars($product['category_name'] ?? 'N/A'); ?></p>
-                                    <p class="price">Price: Rs. <?php echo number_format($product['price'], 2); ?></p>
-                                    <p class="stock">Stock: <?php echo $product['stock_quantity']; ?></p>
+                            <img src="<?php echo htmlspecialchars($image_src); ?>" alt="<?php echo htmlspecialchars($product['product_name']); ?>" class="product-image">
+                            <div class="product-info">
+                                <h4><?php echo htmlspecialchars($product['product_name']); ?></h4>
+                                <p class="category">Category: <?php echo htmlspecialchars($product['category_name'] ?? 'N/A'); ?></p>
+                                <p class="price">Price: Rs. <?php echo number_format($product['price'], 2); ?></p>
+                                <p class="stock">Stock: <?php echo $product['stock_quantity']; ?></p>
                                     <div class="product-actions">
                                         <a href="edit_product.php?id=<?php echo $product['product_id']; ?>" class="btn-admin btn-secondary">
                                             <i class="fas fa-edit"></i> Edit
                                         </a>
-                                        <form method="POST" action="" onsubmit="return confirm('Are you sure you want to delete this product?');" style="display:inline-block;">
-                                            <input type="hidden" name="action" value="delete">
-                                            <input type="hidden" name="product_id" value="<?php echo $product['product_id']; ?>">
+                                    <form method="POST" action="" onsubmit="return confirm('Are you sure you want to delete this product?');" style="display:inline-block;">
+                                        <input type="hidden" name="action" value="delete">
+                                        <input type="hidden" name="product_id" value="<?php echo $product['product_id']; ?>">
                                             <button type="submit" class="btn-admin btn-danger">
                                                 <i class="fas fa-trash"></i> Delete
                                             </button>
-                                        </form>
+                                    </form>
                                     </div>
-                                </div>
                             </div>
-                        <?php endwhile; ?>
-                    </div>
-                <?php else: ?>
+                        </div>
+                    <?php endwhile; ?>
+                </div>
+            <?php else: ?>
                     <div class="no-products">
                         <i class="fas fa-box-open" style="font-size: 3rem; color: #667eea; margin-bottom: 1rem;"></i>
                         <p>No products found. Start by adding your first product!</p>
@@ -844,10 +844,10 @@ html {
                             <i class="fas fa-plus"></i> Add Your First Product
                         </a>
                     </div>
-                <?php endif; ?>
-            </div>
-        <?php endif; ?>
-    </div>
+            <?php endif; ?>
+        </div>
+    <?php endif; ?>
+</div>
 </div>
 
 <!-- Delete All Products Modal -->
