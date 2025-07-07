@@ -26,6 +26,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $price = $_POST['price'] ?? '';
                 $stock_quantity = $_POST['stock_quantity'] ?? '';
                 $description = $_POST['description'] ?? '';
+                $special_offer = isset($_POST['special_offer']) ? 1 : 0;
 
                 // Handle image upload
                 $image_url = '';
@@ -57,7 +58,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                      $success = false;
                 }
 
-                // Basic validation
+                                 // Basic validation
                  if (empty($product_name) || empty($category_id) || $price === '' || $stock_quantity === '' || empty($description)) {
                     $message = 'Please fill in all required fields.';
                     $success = false;
@@ -69,12 +70,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                      $success = false;
                  } else {
                      // Prepare and execute the insert query
-                     $query = "INSERT INTO products (product_name, category_id, price, stock_quantity, description, image_url) 
-                              VALUES (?, ?, ?, ?, ?, ?)";
+                     $query = "INSERT INTO products (product_name, category_id, price, stock_quantity, description, image_url, special_offer) 
+                              VALUES (?, ?, ?, ?, ?, ?, ?)";
                      $stmt = $conn->prepare($query);
                      // Ensure category_id is an integer
                      $category_id_int = (int)$category_id;
-                     $stmt->bind_param("sidiss", $product_name, $category_id_int, $price, $stock_quantity, $description, $image_url);
+                     $stmt->bind_param("sidissi", $product_name, $category_id_int, $price, $stock_quantity, $description, $image_url, $special_offer);
                      
                      if($stmt->execute()) {
                          $message = 'Product added successfully.';
@@ -125,6 +126,41 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $success = false;
                 }
                 $delete_stmt->close();
+                break;
+
+            case 'toggle_special_offer':
+                $product_id = (int)$_POST['product_id'];
+                
+                // Get current special_offer status
+                $current_status_query = "SELECT special_offer FROM products WHERE product_id = ?";
+                $current_status_stmt = $conn->prepare($current_status_query);
+                $current_status_stmt->bind_param("i", $product_id);
+                $current_status_stmt->execute();
+                $current_status_result = $current_status_stmt->get_result();
+                
+                if ($current_status_result->num_rows > 0) {
+                    $current_status = $current_status_result->fetch_assoc()['special_offer'];
+                    $new_status = $current_status ? 0 : 1;
+                    
+                    // Update the special_offer status
+                    $update_query = "UPDATE products SET special_offer = ? WHERE product_id = ?";
+                    $update_stmt = $conn->prepare($update_query);
+                    $update_stmt->bind_param("ii", $new_status, $product_id);
+                    
+                    if($update_stmt->execute()) {
+                        $status_text = $new_status ? 'added to' : 'removed from';
+                        $message = "Product successfully $status_text special offers.";
+                        $success = true;
+                    } else {
+                        $message = 'Error updating product: ' . $conn->error;
+                        $success = false;
+                    }
+                    $update_stmt->close();
+                } else {
+                    $message = 'Product not found.';
+                    $success = false;
+                }
+                $current_status_stmt->close();
                 break;
 
             case 'delete_all_by_category':
@@ -403,6 +439,54 @@ require_once 'includes/admin_header.php';
     transform: translateY(-2px);
 }
 
+/* Checkbox Styling */
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+}
+
+.checkbox-label input[type="checkbox"] {
+    display: none;
+}
+
+.checkmark {
+    width: 20px;
+    height: 20px;
+    background: white;
+    border: 2px solid #e1e8ed;
+    border-radius: 4px;
+    margin-right: 10px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.checkbox-label:hover .checkmark {
+    border-color: #667eea;
+}
+
+.checkbox-label input[type="checkbox"]:checked + .checkmark {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-color: #667eea;
+}
+
+.checkbox-label input[type="checkbox"]:checked + .checkmark::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+}
+
 /* Button Styles */
 .btn-container {
     grid-column: 1 / -1;
@@ -475,6 +559,28 @@ require_once 'includes/admin_header.php';
 .btn-danger:hover {
     transform: translateY(-3px);
     box-shadow: 0 12px 40px rgba(231, 76, 60, 0.4);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+    box-shadow: 0 8px 32px rgba(40, 167, 69, 0.3);
+}
+
+.btn-success:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(40, 167, 69, 0.4);
+}
+
+.btn-warning {
+    background: linear-gradient(135deg, #ffc107, #fd7e14);
+    color: white;
+    box-shadow: 0 8px 32px rgba(255, 193, 7, 0.3);
+}
+
+.btn-warning:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(255, 193, 7, 0.4);
 }
 
 /* Products List Section */
@@ -581,6 +687,23 @@ require_once 'includes/admin_header.php';
 .product-info .stock {
     color: #f39c12;
     font-weight: 600;
+}
+
+.product-info .special-offer-status {
+    color: #e74c3c;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.product-info .special-offer-status .text-warning {
+    color: #f39c12;
+}
+
+.product-info .special-offer-status .text-muted {
+    color: #95a5a6;
 }
 
 .product-actions {
@@ -785,6 +908,14 @@ html {
                     <label for="image">Product Image</label>
                     <input type="file" id="image" name="image" accept="image/*" required>
                 </div>
+                
+                <div class="form-group">
+                    <label for="special_offer" class="checkbox-label">
+                        <input type="checkbox" id="special_offer" name="special_offer" value="1" <?php echo (isset($_POST['special_offer']) && $_POST['special_offer'] == '1') ? 'checked' : ''; ?>>
+                        <span class="checkmark"></span>
+                        Add to Special Offers
+                    </label>
+                </div>
                     
                     <div class="btn-container">
                         <button type="submit" class="btn-admin btn-primary">
@@ -820,10 +951,22 @@ html {
                                 <p class="category">Category: <?php echo htmlspecialchars($product['category_name'] ?? 'N/A'); ?></p>
                                 <p class="price">Price: Rs. <?php echo number_format($product['price'], 2); ?></p>
                                 <p class="stock">Stock: <?php echo $product['stock_quantity']; ?></p>
+                                <p class="special-offer-status">
+                                    <i class="fas <?php echo ($product['special_offer'] ?? 0) ? 'fa-star text-warning' : 'fa-star-o text-muted'; ?>"></i>
+                                    <?php echo ($product['special_offer'] ?? 0) ? 'Special Offer' : 'Regular Product'; ?>
+                                </p>
                                     <div class="product-actions">
                                         <a href="edit_product.php?id=<?php echo $product['product_id']; ?>" class="btn-admin btn-secondary">
                                             <i class="fas fa-edit"></i> Edit
                                         </a>
+                                        <form method="POST" action="" style="display:inline-block;">
+                                            <input type="hidden" name="action" value="toggle_special_offer">
+                                            <input type="hidden" name="product_id" value="<?php echo $product['product_id']; ?>">
+                                            <button type="submit" class="btn-admin <?php echo ($product['special_offer'] ?? 0) ? 'btn-warning' : 'btn-success'; ?>">
+                                                <i class="fas <?php echo ($product['special_offer'] ?? 0) ? 'fa-star-o' : 'fa-star'; ?>"></i>
+                                                <?php echo ($product['special_offer'] ?? 0) ? 'Remove from Offers' : 'Add to Offers'; ?>
+                                            </button>
+                                        </form>
                                     <form method="POST" action="" onsubmit="return confirm('Are you sure you want to delete this product?');" style="display:inline-block;">
                                         <input type="hidden" name="action" value="delete">
                                         <input type="hidden" name="product_id" value="<?php echo $product['product_id']; ?>">

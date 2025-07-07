@@ -2,13 +2,13 @@
 session_start(); // Start the session
 require_once 'config/database.php'; // Include the database connection
 
-// Get products with special offers (you can add a special_offer field to products table)
+// Get products with special offers
 $offers_query = "SELECT p.*, c.category_name 
                 FROM products p 
                 JOIN categories c ON p.category_id = c.category_id 
-                WHERE p.price < 100 
-                ORDER BY p.price ASC 
-                LIMIT 8";
+                WHERE p.special_offer = 1 
+                ORDER BY p.created_at DESC 
+                LIMIT 12";
 $offers_result = $conn->query($offers_query);
 
 // Fetch cart count for header (if user is logged in)
