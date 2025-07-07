@@ -105,6 +105,75 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $delete_stmt->close();
                 }
                 break;
+
+            case 'ban_user':
+                $user_id = (int)$_POST['user_id'];
+                $ban_duration = (int)$_POST['ban_duration']; // Days
+                $ban_reason = $_POST['ban_reason'] ?? 'Multiple order cancellations';
+                
+                // Don't allow banning admin users
+                $check_query = "SELECT is_admin FROM users WHERE user_id = ?";
+                $check_stmt = $conn->prepare($check_query);
+                $check_stmt->bind_param("i", $user_id);
+                $check_stmt->execute();
+                $user = $check_stmt->get_result()->fetch_assoc();
+                $check_stmt->close();
+                
+                if(isset($user['is_admin']) && $user['is_admin']) {
+                    $message = 'Cannot ban admin users';
+                    $success = false;
+                } else {
+                    // Calculate ban end date
+                    $ban_until = date('Y-m-d H:i:s', strtotime("+$ban_duration days"));
+                    
+                    // Update user ban status
+                    $ban_query = "UPDATE users SET is_banned = TRUE, ban_reason = ?, ban_until = ? WHERE user_id = ?";
+                    $ban_stmt = $conn->prepare($ban_query);
+                    $ban_stmt->bind_param("ssi", $ban_reason, $ban_until, $user_id);
+                    
+                    if($ban_stmt->execute()) {
+                        // Add to ban history
+                        $history_query = "INSERT INTO user_bans (user_id, reason, banned_by, ban_until) VALUES (?, ?, ?, ?)";
+                        $history_stmt = $conn->prepare($history_query);
+                        $admin_id = $_SESSION['user_id'];
+                        $history_stmt->bind_param("isis", $user_id, $ban_reason, $admin_id, $ban_until);
+                        $history_stmt->execute();
+                        $history_stmt->close();
+                        
+                        $message = "User banned successfully for $ban_duration days";
+                        $success = true;
+                    } else {
+                        $message = 'Error banning user: ' . $conn->error;
+                        $success = false;
+                    }
+                    $ban_stmt->close();
+                }
+                break;
+
+            case 'unban_user':
+                $user_id = (int)$_POST['user_id'];
+                
+                // Update user ban status
+                $unban_query = "UPDATE users SET is_banned = FALSE, ban_reason = NULL, ban_until = NULL WHERE user_id = ?";
+                $unban_stmt = $conn->prepare($unban_query);
+                $unban_stmt->bind_param("i", $user_id);
+                
+                if($unban_stmt->execute()) {
+                    // Update ban history
+                    $update_history = "UPDATE user_bans SET is_active = FALSE WHERE user_id = ? AND is_active = TRUE";
+                    $update_stmt = $conn->prepare($update_history);
+                    $update_stmt->bind_param("i", $user_id);
+                    $update_stmt->execute();
+                    $update_stmt->close();
+                    
+                    $message = 'User unbanned successfully';
+                    $success = true;
+                } else {
+                    $message = 'Error unbanning user: ' . $conn->error;
+                    $success = false;
+                }
+                $unban_stmt->close();
+                break;
         }
          // After handling POST, check if there's a message in the URL for redirects
     } else if (isset($_GET['message'])) {
@@ -346,6 +415,52 @@ require_once 'includes/admin_header.php';
     box-shadow: 0 12px 40px rgba(231, 76, 60, 0.4);
 }
 
+.btn-warning {
+    background: linear-gradient(135deg, #f39c12, #e67e22);
+    color: white;
+    box-shadow: 0 8px 32px rgba(243, 156, 18, 0.3);
+}
+
+.btn-warning:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(243, 156, 18, 0.4);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #27ae60, #2ecc71);
+    color: white;
+    box-shadow: 0 8px 32px rgba(39, 174, 96, 0.3);
+}
+
+.btn-success:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(39, 174, 96, 0.4);
+}
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-badge.active {
+    background: rgba(39, 174, 96, 0.1);
+    color: #27ae60;
+    border: 1px solid rgba(39, 174, 96, 0.3);
+}
+
+.status-badge.banned {
+    background: rgba(231, 76, 60, 0.1);
+    color: #e74c3c;
+    border: 1px solid rgba(231, 76, 60, 0.3);
+}
+
 .users-list {
     animation: fadeInUp 0.8s ease-out 0.3s both;
 }
@@ -503,7 +618,7 @@ html {
         </div>
         
         <?php if($message): ?>
-            <div class="admin-alert <?php echo $success ? 'alert-success' : 'alert-danger'; ?>">
+            <div class="admin-alert <?php echo $success ? 'alert-success' : 'alert-danger'; ?>" id="alertMessage">
                 <i class="fas <?php echo $success ? 'fa-check-circle' : 'fa-exclamation-circle'; ?>"></i>
                 <?php echo $message; ?>
             </div>
@@ -561,31 +676,59 @@ html {
                 <?php if($users_result->num_rows > 0): ?>
                     <table class="admin-table">
                         <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Username</th>
-                                <th>Email</th>
-                                <th>Name</th>
-                                <th>Role</th>
-                                <th>Joined</th>
-                                <th>Actions</th>
-                            </tr>
+                                                    <tr>
+                            <th>ID</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Joined</th>
+                            <th>Actions</th>
+                        </tr>
                         </thead>
                         <tbody>
                             <?php while($user = $users_result->fetch_assoc()): ?>
-                                <tr>
-                                    <td><?php echo htmlspecialchars($user['user_id']); ?></td>
-                                    <td><?php echo htmlspecialchars($user['username']); ?></td>
-                                    <td><?php echo htmlspecialchars($user['email']); ?></td>
-                                    <td><?php echo htmlspecialchars($user['first_name'] . ' ' . $user['last_name']); ?></td>
-                                    <td><?php echo $user['is_admin'] ? 'Admin' : 'User'; ?></td>
-                                    <td><?php echo date('M d, Y', strtotime($user['created_at'])); ?></td>
-                                                                    <td>
+                                                            <tr>
+                                <td><?php echo htmlspecialchars($user['user_id']); ?></td>
+                                <td><?php echo htmlspecialchars($user['username']); ?></td>
+                                <td><?php echo htmlspecialchars($user['email']); ?></td>
+                                <td><?php echo htmlspecialchars($user['first_name'] . ' ' . $user['last_name']); ?></td>
+                                <td><?php echo $user['is_admin'] ? 'Admin' : 'User'; ?></td>
+                                <td>
+                                    <?php if($user['is_banned']): ?>
+                                        <span class="status-badge banned">
+                                            <i class="fas fa-ban"></i> Banned
+                                        </span>
+                                        <?php if($user['ban_until']): ?>
+                                            <br><small>Until: <?php echo date('M d, Y', strtotime($user['ban_until'])); ?></small>
+                                        <?php endif; ?>
+                                    <?php else: ?>
+                                        <span class="status-badge active">
+                                            <i class="fas fa-check"></i> Active
+                                        </span>
+                                    <?php endif; ?>
+                                </td>
+                                <td><?php echo date('M d, Y', strtotime($user['created_at'])); ?></td>
+                                <td>
                                     <div class="user-actions">
                                         <a href="edit_user.php?id=<?php echo $user['user_id']; ?>" class="btn-admin btn-secondary btn-admin-small">
                                             <i class="fas fa-edit"></i> Edit
                                         </a>
                                         <?php if(!$user['is_admin']): ?>
+                                            <?php if($user['is_banned']): ?>
+                                                <form method="POST" action="" onsubmit="return confirm('Are you sure you want to unban this user?');" style="display:inline-block;">
+                                                    <input type="hidden" name="action" value="unban_user">
+                                                    <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
+                                                    <button type="submit" class="btn-admin btn-success btn-admin-small">
+                                                        <i class="fas fa-unlock"></i> Unban
+                                                    </button>
+                                                </form>
+                                            <?php else: ?>
+                                                <button type="button" class="btn-admin btn-warning btn-admin-small" onclick="showBanModal(<?php echo $user['user_id']; ?>, '<?php echo htmlspecialchars($user['username']); ?>')">
+                                                    <i class="fas fa-ban"></i> Ban
+                                                </button>
+                                            <?php endif; ?>
                                             <form method="POST" action="" onsubmit="return confirm('Are you sure you want to delete this user?');" style="display:inline-block;">
                                                 <input type="hidden" name="action" value="delete">
                                                 <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
@@ -596,7 +739,7 @@ html {
                                         <?php endif; ?>
                                     </div>
                                 </td>
-                                </tr>
+                            </tr>
                             <?php endwhile; ?>
                         </tbody>
                     </table>
@@ -617,6 +760,19 @@ html {
 <!-- JavaScript for Enhanced Interactions -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Auto-hide success messages
+    const alertMessage = document.getElementById('alertMessage');
+    if (alertMessage && alertMessage.classList.contains('alert-success')) {
+        setTimeout(function() {
+            alertMessage.style.transition = 'all 0.5s ease-out';
+            alertMessage.style.opacity = '0';
+            alertMessage.style.transform = 'translateY(-20px)';
+            setTimeout(function() {
+                alertMessage.style.display = 'none';
+            }, 500);
+        }, 3000); // Hide after 3 seconds
+    }
+
     // Parallax effect for hero section
     window.addEventListener('scroll', function() {
         const scrolled = window.pageYOffset;
@@ -687,7 +843,66 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// Ban Modal Functions
+function showBanModal(userId, username) {
+    document.getElementById('banModal').style.display = 'flex';
+    document.getElementById('banUserId').value = userId;
+    document.getElementById('banUsername').textContent = username;
+    document.body.style.overflow = 'hidden';
+}
+
+function hideBanModal() {
+    document.getElementById('banModal').style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
 </script>
+
+<!-- Ban User Modal -->
+<div id="banModal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3><i class="fas fa-ban"></i> Ban User</h3>
+            <button class="modal-close" onclick="hideBanModal()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <p>Ban user: <strong id="banUsername"></strong></p>
+            
+            <form method="POST" action="" onsubmit="return confirm('Are you sure you want to ban this user?');">
+                <input type="hidden" name="action" value="ban_user">
+                <input type="hidden" name="user_id" id="banUserId">
+                
+                <div class="form-group">
+                    <label for="ban_duration">Ban Duration (Days)</label>
+                    <select name="ban_duration" id="ban_duration" required class="category-select">
+                        <option value="1">1 Day</option>
+                        <option value="2" selected>2 Days</option>
+                        <option value="3">3 Days</option>
+                        <option value="7">1 Week</option>
+                        <option value="14">2 Weeks</option>
+                        <option value="30">1 Month</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="ban_reason">Ban Reason</label>
+                    <textarea name="ban_reason" id="ban_reason" rows="3" placeholder="Enter ban reason..." class="category-select">Multiple order cancellations in a single day</textarea>
+                </div>
+                
+                <div class="btn-container">
+                    <button type="submit" class="btn-admin btn-warning">
+                        <i class="fas fa-ban"></i> Ban User
+                    </button>
+                    <button type="button" class="btn-admin btn-secondary" onclick="hideBanModal()">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <?php 
 // Close the database connection if it was opened and not closed

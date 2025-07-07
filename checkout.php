@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once 'config/database.php';
+require_once 'includes/ban_check.php'; // Include ban check functionality
 
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
@@ -9,6 +10,12 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $user_id = $_SESSION['user_id'];
+
+// Check if user is banned
+if (!canUserPlaceOrders($user_id)) {
+    header('Location: cart.php');
+    exit();
+}
 
 // Get cart items
 $cart_query = "SELECT c.*, p.product_name, p.price, p.image_url 
@@ -28,6 +35,16 @@ require_once 'includes/header.php';
 
 <div class="container">
     <h2>Checkout</h2>
+    
+    <?php 
+    // Check if user is banned and display warning
+    if (isset($_SESSION['user_id'])) {
+        $ban_info = isUserBanned($_SESSION['user_id']);
+        if ($ban_info && $ban_info['banned']) {
+            displayBanWarning($ban_info);
+        }
+    }
+    ?>
     
     <?php if($cart_result->num_rows > 0): ?>
         <div class="checkout-container">

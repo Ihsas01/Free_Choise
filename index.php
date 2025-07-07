@@ -2,6 +2,7 @@
 session_start(); // Start the session
 require_once 'config/database.php'; // Include the database connection
 require_once 'includes/header.php';
+require_once 'includes/ban_check.php'; // Include ban check functionality
 
 // Get featured products
 $featured_query = "SELECT p.*, c.category_name 
@@ -14,6 +15,17 @@ $featured_result = $conn->query($featured_query);
 // Get all categories
 $categories_query = "SELECT * FROM categories";
 $categories_result = $conn->query($categories_query);
+
+// Check if user is banned and display warning
+$ban_warning = '';
+if (isset($_SESSION['user_id'])) {
+    $ban_info = isUserBanned($_SESSION['user_id']);
+    if ($ban_info && $ban_info['banned']) {
+        ob_start();
+        displayBanWarning($ban_info);
+        $ban_warning = ob_get_clean();
+    }
+}
 ?>
 
 <style>
@@ -854,6 +866,12 @@ html {
 </style>
 
 <!-- Hero Section with Floating Elements -->
+<?php if ($ban_warning): ?>
+    <div class="ban-warning-container" style="position: fixed; top: 80px; left: 0; right: 0; z-index: 1000; padding: 0 20px;">
+        <?php echo $ban_warning; ?>
+    </div>
+<?php endif; ?>
+
 <div class="hero-section">
     <div class="floating-shapes">
         <div class="shape"></div>

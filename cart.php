@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once 'config/database.php';
+require_once 'includes/ban_check.php'; // Include ban check functionality
 
 // Check if user is logged in and is NOT admin
 if (!isset($_SESSION['user_id']) || (isset($_SESSION['is_admin']) && $_SESSION['is_admin'])) {
@@ -49,6 +50,11 @@ if ($is_ajax) {
 
     if (!$product_id) {
         sendJsonResponse(false, 'Invalid product ID.');
+    }
+
+    // Check if user is banned
+    if (!canUserPlaceOrders($user_id)) {
+        sendJsonResponse(false, 'Your account is temporarily suspended. You cannot add items to cart.');
     }
 
     switch($action) {
@@ -152,6 +158,16 @@ if (!$is_ajax) {
     <?php if($message): ?>
         <div class="message"><?php echo $message; ?></div>
     <?php endif; ?>
+    
+    <?php 
+    // Check if user is banned and display warning
+    if (isset($_SESSION['user_id'])) {
+        $ban_info = isUserBanned($_SESSION['user_id']);
+        if ($ban_info && $ban_info['banned']) {
+            displayBanWarning($ban_info);
+        }
+    }
+    ?>
 
     <?php if($cart_result->num_rows > 0): ?>
         <div class="cart-items">

@@ -13,6 +13,9 @@ CREATE TABLE users (
     address TEXT,
     phone VARCHAR(20),
     is_admin BOOLEAN DEFAULT FALSE,
+    is_banned BOOLEAN DEFAULT FALSE,
+    ban_reason TEXT,
+    ban_until TIMESTAMP NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -103,6 +106,29 @@ CREATE TABLE admin_notifications (
     type VARCHAR(50) NOT NULL,
     status ENUM('unread', 'read') DEFAULT 'unread',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (order_id) REFERENCES orders(order_id)
+);
+
+-- User ban history table
+CREATE TABLE user_bans (
+    ban_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    reason TEXT NOT NULL,
+    banned_by INT NOT NULL,
+    ban_start TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ban_until TIMESTAMP NULL,
+    is_active BOOLEAN DEFAULT TRUE,
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (banned_by) REFERENCES users(user_id)
+);
+
+-- Order cancellation tracking table
+CREATE TABLE order_cancellations (
+    cancellation_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    order_id INT NOT NULL,
+    cancelled_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (order_id) REFERENCES orders(order_id)
 );
 

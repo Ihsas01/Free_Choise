@@ -2,6 +2,7 @@
 session_start(); // Ensure session is started
 require_once 'includes/db_config.php'; // Include database configuration
 require_once 'includes/header.php';
+require_once 'includes/ban_check.php'; // Include ban check functionality
 
 if(!isset($_SESSION['user_id'])) {
     header('Location: login.php');
@@ -55,6 +56,16 @@ $orders_result = $orders_stmt->get_result();
     <?php if($message): ?>
         <div class="message"><?php echo $message; ?></div>
     <?php endif; ?>
+    
+    <?php 
+    // Check if user is banned and display warning
+    if (isset($_SESSION['user_id'])) {
+        $ban_info = isUserBanned($_SESSION['user_id']);
+        if ($ban_info && $ban_info['banned']) {
+            displayBanWarning($ban_info);
+        }
+    }
+    ?>
 
     <div class="profile-content">
         <div class="profile-section">
