@@ -953,6 +953,11 @@ require_once 'includes/header.php';
         
         setTimeout(typeWriter, 1000);
     });
+
+    // Always scroll to top on page load (including refresh)
+    window.onbeforeunload = function () {
+        window.scrollTo(0, 0);
+    };
     </script>
 </body>
 </html> 

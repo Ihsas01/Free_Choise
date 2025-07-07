@@ -521,6 +521,13 @@ require_once 'includes/header.php';
     </div>
 </div>
 
+<script>
+    // Always scroll to top on page load (including refresh)
+    window.onbeforeunload = function () {
+        window.scrollTo(0, 0);
+    };
+</script>
+
 <?php 
 // Close the database connection if it was opened and not closed
 if (isset($conn) && $conn->ping()) {
