@@ -210,9 +210,29 @@ require_once 'includes/admin_header.php';
     left: 0;
     width: 100%;
     height: 100%;
-    background: url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\"><defs><pattern id=\"grain\" width=\"100\" height=\"100\" patternUnits=\"userSpaceOnUse\"><circle cx=\"50\" cy=\"50\" r=\"1\" fill=\"rgba(255,255,255,0.05)\"/></pattern></defs><rect width=\"100\" height=\"100\" fill=\"url(%23grain)\"/></svg>');
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
     pointer-events: none;
     z-index: 1;
+}
+
+.users-page::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 1;
+    animation: gradientShift 15s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 0.8; }
 }
 
 .users-container {
@@ -227,6 +247,25 @@ require_once 'includes/admin_header.php';
     text-align: center;
     margin-bottom: 3rem;
     animation: fadeInUp 1s ease-out;
+    position: relative;
+}
+
+.users-hero::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    animation: pulse 4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
+    50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.6; }
 }
 
 .users-hero h1 {
@@ -239,12 +278,16 @@ require_once 'includes/admin_header.php';
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    position: relative;
+    z-index: 2;
 }
 
 .users-hero p {
     font-size: 1.2rem;
     color: rgba(255,255,255,0.9);
     margin-bottom: 2rem;
+    position: relative;
+    z-index: 2;
 }
 
 .admin-alert {
@@ -255,6 +298,24 @@ require_once 'includes/admin_header.php';
     animation: slideInDown 0.5s ease-out;
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255,255,255,0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.admin-alert::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
 }
 
 .alert-success {
@@ -280,6 +341,7 @@ require_once 'includes/admin_header.php';
     animation: fadeInUp 0.8s ease-out 0.2s both;
     position: relative;
     overflow: hidden;
+    transform-style: preserve-3d;
 }
 
 .add-user-section::before {
@@ -292,15 +354,35 @@ require_once 'includes/admin_header.php';
     background: linear-gradient(90deg, #667eea, #764ba2);
 }
 
+.add-user-section::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(180deg); }
+}
+
 .user-form {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
+    position: relative;
+    z-index: 2;
 }
 
 .form-group {
     position: relative;
     animation: fadeInUp 0.8s ease-out both;
+    transform-style: preserve-3d;
 }
 
 .form-group:nth-child(1) { animation-delay: 0.3s; }
@@ -318,6 +400,22 @@ require_once 'includes/admin_header.php';
     font-size: 0.9rem;
     text-transform: uppercase;
     letter-spacing: 1px;
+    position: relative;
+}
+
+.form-group label::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    transition: width 0.3s ease;
+}
+
+.form-group:focus-within label::after {
+    width: 100%;
 }
 
 .form-group input,
@@ -331,6 +429,8 @@ require_once 'includes/admin_header.php';
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     background: white;
     color: #2c3e50;
+    position: relative;
+    z-index: 1;
 }
 
 .form-group input:focus,
@@ -339,7 +439,13 @@ require_once 'includes/admin_header.php';
     outline: none;
     border-color: #667eea;
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-    transform: translateY(-2px);
+    transform: translateY(-2px) scale(1.02);
+}
+
+.form-group input[type="checkbox"] {
+    width: auto;
+    margin-right: 0.5rem;
+    transform: scale(1.2);
 }
 
 .btn-container {
@@ -364,6 +470,7 @@ require_once 'includes/admin_header.php';
     gap: 0.5rem;
     position: relative;
     overflow: hidden;
+    transform-style: preserve-3d;
 }
 
 .btn-admin::before {
@@ -381,6 +488,11 @@ require_once 'includes/admin_header.php';
     left: 100%;
 }
 
+.btn-admin:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+}
+
 .btn-primary {
     background: linear-gradient(135deg, #667eea, #764ba2);
     color: white;
@@ -388,7 +500,6 @@ require_once 'includes/admin_header.php';
 }
 
 .btn-primary:hover {
-    transform: translateY(-3px);
     box-shadow: 0 12px 40px rgba(102, 126, 234, 0.4);
 }
 
@@ -400,7 +511,6 @@ require_once 'includes/admin_header.php';
 
 .btn-secondary:hover {
     background: white;
-    transform: translateY(-3px);
     box-shadow: 0 8px 32px rgba(0,0,0,0.1);
 }
 
@@ -411,7 +521,6 @@ require_once 'includes/admin_header.php';
 }
 
 .btn-danger:hover {
-    transform: translateY(-3px);
     box-shadow: 0 12px 40px rgba(231, 76, 60, 0.4);
 }
 
@@ -422,7 +531,6 @@ require_once 'includes/admin_header.php';
 }
 
 .btn-warning:hover {
-    transform: translateY(-3px);
     box-shadow: 0 12px 40px rgba(243, 156, 18, 0.4);
 }
 
@@ -433,32 +541,7 @@ require_once 'includes/admin_header.php';
 }
 
 .btn-success:hover {
-    transform: translateY(-3px);
     box-shadow: 0 12px 40px rgba(39, 174, 96, 0.4);
-}
-
-.status-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    padding: 0.3rem 0.8rem;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.status-badge.active {
-    background: rgba(39, 174, 96, 0.1);
-    color: #27ae60;
-    border: 1px solid rgba(39, 174, 96, 0.3);
-}
-
-.status-badge.banned {
-    background: rgba(231, 76, 60, 0.1);
-    color: #e74c3c;
-    border: 1px solid rgba(231, 76, 60, 0.3);
 }
 
 .users-list {
@@ -481,16 +564,39 @@ require_once 'includes/admin_header.php';
     border: 1px solid rgba(255,255,255,0.2);
     margin-bottom: 2rem;
     font-size: 1rem;
+    position: relative;
+}
+
+.admin-table::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
 }
 
 .admin-table thead {
     background: linear-gradient(90deg, #667eea, #764ba2);
     color: white;
+    position: relative;
+}
+
+.admin-table thead::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: rgba(255,255,255,0.2);
 }
 
 .admin-table th, .admin-table td {
     padding: 1.2rem 1rem;
     text-align: left;
+    position: relative;
 }
 
 .admin-table th {
@@ -498,16 +604,44 @@ require_once 'includes/admin_header.php';
     text-transform: uppercase;
     letter-spacing: 1px;
     font-size: 0.95rem;
+    position: relative;
+}
+
+.admin-table th::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: rgba(255,255,255,0.1);
 }
 
 .admin-table tbody tr {
-    transition: background 0.3s, box-shadow 0.3s, transform 0.3s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.admin-table tbody tr::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.05), transparent);
+    transition: left 0.5s;
+}
+
+.admin-table tbody tr:hover::before {
+    left: 100%;
 }
 
 .admin-table tbody tr:hover {
     background: #f5f7fa;
     box-shadow: 0 4px 24px rgba(102, 126, 234, 0.08);
-    transform: scale(1.01);
+    transform: scale(1.01) translateY(-2px);
 }
 
 .btn-admin-small {
@@ -525,16 +659,46 @@ require_once 'includes/admin_header.php';
     margin: 0;
 }
 
-@media (max-width: 768px) {
-    .user-actions {
-        flex-direction: column;
-        gap: 0.3rem;
-    }
-    
-    .user-actions .btn-admin {
-        font-size: 0.85rem;
-        padding: 0.5rem 1rem;
-    }
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+}
+
+.status-badge::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+
+.status-badge:hover::before {
+    left: 100%;
+}
+
+.status-badge.active {
+    background: rgba(39, 174, 96, 0.1);
+    color: #27ae60;
+    border: 1px solid rgba(39, 174, 96, 0.3);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.status-badge.banned {
+    background: rgba(231, 76, 60, 0.1);
+    color: #e74c3c;
+    border: 1px solid rgba(231, 76, 60, 0.3);
 }
 
 .no-users {
@@ -544,12 +708,197 @@ require_once 'includes/admin_header.php';
     border-radius: 20px;
     backdrop-filter: blur(20px);
     animation: fadeInUp 0.8s ease-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.no-users::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    animation: pulse 4s ease-in-out infinite;
 }
 
 .no-users p {
     font-size: 1.2rem;
     color: #666;
     margin-bottom: 2rem;
+    position: relative;
+    z-index: 2;
+}
+
+/* Modal Enhancements */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 20px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+    animation: slideInUp 0.3s ease-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.modal-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 2rem 1rem;
+    border-bottom: 1px solid #e1e8ed;
+    position: relative;
+}
+
+.modal-header h3 {
+    color: #2c3e50;
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.modal-header h3 i {
+    color: #e74c3c;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #666;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.modal-close:hover {
+    background: #f8f9fa;
+    color: #e74c3c;
+    transform: scale(1.1);
+}
+
+.modal-body {
+    padding: 2rem;
+}
+
+.modal-body p {
+    color: #666;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+}
+
+.delete-options {
+    display: grid;
+    gap: 2rem;
+}
+
+.delete-option {
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 2rem;
+    border: 2px solid #e1e8ed;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.delete-option::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(231, 76, 60, 0.05), transparent);
+    transition: left 0.5s;
+}
+
+.delete-option:hover::before {
+    left: 100%;
+}
+
+.delete-option:hover {
+    border-color: #e74c3c;
+    background: #fff5f5;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(231, 76, 60, 0.1);
+}
+
+.delete-option h4 {
+    color: #2c3e50;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.delete-option h4 i {
+    color: #e74c3c;
+}
+
+.delete-option p {
+    color: #666;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+}
+
+.category-select {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    border: 2px solid #e1e8ed;
+    border-radius: 12px;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.category-select:focus {
+    outline: none;
+    border-color: #e74c3c;
+    box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+    transform: translateY(-2px);
+}
+
+.delete-option .btn-admin {
+    width: 100%;
+    justify-content: center;
 }
 
 @keyframes fadeInUp {
@@ -567,6 +916,22 @@ require_once 'includes/admin_header.php';
     from {
         opacity: 0;
         transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
     }
     to {
         opacity: 1;
@@ -593,6 +958,14 @@ require_once 'includes/admin_header.php';
     .btn-container {
         flex-direction: column;
     }
+    .user-actions {
+        flex-direction: column;
+        gap: 0.3rem;
+    }
+    .user-actions .btn-admin {
+        font-size: 0.85rem;
+        padding: 0.5rem 1rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -606,6 +979,84 @@ require_once 'includes/admin_header.php';
 
 html {
     scroll-behavior: smooth;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.1);
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #5a6fd8, #6a4190);
+}
+
+/* Ripple Effect */
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.6);
+    transform: scale(0);
+    animation: ripple-animation 0.6s linear;
+    pointer-events: none;
+}
+
+@keyframes ripple-animation {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+/* Enhanced form focus effects */
+.form-group:focus-within {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+}
+
+/* Table row selection effect */
+.admin-table tbody tr {
+    cursor: pointer;
+}
+
+.admin-table tbody tr:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
+}
+
+/* Status badge pulse animation */
+.status-badge.active {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+/* Floating elements animation */
+@keyframes float {
+    0%, 100% { 
+        transform: translateY(0px) rotate(0deg); 
+    }
+    50% { 
+        transform: translateY(-20px) rotate(180deg); 
+    }
+}
+
+/* Shimmer effect for loading states */
+.shimmer {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200px 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+    0% { background-position: -200px 0; }
+    100% { background-position: calc(200px + 100%) 0; }
 }
 </style>
 
@@ -760,28 +1211,38 @@ html {
 <!-- JavaScript for Enhanced Interactions -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Auto-hide success messages
+    // Auto-hide success messages with enhanced animation
     const alertMessage = document.getElementById('alertMessage');
     if (alertMessage && alertMessage.classList.contains('alert-success')) {
         setTimeout(function() {
-            alertMessage.style.transition = 'all 0.5s ease-out';
+            alertMessage.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
             alertMessage.style.opacity = '0';
-            alertMessage.style.transform = 'translateY(-20px)';
+            alertMessage.style.transform = 'translateY(-30px) scale(0.95)';
+            alertMessage.style.filter = 'blur(5px)';
             setTimeout(function() {
                 alertMessage.style.display = 'none';
-            }, 500);
+            }, 800);
         }, 3000); // Hide after 3 seconds
     }
 
-    // Parallax effect for hero section
+    // Enhanced parallax with multiple layers
     window.addEventListener('scroll', function() {
         const scrolled = window.pageYOffset;
         const parallax = document.querySelector('.users-page');
+        const hero = document.querySelector('.users-hero');
+        
         if (parallax) {
             const speed = scrolled * 0.5;
             parallax.style.transform = `translateY(${speed}px)`;
         }
+        
+        if (hero) {
+            const heroSpeed = scrolled * 0.3;
+            hero.style.transform = `translateY(${heroSpeed}px)`;
+        }
     });
+
+
 
     // Smooth reveal animations on scroll
     const observerOptions = {
@@ -818,15 +1279,37 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Button hover effects
+    // Enhanced button hover effects with ripple
     const buttons = document.querySelectorAll('.btn-admin');
     buttons.forEach(button => {
         button.addEventListener('mouseenter', function() {
             this.style.transform = 'translateY(-3px) scale(1.05)';
+            this.style.boxShadow = '0 15px 50px rgba(0,0,0,0.3)';
         });
         
         button.addEventListener('mouseleave', function() {
             this.style.transform = 'translateY(0) scale(1)';
+            this.style.boxShadow = '';
+        });
+
+        // Add ripple effect on click
+        button.addEventListener('click', function(e) {
+            const ripple = document.createElement('span');
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            ripple.classList.add('ripple');
+            
+            this.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
         });
     });
 
