@@ -15,6 +15,12 @@ if(isset($_SESSION['user_id'])) {
 }
 
 $error = '';
+$success = '';
+
+// Check if user was redirected from registration
+if(isset($_GET['registered']) && $_GET['registered'] == '1') {
+    $success = 'Registration successful! You can now login with your credentials.';
+}
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
@@ -357,6 +363,20 @@ require_once 'includes/header.php';
             font-weight: 500;
             animation: shake 0.6s ease-in-out;
             box-shadow: 0 8px 32px rgba(231, 76, 60, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Enhanced Success Message */
+        .success-message {
+            background: var(--success-gradient);
+            color: white;
+            padding: 1.2rem 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            font-weight: 500;
+            animation: slideInDown 0.6s ease-in-out;
+            box-shadow: 0 8px 32px rgba(67, 233, 123, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(10px);
         }
@@ -718,6 +738,13 @@ require_once 'includes/header.php';
                 <div class="error-message">
                     <i class="fas fa-exclamation-circle"></i>
                     <?php echo htmlspecialchars($error); ?>
+                </div>
+            <?php endif; ?>
+
+            <?php if($success): ?>
+                <div class="success-message">
+                    <i class="fas fa-check-circle"></i>
+                    <?php echo htmlspecialchars($success); ?>
                 </div>
             <?php endif; ?>
 

@@ -40,7 +40,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             $stmt->bind_param("sssss", $username, $email, $hashed_password, $first_name, $last_name);
             
             if($stmt->execute()) {
-                $success = 'Registration successful! You can now login.';
+                // Redirect to login page after successful registration
+                header('Location: login.php?registered=1');
+                exit();
             } else {
                 $error = 'Registration failed. Please try again.';
             }
