@@ -91,11 +91,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         if($success !== false) {
+            // Cast price and stock_quantity to correct types
+            $price_float = (float)$price;
+            $stock_quantity_int = (int)$stock_quantity;
             // Update the product
             $update_query = "UPDATE products SET product_name = ?, category_id = ?, price = ?, stock_quantity = ?, description = ?, image_url = ?, special_offer = ? WHERE product_id = ?";
             $update_stmt = $conn->prepare($update_query);
             $category_id_int = (int)$category_id;
-            $update_stmt->bind_param("sidissii", $product_name, $category_id_int, $price, $stock_quantity, $description, $image_url, $special_offer, $product_id);
+            $update_stmt->bind_param("sidissii", $product_name, $category_id_int, $price_float, $stock_quantity_int, $description, $image_url, $special_offer, $product_id);
             
             if($update_stmt->execute()) {
                 $message = 'Product updated successfully.';
