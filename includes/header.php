@@ -84,18 +84,20 @@ if (isset($_SESSION['user_id']) && isset($conn)) {
 }
 
 .site-title {
-    font-size: 1.4rem;
-    font-weight: 900;
+    font-size: 1.2rem;
+    font-weight: 800;
     letter-spacing: -0.02em;
     background: var(--gradient-primary);
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    -webkit-text-fill-color: blue;
     background-clip: text;
     text-fill-color: transparent;
     margin-right: 2rem;
     text-decoration: none;
     transition: var(--transition-smooth);
     position: relative;
+    white-space: nowrap;
+    display: inline-block;
 }
 
 .site-title::after {
