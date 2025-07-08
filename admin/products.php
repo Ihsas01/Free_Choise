@@ -230,7 +230,40 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 break;
         }
     }
-     // After handling POST, check if there's a message in the URL for redirects
+    
+    // Handle GET actions (like delete from edit page)
+    if(isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id'])) {
+        $product_id = (int)$_GET['id'];
+        
+        // Optional: Delete the image file before deleting the database record
+        $image_query = "SELECT image_url FROM products WHERE product_id = ? LIMIT 1";
+        $image_stmt = $conn->prepare($image_query);
+        $image_stmt->bind_param("i", $product_id);
+        $image_stmt->execute();
+        $image_result = $image_stmt->get_result();
+        if ($image_result->num_rows > 0) {
+            $image_path = '../' . $image_result->fetch_assoc()['image_url'];
+            if (file_exists($image_path) && is_file($image_path)) {
+                unlink($image_path);
+            }
+        }
+        $image_stmt->close();
+
+        $delete_query = "DELETE FROM products WHERE product_id = ?";
+        $delete_stmt = $conn->prepare($delete_query);
+        $delete_stmt->bind_param("i", $product_id);
+        
+        if($delete_stmt->execute()) {
+            $message = 'Product deleted successfully';
+            $success = true;
+        } else {
+            $message = 'Error deleting product: ' . $conn->error;
+            $success = false;
+        }
+        $delete_stmt->close();
+    }
+    
+    // After handling POST, check if there's a message in the URL for redirects
 } else if (isset($_GET['message'])) {
     // Handle GET requests with message parameter (from redirects)
     $message = htmlspecialchars($_GET['message']);
