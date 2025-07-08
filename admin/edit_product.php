@@ -39,6 +39,11 @@ $product_stmt->close();
 
 // Handle form submission
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
+    echo '<pre style="background:#fff;color:#000;z-index:9999;position:relative;">DEBUG: POST DATA\n';
+    print_r($_POST);
+    print_r($_FILES);
+    echo '</pre>';
+    flush();
     $product_name = $_POST['product_name'] ?? '';
     $category_id = $_POST['category_id'] ?? '';
     $price = $_POST['price'] ?? '';
@@ -50,12 +55,15 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (empty($product_name) || empty($category_id) || $price === '' || $stock_quantity === '' || empty($description)) {
         $message = 'Please fill in all required fields.';
         $success = false;
+        echo '<div style="background:#fdd;color:#900;z-index:9999;position:relative;">DEBUG: Validation failed</div>';
     } else if (!is_numeric($price) || $price < 0) {
         $message = 'Price must be a non-negative number.';
         $success = false;
+        echo '<div style="background:#fdd;color:#900;z-index:9999;position:relative;">DEBUG: Price validation failed</div>';
     } else if (!is_numeric($stock_quantity) || $stock_quantity < 0) {
         $message = 'Stock quantity must be a non-negative integer.';
         $success = false;
+        echo '<div style="background:#fdd;color:#900;z-index:9999;position:relative;">DEBUG: Stock validation failed</div>';
     } else {
         // Handle image upload if new image is provided
         $image_url = $product['image_url']; // Keep existing image by default
@@ -83,10 +91,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 } else {
                     $message = 'Error uploading image.';
                     $success = false;
+                    echo '<div style="background:#fdd;color:#900;z-index:9999;position:relative;">DEBUG: Image upload failed</div>';
                 }
             } else {
                 $message = 'Invalid file type. Only JPG, JPEG, PNG, and GIF are allowed.';
                 $success = false;
+                echo '<div style="background:#fdd;color:#900;z-index:9999;position:relative;">DEBUG: Invalid file type</div>';
             }
         }
 
@@ -103,12 +113,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             if($update_stmt->execute()) {
                 $message = 'Product updated successfully.';
                 $success = true;
+                echo '<div style="background:#dfd;color:#060;z-index:9999;position:relative;">DEBUG: Update query executed successfully</div>';
                 // Redirect to product list after updating
                 header('Location: products.php?message=' . urlencode($message) . '&success=' . $success);
                 exit();
             } else {
                 $message = 'Error updating product: ' . $conn->error;
                 $success = false;
+                echo '<div style="background:#fdd;color:#900;z-index:9999;position:relative;">DEBUG: Update query failed: ' . htmlspecialchars($conn->error) . '</div>';
             }
             $update_stmt->close();
         }
