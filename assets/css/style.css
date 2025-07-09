@@ -3596,4 +3596,91 @@ section h2::after {
 
 ::-webkit-scrollbar-thumb:hover {
     background: linear-gradient(135deg, #ff8a80, var(--primary-color));
+}
+
+/* Register Page Styles */
+.register-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #001F3F 0%, #87CEEB 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.register-hero {
+    background: linear-gradient(135deg, #008080 0%, #00FFFF 100%);
+    color: #001F3F;
+    border-radius: 20px 20px 0 0;
+    padding: 40px 30px 20px 30px;
+    text-align: center;
+}
+
+.register-form {
+    background: #ffffff;
+    border: 1px solid #87CEEB;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 8px 32px rgba(0, 31, 63, 0.10);
+    padding: 40px 30px;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.form-group label {
+    color: #008080;
+}
+
+.form-group input {
+    border: 1px solid #87CEEB;
+    border-radius: 8px;
+    color: #001F3F;
+    background: #e0f7fa;
+    transition: border 0.3s;
+}
+
+.form-group input:focus {
+    border-color: #008080;
+    background: #ffffff;
+    outline: none;
+}
+
+.form-actions .btn-primary {
+    background: linear-gradient(135deg, #008080, #00FFFF);
+    color: #001F3F;
+}
+
+.form-actions .btn-primary:hover {
+    background: linear-gradient(135deg, #00FFFF, #008080);
+    color: #001F3F;
+}
+
+.form-actions .btn-outline {
+    border: 2px solid #008080;
+    color: #008080;
+    background: transparent;
+}
+
+.form-actions .btn-outline:hover {
+    background: #008080;
+    color: #ffffff;
+}
+
+.form-footer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.form-footer a {
+    color: #008080;
+    transition: color 0.3s;
+}
+
+.form-footer a:hover {
+    color: #00FFFF;
+}
+
+.floating-element {
+    background: rgba(0, 255, 255, 0.12);
+    color: #00FFFF;
+    border: 1px solid rgba(0, 255, 255, 0.18);
 } 
