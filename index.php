@@ -39,25 +39,25 @@ if (isset($_SESSION['user_id'])) {
     <style>
         /* Modern CSS Variables */
         :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            --success-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-            --dark-gradient: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            --primary-gradient: linear-gradient(135deg, #001F3F 0%, #008080 100%);
+            --secondary-gradient: linear-gradient(135deg, #87CEEB 0%, #00FFFF 100%);
+            --accent-gradient: linear-gradient(135deg, #008080 0%, #00FFFF 100%);
+            --success-gradient: linear-gradient(135deg, #87CEEB 0%, #00FFFF 100%);
+            --dark-gradient: linear-gradient(135deg, #001F3F 0%, #008080 100%);
             --glass-bg: rgba(255, 255, 255, 0.1);
             --glass-border: rgba(255, 255, 255, 0.2);
-            --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.1);
-            --shadow-medium: 0 12px 40px rgba(0, 0, 0, 0.15);
-            --shadow-strong: 0 20px 60px rgba(0, 0, 0, 0.2);
+            --shadow-soft: 0 8px 32px rgba(0, 31, 63, 0.1);
+            --shadow-medium: 0 12px 40px rgba(0, 31, 63, 0.15);
+            --shadow-strong: 0 20px 60px rgba(0, 31, 63, 0.2);
             --transition-smooth: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
             --transition-fast: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             --card-glass-bg: rgba(255,255,255,0.55);
             --card-glass-border: rgba(255,255,255,0.25);
-            --card-shadow: 0 8px 32px rgba(102, 126, 234, 0.10);
-            --card-shadow-hover: 0 16px 48px rgba(102, 126, 234, 0.18);
+            --card-shadow: 0 8px 32px rgba(0, 31, 63, 0.10);
+            --card-shadow-hover: 0 16px 48px rgba(0, 31, 63, 0.18);
             --card-hover-scale: 1.045;
             --card-hover-brightness: 1.08;
-            --category-badge-bg: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            --category-badge-bg: linear-gradient(90deg, #001F3F 0%, #008080 100%);
             --category-badge-color: #fff;
         }
 
@@ -72,7 +72,7 @@ if (isset($_SESSION['user_id'])) {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.6;
             color: #2d3748;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
             overflow-x: hidden;
         }
 
@@ -235,7 +235,7 @@ if (isset($_SESSION['user_id'])) {
         }
 
         .section:nth-child(even) {
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
         }
 
         .section-title {
@@ -359,7 +359,7 @@ if (isset($_SESSION['user_id'])) {
 
         /* Featured Products Section */
         .featured-products {
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
         }
 
         .product-grid {
@@ -444,7 +444,7 @@ if (isset($_SESSION['user_id'])) {
 
         .product-price {
             font-size: 1.8rem;
-            color: #10b981;
+            color: #008080;
             font-weight: 700;
             margin-bottom: 25px;
         }
@@ -748,12 +748,12 @@ if (isset($_SESSION['user_id'])) {
         }
 
         ::-webkit-scrollbar-thumb {
-            background: var(--primary-gradient);
+            background: linear-gradient(135deg, #001F3F 0%, #008080 100%);
             border-radius: 4px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: var(--secondary-gradient);
+            background: linear-gradient(135deg, #87CEEB 0%, #00FFFF 100%);
         }
 
         /* 3D Card Effects */
@@ -768,7 +768,7 @@ if (isset($_SESSION['user_id'])) {
 
         /* Premium Button Styles */
         .premium-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #001F3F 0%, #008080 100%);
             color: white;
             padding: 15px 30px;
             border: none;
@@ -779,7 +779,7 @@ if (isset($_SESSION['user_id'])) {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 31, 63, 0.3);
         }
 
         .premium-btn::before {
@@ -795,7 +795,7 @@ if (isset($_SESSION['user_id'])) {
 
         .premium-btn:hover {
             transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 15px 35px rgba(0, 31, 63, 0.4);
         }
 
         .premium-btn:hover::before {
@@ -810,7 +810,7 @@ if (isset($_SESSION['user_id'])) {
             width: 100%;
             height: 100%;
             z-index: -1;
-            background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #f5576c);
+            background: linear-gradient(-45deg, #001F3F, #008080, #87CEEB, #00FFFF);
             background-size: 400% 400%;
             animation: gradientShift 15s ease infinite;
         }
@@ -918,7 +918,7 @@ if (isset($_SESSION['user_id'])) {
                     <a href="categories.php?category=<?php echo $category['category_id']; ?>" 
                        class="category-card stagger-item card-3d" 
                        style="transition-delay: <?php echo $category_index * 100; ?>ms;">
-                        <i class="fas fa-tags" style="font-size: 3rem; color: #667eea; margin-bottom: 20px;"></i>
+                        <i class="fas fa-tags" style="font-size: 3rem; color: #008080; margin-bottom: 20px;"></i>
                         <h3><?php echo htmlspecialchars($category['category_name']); ?></h3>
                         <p><?php echo htmlspecialchars($category['description']); ?></p>
                     </a>
@@ -1232,7 +1232,7 @@ if (isset($_SESSION['user_id'])) {
             const maxScroll = document.body.scrollHeight - window.innerHeight;
             const scrollProgress = scrolled / maxScroll;
             
-            const hue = 240 + (scrollProgress * 60); // Shift from blue to purple
+            const hue = 200 + (scrollProgress * 40); // Shift from navy to cyan
             document.documentElement.style.setProperty('--scroll-hue', `${hue}deg`);
         });
 
