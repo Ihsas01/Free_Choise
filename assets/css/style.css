@@ -3002,7 +3002,7 @@ section h2::after {
     min-height: 80vh;
     display: flex;
     align-items: center;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #001F3F 0%, #87CEEB 100%);
     overflow: hidden;
     margin-bottom: 80px;
 }
@@ -3149,7 +3149,7 @@ section h2::after {
 /* FAQ Categories */
 .faq-categories {
     padding: 80px 0;
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    background: #e0f7fa;
 }
 
 .categories-grid {
@@ -3289,7 +3289,7 @@ section h2::after {
 }
 
 .faq-item {
-    background: white;
+    background: #ffffff;
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     overflow: hidden;
@@ -3323,7 +3323,7 @@ section h2::after {
 
 .faq-question h3 {
     font-size: 1.2rem;
-    color: var(--secondary-color);
+    color: #008080;
     font-weight: 600;
     margin: 0;
     flex: 1;
@@ -3362,7 +3362,7 @@ section h2::after {
 .faq-answer p {
     padding: 0 30px 25px;
     margin: 0;
-    color: #666;
+    color: #001F3F;
     line-height: 1.6;
     font-size: 1rem;
 }
@@ -3370,7 +3370,7 @@ section h2::after {
 /* Contact Section */
 .faq-contact-section {
     padding: 100px 0;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #87CEEB 0%, #00FFFF 100%);
     color: white;
 }
 
