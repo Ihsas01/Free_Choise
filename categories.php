@@ -70,14 +70,14 @@ require_once 'includes/header.php';
 
 <style>
 :root {
-    --cat-primary: #667eea;
-    --cat-secondary: #764ba2;
-    --cat-accent: #43e97b;
-    --cat-bg: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    --cat-primary: #001F3F;
+    --cat-secondary: #008080;
+    --cat-accent: #008080;
+    --cat-bg: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
     --cat-glass: rgba(255,255,255,0.7);
     --cat-glass-blur: blur(16px);
-    --cat-shadow: 0 8px 32px rgba(102, 126, 234, 0.08);
-    --cat-shadow-strong: 0 16px 48px rgba(102, 126, 234, 0.15);
+    --cat-shadow: 0 8px 32px rgba(0, 31, 63, 0.08);
+    --cat-shadow-strong: 0 16px 48px rgba(0, 31, 63, 0.15);
     --cat-transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -93,7 +93,7 @@ body {
     top: 0; left: 0; right: 0; bottom: 0;
     z-index: 0;
     pointer-events: none;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #001F3F 0%, #008080 100%);
     opacity: 0.08;
     filter: blur(40px);
     animation: heroParallax 20s linear infinite alternate;
@@ -116,7 +116,7 @@ body {
     color: #2d3748;
     margin-bottom: 18px;
     letter-spacing: -0.02em;
-    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(90deg, #001F3F 0%, #008080 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -155,7 +155,7 @@ body {
     flex-wrap: wrap;
     gap: 24px;
     backdrop-filter: var(--cat-glass-blur);
-    border: 1px solid rgba(102,126,234,0.08);
+    border: 1px solid rgba(0,31,63,0.08);
     position: relative;
     z-index: 2;
     opacity: 0;
@@ -183,7 +183,7 @@ body {
 .category-filter select:focus {
     border-color: var(--cat-primary);
     outline: none;
-    box-shadow: 0 0 0 2px rgba(102,126,234,0.15);
+    box-shadow: 0 0 0 2px rgba(0,31,63,0.15);
 }
 
 .category-search input[type="text"] {
@@ -198,14 +198,14 @@ body {
 .category-search input[type="text"]:focus {
     border-color: var(--cat-primary);
     outline: none;
-    box-shadow: 0 0 0 2px rgba(102,126,234,0.15);
+    box-shadow: 0 0 0 2px rgba(0,31,63,0.15);
 }
 
 .search-form .btn {
     padding: 10px 18px;
     font-size: 1em;
     border-radius: 8px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #001F3F 0%, #008080 100%);
     color: white;
     border: none;
     cursor: pointer;
@@ -213,13 +213,13 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 2px 8px rgba(102,126,234,0.08);
+    box-shadow: 0 2px 8px rgba(0,31,63,0.08);
     margin-left: 10px;
 }
 .search-form .btn:hover {
-    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    background: linear-gradient(135deg, #008080 0%, #001F3F 100%);
     transform: translateY(-2px) scale(1.05);
-    box-shadow: 0 8px 24px rgba(102,126,234,0.15);
+    box-shadow: 0 8px 24px rgba(0,31,63,0.15);
 }
 
 .product-grid {
@@ -280,7 +280,7 @@ body {
     letter-spacing: -0.01em;
 }
 .product-category {
-    color: #667eea;
+    color: #008080;
     font-size: 0.95em;
     margin-bottom: 12px;
     font-weight: 500;
@@ -306,16 +306,16 @@ body {
     font-size: 1em;
     border: none;
     cursor: pointer;
-    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    background: linear-gradient(135deg, #87CEEB 0%, #00FFFF 100%);
     color: white;
-    box-shadow: 0 2px 8px rgba(67,233,123,0.08);
+    box-shadow: 0 2px 8px rgba(135,206,235,0.08);
     position: relative;
     z-index: 2;
 }
 .product-actions .btn:hover {
-    background: linear-gradient(135deg, #38f9d7 0%, #43e97b 100%);
+    background: linear-gradient(135deg, #00FFFF 0%, #87CEEB 100%);
     transform: translateY(-2px) scale(1.05);
-    box-shadow: 0 8px 24px rgba(67,233,123,0.15);
+    box-shadow: 0 8px 24px rgba(135,206,235,0.15);
 }
 
 @media (max-width: 900px) {
