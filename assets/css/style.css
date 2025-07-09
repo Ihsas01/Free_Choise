@@ -2229,7 +2229,7 @@ section h2::after {
     min-height: 90vh;
     display: flex;
     align-items: center;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #001F3F 0%, #87CEEB 100%);
     overflow: hidden;
     margin-bottom: 80px;
 }
@@ -2365,7 +2365,7 @@ section h2::after {
 /* Story Section */
 .story-section {
     padding: 100px 0;
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    background: #e0f7fa;
 }
 
 .story-content {
@@ -2406,7 +2406,7 @@ section h2::after {
 }
 
 .highlight-item i {
-    color: var(--primary-color);
+    color: #00FFFF;
     font-size: 1.2rem;
 }
 
@@ -2417,13 +2417,13 @@ section h2::after {
 .image-placeholder {
     width: 300px;
     height: 300px;
-    background: linear-gradient(135deg, var(--primary-color), #ff8a80);
+    background: linear-gradient(135deg, #87CEEB 0%, #00FFFF 100%);
     border-radius: 50%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: #001F3F;
     margin: 0 auto;
     box-shadow: 0 20px 60px rgba(255, 99, 71, 0.3);
 }
@@ -2447,7 +2447,7 @@ section h2::after {
 /* Values Section */
 .values-section {
     padding: 100px 0;
-    background: white;
+    background: linear-gradient(135deg, #87CEEB 0%, #00FFFF 100%);
 }
 
 .values-grid {
@@ -2459,15 +2459,15 @@ section h2::after {
 }
 
 .value-card {
-    background: white;
+    background: #ffffff;
     border-radius: 20px;
     padding: 40px;
     text-align: center;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 31, 63, 0.10);
     position: relative;
     overflow: hidden;
     transition: all 0.4s ease;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid #87CEEB;
     backdrop-filter: blur(10px);
 }
 
@@ -2495,13 +2495,13 @@ section h2::after {
 .card-icon {
     width: 80px;
     height: 80px;
-    background: linear-gradient(135deg, var(--primary-color), #ff8a80);
+    background: linear-gradient(135deg, #008080, #00FFFF);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto 25px;
-    box-shadow: 0 10px 30px rgba(255, 99, 71, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 255, 255, 0.18);
     transition: all 0.3s ease;
 }
 
@@ -2516,13 +2516,13 @@ section h2::after {
 
 .card-content h3 {
     font-size: 1.5rem;
-    color: var(--secondary-color);
+    color: #008080;
     margin-bottom: 15px;
     font-weight: 600;
 }
 
 .card-content p {
-    color: #666;
+    color: #001F3F;
     font-size: 1rem;
     line-height: 1.6;
 }
@@ -2533,16 +2533,17 @@ section h2::after {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, rgba(255, 99, 71, 0.1), rgba(255, 138, 128, 0.1));
+    background: linear-gradient(135deg, #87CEEB 0%, #00FFFF 100%);
     transform: scale(0);
     transition: transform 0.3s ease;
     z-index: -1;
+    opacity: 0.08;
 }
 
 /* Features Section */
 .features-section {
     padding: 100px 0;
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    background: #e0f7fa;
 }
 
 .features-grid {
@@ -2554,13 +2555,13 @@ section h2::after {
 }
 
 .feature-card {
-    background: white;
+    background: #ffffff;
     border-radius: 20px;
     padding: 40px;
     position: relative;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 31, 63, 0.10);
     transition: all 0.4s ease;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid #87CEEB;
     overflow: hidden;
 }
 
@@ -2572,13 +2573,13 @@ section h2::after {
 .feature-icon {
     width: 70px;
     height: 70px;
-    background: linear-gradient(135deg, var(--primary-color), #ff8a80);
+    background: linear-gradient(135deg, #008080, #00FFFF);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 25px;
-    box-shadow: 0 10px 30px rgba(255, 99, 71, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 255, 255, 0.18);
     transition: all 0.3s ease;
 }
 
@@ -2593,13 +2594,13 @@ section h2::after {
 
 .feature-content h3 {
     font-size: 1.4rem;
-    color: var(--secondary-color);
+    color: #008080;
     margin-bottom: 15px;
     font-weight: 600;
 }
 
 .feature-content p {
-    color: #666;
+    color: #001F3F;
     font-size: 1rem;
     line-height: 1.6;
 }
@@ -2610,14 +2611,14 @@ section h2::after {
     right: 20px;
     font-size: 3rem;
     font-weight: 800;
-    color: rgba(255, 99, 71, 0.1);
+    color: #00FFFF;
     line-height: 1;
 }
 
 /* Team Section */
 .team-section {
     padding: 100px 0;
-    background: white;
+    background: linear-gradient(135deg, #87CEEB 0%, #00FFFF 100%);
 }
 
 .team-description {
@@ -2641,12 +2642,12 @@ section h2::after {
 }
 
 .team-card {
-    background: white;
+    background: #ffffff;
     border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 31, 63, 0.10);
     transition: all 0.4s ease;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid #87CEEB;
 }
 
 .team-card:hover {
@@ -2657,7 +2658,7 @@ section h2::after {
 .member-image {
     position: relative;
     height: 250px;
-    background: linear-gradient(135deg, var(--primary-color), #ff8a80);
+    background: linear-gradient(135deg, #008080, #00FFFF);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2695,7 +2696,7 @@ section h2::after {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--primary-color);
+    color: #008080;
     text-decoration: none;
     transition: all 0.3s ease;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
@@ -2703,7 +2704,7 @@ section h2::after {
 
 .social-link:hover {
     transform: scale(1.1);
-    background: var(--primary-color);
+    background: #00FFFF;
     color: white;
 }
 
@@ -2714,13 +2715,13 @@ section h2::after {
 
 .member-info h3 {
     font-size: 1.4rem;
-    color: var(--secondary-color);
+    color: #008080;
     margin-bottom: 10px;
     font-weight: 600;
 }
 
 .position {
-    color: var(--primary-color);
+    color: #00FFFF;
     font-weight: 600;
     margin-bottom: 15px;
     text-transform: uppercase;
@@ -2729,7 +2730,7 @@ section h2::after {
 }
 
 .description {
-    color: #666;
+    color: #001F3F;
     font-size: 1rem;
     line-height: 1.6;
 }
@@ -2737,8 +2738,8 @@ section h2::after {
 /* CTA Section */
 .cta-section {
     padding: 100px 0;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+    background: linear-gradient(135deg, #001F3F 0%, #008080 100%);
+    color: #00FFFF;
 }
 
 .cta-content {
@@ -2776,7 +2777,7 @@ section h2::after {
     display: block;
     font-size: 2.5rem;
     font-weight: 700;
-    color: #ffd700;
+    color: #00FFFF;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
