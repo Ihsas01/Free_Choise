@@ -560,6 +560,8 @@
                     <li><a href="about.php"><i class="fas fa-info-circle"></i> About Us</a></li>
                     <li><a href="contact.php"><i class="fas fa-envelope"></i> Contact</a></li>
                     <li><a href="faq.php"><i class="fas fa-question-circle"></i> FAQ</a></li>
+                    <li><a href="terms.php"><i class="fas fa-file-contract"></i> Terms and Conditions</a></li>
+                    <li><a href="privacy.php"><i class="fas fa-user-secret"></i> Privacy Policy</a></li>
                 </ul>
             </div>
             
