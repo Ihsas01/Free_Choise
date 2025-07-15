@@ -565,9 +565,9 @@
             
             <div class="footer-section">
                 <h3><i class="fas fa-address-card"></i> Contact Us</h3>
-                <p><i class="fas fa-envelope"></i> info@freechoise.com</p>
-                <p><i class="fas fa-phone"></i> +1 234 567 890</p>
-                <p><i class="fas fa-map-marker-alt"></i> 123 Shopping Street, City</p>
+                <p><i class="fas fa-envelope"></i> mohamedihsas001@gmail.com</p>
+                <p><i class="fas fa-phone"></i> 076 xxx xxxx</p>
+                <p><i class="fas fa-map-marker-alt"></i> 123 main street colombo , Srilanka</p>
                 <div class="social-links">
                     <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
                     <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>

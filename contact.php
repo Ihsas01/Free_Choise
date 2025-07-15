@@ -61,8 +61,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </div>
                         <div class="contact-text">
                             <h3>Visit Us</h3>
-                            <p>123 Shopping Street</p>
-                            <p>New York, NY 10001</p>
+                            <p>123 main street colombo , Srilanka</p>
                         </div>
                     </div>
                     
@@ -72,8 +71,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </div>
                         <div class="contact-text">
                             <h3>Call Us</h3>
-                            <p>+1 234 567 890</p>
-                            <p>Mon-Fri: 9am-6pm</p>
+                            <p>076 xxx xxxx</p>
                         </div>
                     </div>
                     
@@ -83,8 +81,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </div>
                         <div class="contact-text">
                             <h3>Email Us</h3>
-                            <p>info@freechoise.com</p>
-                            <p>support@freechoise.com</p>
+                            <p>mohamedihsas001@gmail.com</p>
                         </div>
                     </div>
                 </div>
@@ -192,7 +189,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="map-content">
                     <i class="fas fa-map-marked-alt"></i>
                     <h3>Our Location</h3>
-                    <p>123 Shopping Street, New York, NY 10001</p>
+                    <p>123 main street colombo , Srilanka</p>
                     <a href="#" class="btn btn-outline">Get Directions</a>
                 </div>
             </div>
