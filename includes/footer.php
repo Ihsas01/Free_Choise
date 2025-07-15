@@ -23,9 +23,11 @@
         color: var(--footer-text);
         position: relative;
         overflow: hidden;
-        margin-top: 3rem;
+        margin-top: 2rem; /* reduced from 3rem */
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
+        padding-top: 0.5rem; /* added for compactness */
+        padding-bottom: 0.5rem; /* added for compactness */
     }
 
     .main-footer::before {
@@ -53,8 +55,8 @@
     .footer-content {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 2rem;
-        padding: 3rem 2rem 2rem;
+        gap: 1.2rem; /* reduced from 2rem */
+        padding: 1.5rem 1rem 1rem; /* reduced from 3rem 2rem 2rem */
         max-width: 1400px;
         margin: 0 auto;
         position: relative;
@@ -65,6 +67,7 @@
         opacity: 0;
         transform: translateY(20px);
         transition: var(--transition-smooth);
+        margin-bottom: 0.5rem; /* reduced spacing */
     }
 
     .footer-section.animate {
@@ -74,9 +77,9 @@
 
     .footer-section h3 {
         color: white;
-        font-size: 1.1rem;
+        font-size: 1.05rem; /* slightly smaller */
         font-weight: 700;
-        margin-bottom: 1rem;
+        margin-bottom: 0.7rem; /* reduced from 1rem */
         position: relative;
         letter-spacing: -0.01em;
         display: flex;
@@ -87,9 +90,9 @@
     .footer-section h3::before {
         content: '';
         position: absolute;
-        bottom: -6px;
+        bottom: -5px; /* slightly less */
         left: 0;
-        width: 30px;
+        width: 24px; /* reduced from 30px */
         height: 2px;
         background: var(--gradient-primary);
         border-radius: 1px;
@@ -97,14 +100,14 @@
     }
 
     .footer-section:hover h3::before {
-        width: 45px;
+        width: 36px; /* reduced from 45px */
     }
 
     .footer-section p {
         color: var(--footer-text-muted);
-        font-size: 0.85rem;
-        line-height: 1.6;
-        margin-bottom: 0.8rem;
+        font-size: 0.8rem; /* slightly smaller */
+        line-height: 1.5; /* slightly tighter */
+        margin-bottom: 0.5rem; /* reduced from 0.8rem */
         transition: var(--transition-fast);
     }
 
@@ -119,7 +122,7 @@
     }
 
     .footer-section ul li {
-        margin-bottom: 0.6rem;
+        margin-bottom: 0.3rem; /* reduced from 0.6rem */
         opacity: 0;
         transform: translateX(-15px);
         transition: var(--transition-smooth);
@@ -140,13 +143,13 @@
     .footer-section a {
         color: var(--footer-text-muted);
         text-decoration: none;
-        font-size: 0.8rem;
+        font-size: 0.78rem; /* slightly smaller */
         transition: var(--transition-smooth);
         position: relative;
         display: inline-flex;
         align-items: center;
         gap: 0.4rem;
-        padding: 0.3rem 0;
+        padding: 0.2rem 0; /* reduced from 0.3rem 0 */
     }
 
     .footer-section a::before {
@@ -172,20 +175,20 @@
 
     .social-links {
         display: flex;
-        gap: 0.8rem;
-        margin-top: 1.2rem;
+        gap: 0.5rem; /* reduced from 0.8rem */
+        margin-top: 0.7rem; /* reduced from 1.2rem */
     }
 
     .social-links a {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 2.5rem;
-        height: 2.5rem;
+        width: 2.1rem; /* reduced from 2.5rem */
+        height: 2.1rem;
         background: rgba(255, 255, 255, 0.08);
         border-radius: 50%;
         color: var(--footer-text-muted);
-        font-size: 1rem;
+        font-size: 0.95rem;
         transition: var(--transition-smooth);
         position: relative;
         overflow: hidden;
@@ -221,7 +224,7 @@
 
     .footer-bottom {
         text-align: center;
-        padding: 1.5rem 2rem;
+        padding: 0.7rem 1rem; /* reduced from 1.5rem 2rem */
         border-top: 1px solid var(--footer-border);
         position: relative;
         z-index: 2;
@@ -230,7 +233,7 @@
 
     .footer-bottom p {
         color: var(--footer-text-muted);
-        font-size: 0.8rem;
+        font-size: 0.75rem; /* slightly smaller */
         margin: 0;
         transition: var(--transition-fast);
     }
@@ -295,12 +298,12 @@
     .newsletter-section {
         grid-column: 1 / -1;
         text-align: center;
-        padding: 1.5rem;
+        padding: 1rem 0.5rem; /* reduced from 1.5rem */
         background: rgba(255, 255, 255, 0.04);
-        border-radius: 16px;
+        border-radius: 12px; /* reduced from 16px */
         backdrop-filter: blur(10px);
         border: 1px solid var(--footer-border);
-        margin-bottom: 1.5rem;
+        margin-bottom: 1rem; /* reduced from 1.5rem */
         position: relative;
         overflow: hidden;
     }
@@ -327,15 +330,15 @@
 
     .newsletter-form {
         display: flex;
-        gap: 0.6rem;
-        margin-top: 1.2rem;
+        gap: 0.4rem; /* reduced from 0.6rem */
+        margin-top: 0.7rem; /* reduced from 1.2rem */
         background: var(--newsletter-bg);
         border: 1px solid var(--newsletter-border);
-        border-radius: 12px;
-        padding: 0.4rem 0.6rem;
+        border-radius: 8px; /* reduced from 12px */
+        padding: 0.2rem 0.4rem; /* reduced from 0.4rem 0.6rem */
         box-shadow: 0 2px 8px rgba(102, 126, 234, 0.08);
         align-items: center;
-        max-width: 350px;
+        max-width: 300px; /* reduced from 350px */
         transition: var(--transition-smooth);
         margin-left: auto;
         margin-right: auto;
@@ -351,8 +354,8 @@
         border: none;
         background: transparent;
         color: var(--footer-text);
-        font-size: 0.85rem;
-        padding: 0.6rem 0.5rem;
+        font-size: 0.8rem; /* slightly smaller */
+        padding: 0.4rem 0.3rem; /* reduced */
         outline: none;
     }
 
@@ -364,10 +367,10 @@
         background: var(--footer-accent);
         color: #fff;
         border: none;
-        border-radius: 8px;
-        padding: 0.6rem 1.1rem;
+        border-radius: 6px; /* reduced from 8px */
+        padding: 0.4rem 0.8rem; /* reduced from 0.6rem 1.1rem */
         font-weight: 600;
-        font-size: 0.8rem;
+        font-size: 0.75rem; /* slightly smaller */
         cursor: pointer;
         transition: var(--transition-smooth);
         box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
@@ -385,11 +388,11 @@
     .newsletter-success {
         background: var(--newsletter-success);
         color: #fff;
-        border-radius: 8px;
-        padding: 0.6rem 1.1rem;
+        border-radius: 6px; /* reduced from 8px */
+        padding: 0.4rem 0.8rem; /* reduced from 0.6rem 1.1rem */
         margin-top: 0.8rem;
         font-weight: 600;
-        font-size: 0.8rem;
+        font-size: 0.75rem; /* slightly smaller */
         box-shadow: 0 2px 8px rgba(16, 185, 129, 0.25);
         animation: fadeSlideIn 0.6s;
         text-align: center;
@@ -432,8 +435,8 @@
     @media (max-width: 768px) {
         .footer-content {
             grid-template-columns: 1fr;
-            gap: 1.5rem;
-            padding: 2.5rem 1.5rem 1.5rem;
+            gap: 0.7rem; /* reduced from 1.5rem */
+            padding: 1.2rem 0.7rem 0.7rem; /* reduced */
         }
 
         .footer-section {
@@ -452,7 +455,7 @@
         .newsletter-form {
             flex-direction: column;
             align-items: center;
-            gap: 0.8rem;
+            gap: 0.5rem;
         }
 
         .newsletter-form input[type="email"] {
@@ -463,31 +466,32 @@
 
     @media (max-width: 480px) {
         .footer-content {
-            padding: 2rem 1rem 1rem;
+            padding: 1rem 0.3rem 0.3rem;
         }
 
         .footer-section h3 {
-            font-size: 1rem;
+            font-size: 0.95rem;
         }
 
         .footer-section p,
         .footer-section a {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
         }
 
         .social-links a {
-            width: 2.2rem;
-            height: 2.2rem;
-            font-size: 0.9rem;
+            width: 1.7rem;
+            height: 1.7rem;
+            font-size: 0.8rem;
         }
 
         .newsletter-form {
-            padding: 0.3rem 0.5rem;
+            padding: 0.15rem 0.2rem;
         }
 
         .newsletter-form button {
             width: 100%;
             justify-content: center;
+            font-size: 0.7rem;
         }
     }
 
