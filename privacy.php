@@ -8,6 +8,40 @@ body, .privacy-bg {
     font-family: 'Inter', sans-serif;
     background: linear-gradient(135deg, #e0e7ff 0%, #f0fdfa 100%);
     min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+.privacy-bg {
+    position: relative;
+    z-index: 1;
+}
+.privacy-bg .floating-bg {
+    position: fixed;
+    top: -120px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 900px;
+    height: 900px;
+    background: radial-gradient(circle at 60% 40%, #6366f1cc 0%, #06b6d4bb 60%, transparent 100%);
+    filter: blur(80px) saturate(1.2);
+    opacity: 0.25;
+    z-index: 0;
+    pointer-events: none;
+    animation: floatBg 18s ease-in-out infinite alternate;
+}
+@keyframes floatBg {
+    0% { transform: translateX(-50%) scale(1) translateY(0); }
+    100% { transform: translateX(-50%) scale(1.08) translateY(40px); }
+}
+.privacy-scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 4px;
+    background: linear-gradient(90deg, #6366f1 0%, #06b6d4 100%);
+    z-index: 50;
+    transition: width 0.2s;
 }
 .privacy-sticky-nav {
     position: sticky;
@@ -20,7 +54,11 @@ body, .privacy-bg {
     display: flex;
     justify-content: center;
     padding: 0.5rem 0;
-    transition: background 0.3s;
+    transition: background 0.3s, box-shadow 0.3s;
+}
+.privacy-sticky-nav.scrolled {
+    box-shadow: 0 6px 24px 0 #6366f133;
+    background: rgba(255,255,255,0.97);
 }
 .privacy-sticky-nav ul {
     display: flex;
@@ -45,6 +83,8 @@ body, .privacy-bg {
 .privacy-hero {
     text-align: center;
     margin: 2.5rem 0 2rem 0;
+    position: relative;
+    z-index: 2;
 }
 .privacy-title {
     font-size: 2.5em;
@@ -57,10 +97,15 @@ body, .privacy-bg {
     margin-bottom: 0.5rem;
     letter-spacing: 1px;
     font-family: 'Inter', sans-serif;
+    display: inline-block;
+    position: relative;
 }
 .privacy-title i {
     color: #06b6d4;
     margin-right: 0.4em;
+    font-size: 1.1em;
+    transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
+    will-change: transform;
 }
 .privacy-subtitle {
     color: #334155;
@@ -69,9 +114,9 @@ body, .privacy-bg {
     font-family: 'Inter', sans-serif;
 }
 .privacy-section {
-    background: #fff;
+    background: rgba(255,255,255,0.7);
     border-radius: 1.25rem;
-    box-shadow: 0 4px 24px 0 rgba(99,102,241,0.07);
+    box-shadow: 0 8px 40px 0 #6366f122, 0 1.5px 8px 0 #06b6d422;
     margin: 2.2rem 0;
     padding: 2.2rem 2rem 2rem 2rem;
     max-width: 800px;
@@ -80,6 +125,8 @@ body, .privacy-bg {
     opacity: 0;
     transform: translateY(40px);
     transition: opacity 0.7s cubic-bezier(0.4,0,0.2,1), transform 0.7s cubic-bezier(0.4,0,0.2,1);
+    backdrop-filter: blur(12px) saturate(1.2);
+    border: 1.5px solid #e0e7ff88;
 }
 .privacy-section.visible {
     opacity: 1;
@@ -136,13 +183,48 @@ body, .privacy-bg {
     50% { transform: scale(1.07); box-shadow: 0 8px 32px #06b6d466; }
     100% { transform: scale(1); box-shadow: 0 4px 16px #6366f122; }
 }
+.privacy-back-to-top {
+    position: fixed;
+    right: 2.2rem;
+    bottom: 2.2rem;
+    z-index: 100;
+    background: linear-gradient(90deg, #6366f1 0%, #06b6d4 100%);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 52px;
+    height: 52px;
+    box-shadow: 0 4px 24px #6366f144;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5em;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(40px);
+    pointer-events: none;
+    transition: opacity 0.4s, transform 0.4s;
+}
+.privacy-back-to-top.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+.privacy-back-to-top:hover {
+    background: linear-gradient(90deg, #06b6d4 0%, #6366f1 100%);
+    box-shadow: 0 8px 32px #06b6d466;
+}
 @media (max-width: 600px) {
     .privacy-title { font-size: 1.5em; }
     .privacy-section { padding: 1.2rem 0.7rem; }
+    .privacy-back-to-top { right: 1rem; bottom: 1rem; width: 44px; height: 44px; font-size: 1.1em; }
+    .privacy-bg .floating-bg { width: 500px; height: 500px; }
 }
 </style>
 
 <div class="privacy-bg">
+    <div class="floating-bg"></div>
+    <div class="privacy-scroll-progress" id="privacyProgress"></div>
     <nav class="privacy-sticky-nav" id="privacyNav">
         <ul>
             <li><a href="#intro" class="privacy-nav-link">Introduction</a></li>
@@ -158,7 +240,7 @@ body, .privacy-bg {
     </nav>
     <div class="container privacy-page">
         <section class="privacy-hero">
-            <h1 class="privacy-title sexy-gradient-text"><i class="fas fa-user-secret"></i> Privacy Policy</h1>
+            <h1 class="privacy-title sexy-gradient-text"><i class="fas fa-user-secret" id="privacyHeroIcon"></i> Privacy Policy</h1>
             <p class="privacy-subtitle">Your privacy is important to us. Please read our policy below.</p>
         </section>
         <section class="privacy-section" id="intro">
@@ -199,6 +281,7 @@ body, .privacy-bg {
             <a href="contact.php" class="privacy-cta-btn">Contact Support</a>
         </section>
     </div>
+    <button class="privacy-back-to-top" id="privacyBackToTop" title="Back to top"><i class="fas fa-arrow-up"></i></button>
 </div>
 
 <script>
@@ -216,7 +299,8 @@ navLinks.forEach(link => {
         }
     });
 });
-// Sticky nav active state
+// Sticky nav active state and shadow
+const privacyNav = document.getElementById('privacyNav');
 function updateActiveNav() {
     const sections = document.querySelectorAll('.privacy-section');
     let index = sections.length - 1;
@@ -228,6 +312,12 @@ function updateActiveNav() {
     }
     navLinks.forEach(link => link.classList.remove('active'));
     if (index >= 0) navLinks[index].classList.add('active');
+    // Add shadow to nav on scroll
+    if (window.scrollY > 10) {
+        privacyNav.classList.add('scrolled');
+    } else {
+        privacyNav.classList.remove('scrolled');
+    }
 }
 window.addEventListener('scroll', updateActiveNav);
 updateActiveNav();
@@ -242,6 +332,34 @@ function revealSections() {
 }
 window.addEventListener('scroll', revealSections);
 window.addEventListener('DOMContentLoaded', revealSections);
+// Scroll progress bar
+const progressBar = document.getElementById('privacyProgress');
+window.addEventListener('scroll', function() {
+    const scrollTop = window.scrollY;
+    const docHeight = document.body.scrollHeight - window.innerHeight;
+    const percent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    progressBar.style.width = percent + '%';
+});
+// Back to top button
+const backToTop = document.getElementById('privacyBackToTop');
+window.addEventListener('scroll', function() {
+    if (window.scrollY > 300) {
+        backToTop.classList.add('visible');
+    } else {
+        backToTop.classList.remove('visible');
+    }
+});
+backToTop.addEventListener('click', function() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+// Parallax hero icon
+const heroIcon = document.getElementById('privacyHeroIcon');
+window.addEventListener('scroll', function() {
+    if (heroIcon) {
+        const offset = window.scrollY * 0.15;
+        heroIcon.style.transform = `translateY(${offset}px) scale(1.1)`;
+    }
+});
 </script>
 
 <?php require_once 'includes/footer.php'; ?> 
