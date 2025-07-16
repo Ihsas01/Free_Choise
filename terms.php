@@ -24,10 +24,20 @@ body, .terms-bg {
     height: 900px;
     background: radial-gradient(circle at 60% 40%, #6366f1cc 0%, #06b6d4bb 60%, transparent 100%);
     filter: blur(80px) saturate(1.2);
-    opacity: 0.25;
+    opacity: 0.22;
     z-index: 0;
     pointer-events: none;
     animation: floatBg 18s ease-in-out infinite alternate;
+}
+.terms-bg .floating-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.13;
 }
 @keyframes floatBg {
     0% { transform: translateX(-50%) scale(1) translateY(0); }
@@ -42,6 +52,7 @@ body, .terms-bg {
     background: linear-gradient(90deg, #6366f1 0%, #06b6d4 100%);
     z-index: 50;
     transition: width 0.2s;
+    border-radius: 0 0 8px 8px;
 }
 .terms-sticky-nav {
     position: sticky;
@@ -74,11 +85,13 @@ body, .terms-bg {
     font-size: 1rem;
     padding: 0.3rem 0.7rem;
     border-radius: 6px;
-    transition: background 0.2s, color 0.2s;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    outline: none;
 }
-.terms-sticky-nav a.active, .terms-sticky-nav a:hover {
+.terms-sticky-nav a.active, .terms-sticky-nav a:hover, .terms-sticky-nav a:focus {
     background: linear-gradient(90deg, #6366f1 0%, #06b6d4 100%);
     color: #fff;
+    box-shadow: 0 2px 12px #6366f144;
 }
 .terms-hero {
     text-align: center;
@@ -89,7 +102,8 @@ body, .terms-bg {
 .terms-title {
     font-size: 2.5em;
     font-weight: 800;
-    background: linear-gradient(90deg, #6366f1 0%, #06b6d4 100%);
+    background: linear-gradient(270deg, #6366f1, #06b6d4, #6366f1);
+    background-size: 200% 200%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -99,6 +113,11 @@ body, .terms-bg {
     font-family: 'Inter', sans-serif;
     display: inline-block;
     position: relative;
+    animation: gradientMove 5s ease-in-out infinite alternate;
+}
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
 }
 .terms-title i {
     color: #6366f1;
@@ -116,7 +135,7 @@ body, .terms-bg {
 .terms-section {
     background: rgba(255,255,255,0.7);
     border-radius: 1.25rem;
-    box-shadow: 0 8px 40px 0 #6366f122, 0 1.5px 8px 0 #06b6d422;
+    box-shadow: 0 8px 40px 0 #6366f122, 0 1.5px 8px 0 #06b6d422, 0 0 0 4px transparent;
     margin: 2.2rem 0;
     padding: 2.2rem 2rem 2rem 2rem;
     max-width: 800px;
@@ -124,13 +143,39 @@ body, .terms-bg {
     margin-right: auto;
     opacity: 0;
     transform: translateY(40px);
-    transition: opacity 0.7s cubic-bezier(0.4,0,0.2,1), transform 0.7s cubic-bezier(0.4,0,0.2,1);
+    transition: opacity 0.7s cubic-bezier(0.4,0,0.2,1), transform 0.7s cubic-bezier(0.4,0,0.2,1), box-shadow 0.3s;
     backdrop-filter: blur(12px) saturate(1.2);
     border: 1.5px solid #e0e7ff88;
+    position: relative;
+    overflow: hidden;
 }
 .terms-section.visible {
     opacity: 1;
     transform: translateY(0);
+    box-shadow: 0 12px 48px 0 #6366f144, 0 1.5px 8px 0 #06b6d422, 0 0 0 4px #6366f1cc;
+}
+.terms-section .section-badge {
+    position: absolute;
+    top: -22px;
+    left: 24px;
+    background: linear-gradient(90deg, #6366f1 0%, #06b6d4 100%);
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.1em;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 12px #6366f144;
+    border: 3px solid #fff;
+    z-index: 2;
+    animation: badgePulse 2.5s infinite alternate;
+}
+@keyframes badgePulse {
+    0% { box-shadow: 0 2px 12px #6366f144; }
+    100% { box-shadow: 0 8px 32px #06b6d466; }
 }
 .terms-section h2 {
     color: #6366f1;
@@ -139,6 +184,7 @@ body, .terms-bg {
     margin-bottom: 0.5em;
     font-weight: 700;
     font-family: 'Inter', sans-serif;
+    padding-left: 56px;
 }
 .terms-section p {
     color: #334155;
@@ -163,7 +209,7 @@ body, .terms-bg {
     font-size: 1.1em;
     border-radius: 30px;
     box-shadow: 0 4px 16px #6366f122;
-    transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
+    transition: background 0.3s, box-shadow 0.3s, transform 0.2s, box-shadow 0.4s;
     position: relative;
     outline: none;
     border: none;
@@ -171,12 +217,14 @@ body, .terms-bg {
     padding: 0.9em 2.2em;
     cursor: pointer;
     animation: none;
+    border: 2px solid transparent;
 }
-.terms-cta-btn:hover {
+.terms-cta-btn:hover, .terms-cta-btn:focus {
     animation: pulse 0.7s;
     background: linear-gradient(90deg, #06b6d4 0%, #6366f1 100%);
-    box-shadow: 0 8px 32px #06b6d466;
+    box-shadow: 0 8px 32px #06b6d466, 0 0 0 4px #6366f1cc;
     transform: translateY(-2px) scale(1.03);
+    border: 2px solid #06b6d4;
 }
 @keyframes pulse {
     0% { transform: scale(1); box-shadow: 0 4px 16px #6366f122; }
@@ -214,16 +262,27 @@ body, .terms-bg {
     background: linear-gradient(90deg, #06b6d4 0%, #6366f1 100%);
     box-shadow: 0 8px 32px #06b6d466;
 }
+.terms-divider {
+    width: 100%;
+    height: 36px;
+    margin: -18px 0 0 0;
+    z-index: 2;
+    position: relative;
+    pointer-events: none;
+}
 @media (max-width: 600px) {
     .terms-title { font-size: 1.5em; }
     .terms-section { padding: 1.2rem 0.7rem; }
     .terms-back-to-top { right: 1rem; bottom: 1rem; width: 44px; height: 44px; font-size: 1.1em; }
     .terms-bg .floating-bg { width: 500px; height: 500px; }
+    .terms-section .section-badge { left: 10px; width: 36px; height: 36px; font-size: 1em; }
+    .terms-section h2 { padding-left: 44px; }
 }
 </style>
 
 <div class="terms-bg">
     <div class="floating-bg"></div>
+    <svg class="floating-svg" viewBox="0 0 1440 320"><path fill="#6366f1" fill-opacity="0.2" d="M0,160L60,176C120,192,240,224,360,229.3C480,235,600,213,720,197.3C840,181,960,171,1080,176C1200,181,1320,203,1380,213.3L1440,224L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path></svg>
     <div class="terms-scroll-progress" id="termsProgress"></div>
     <nav class="terms-sticky-nav" id="termsNav">
         <ul>
@@ -242,30 +301,55 @@ body, .terms-bg {
             <p class="terms-subtitle">Please read these terms and conditions carefully before using our website.</p>
         </section>
         <section class="terms-section" id="acceptance">
+            <span class="section-badge">1</span>
             <h2>1. Acceptance of Terms</h2>
             <p>By accessing and using FREE CHOISE, you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.</p>
         </section>
+        <div class="terms-divider">
+            <svg viewBox="0 0 1440 36" width="100%" height="36"><path fill="#06b6d4" fill-opacity="0.13" d="M0,16L60,20C120,24,240,32,360,32C480,32,600,24,720,20C840,16,960,16,1080,20C1200,24,1320,32,1380,34L1440,36L1440,36L1380,36C1320,36,1200,36,1080,36C960,36,840,36,720,36C600,36,480,36,360,36C240,36,120,36,60,36L0,36Z"></path></svg>
+        </div>
         <section class="terms-section" id="changes">
+            <span class="section-badge">2</span>
             <h2>2. Changes to Terms</h2>
             <p>We reserve the right to modify these terms at any time. Any changes will be effective immediately upon posting on this page. Your continued use of the site constitutes acceptance of those changes.</p>
         </section>
+        <div class="terms-divider">
+            <svg viewBox="0 0 1440 36" width="100%" height="36"><path fill="#6366f1" fill-opacity="0.13" d="M0,16L60,20C120,24,240,32,360,32C480,32,600,24,720,20C840,16,960,16,1080,20C1200,24,1320,32,1380,34L1440,36L1440,36L1380,36C1320,36,1200,36,1080,36C960,36,840,36,720,36C600,36,480,36,360,36C240,36,120,36,60,36L0,36Z"></path></svg>
+        </div>
         <section class="terms-section" id="responsibilities">
+            <span class="section-badge">3</span>
             <h2>3. User Responsibilities</h2>
             <p>You agree to use the website only for lawful purposes and in a way that does not infringe the rights of, restrict or inhibit anyone else's use and enjoyment of the website.</p>
         </section>
+        <div class="terms-divider">
+            <svg viewBox="0 0 1440 36" width="100%" height="36"><path fill="#06b6d4" fill-opacity="0.13" d="M0,16L60,20C120,24,240,32,360,32C480,32,600,24,720,20C840,16,960,16,1080,20C1200,24,1320,32,1380,34L1440,36L1440,36L1380,36C1320,36,1200,36,1080,36C960,36,840,36,720,36C600,36,480,36,360,36C240,36,120,36,60,36L0,36Z"></path></svg>
+        </div>
         <section class="terms-section" id="ip">
+            <span class="section-badge">4</span>
             <h2>4. Intellectual Property</h2>
             <p>All content, trademarks, and data on this website, including but not limited to software, databases, text, graphics, icons, and hyperlinks are the property of FREE CHOISE or its licensors.</p>
         </section>
+        <div class="terms-divider">
+            <svg viewBox="0 0 1440 36" width="100%" height="36"><path fill="#6366f1" fill-opacity="0.13" d="M0,16L60,20C120,24,240,32,360,32C480,32,600,24,720,20C840,16,960,16,1080,20C1200,24,1320,32,1380,34L1440,36L1440,36L1380,36C1320,36,1200,36,1080,36C960,36,840,36,720,36C600,36,480,36,360,36C240,36,120,36,60,36L0,36Z"></path></svg>
+        </div>
         <section class="terms-section" id="liability">
+            <span class="section-badge">5</span>
             <h2>5. Limitation of Liability</h2>
             <p>FREE CHOISE will not be liable for any direct, indirect, incidental, special, or consequential damages resulting from the use or inability to use the website or for the cost of procurement of substitute goods and services.</p>
         </section>
+        <div class="terms-divider">
+            <svg viewBox="0 0 1440 36" width="100%" height="36"><path fill="#06b6d4" fill-opacity="0.13" d="M0,16L60,20C120,24,240,32,360,32C480,32,600,24,720,20C840,16,960,16,1080,20C1200,24,1320,32,1380,34L1440,36L1440,36L1380,36C1320,36,1200,36,1080,36C960,36,840,36,720,36C600,36,480,36,360,36C240,36,120,36,60,36L0,36Z"></path></svg>
+        </div>
         <section class="terms-section" id="law">
+            <span class="section-badge">6</span>
             <h2>6. Governing Law</h2>
             <p>These terms shall be governed by and construed in accordance with the laws of Sri Lanka. Any disputes relating to these terms and conditions will be subject to the exclusive jurisdiction of the courts of Sri Lanka.</p>
         </section>
+        <div class="terms-divider">
+            <svg viewBox="0 0 1440 36" width="100%" height="36"><path fill="#6366f1" fill-opacity="0.13" d="M0,16L60,20C120,24,240,32,360,32C480,32,600,24,720,20C840,16,960,16,1080,20C1200,24,1320,32,1380,34L1440,36L1440,36L1380,36C1320,36,1200,36,1080,36C960,36,840,36,720,36C600,36,480,36,360,36C240,36,120,36,60,36L0,36Z"></path></svg>
+        </div>
         <section class="terms-section" id="contact">
+            <span class="section-badge">7</span>
             <h2>7. Contact Us</h2>
             <p>If you have any questions about these Terms, please <a href="contact.php">contact us</a>.</p>
             <a href="contact.php" class="terms-cta-btn">Contact Support</a>
