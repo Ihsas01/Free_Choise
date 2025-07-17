@@ -77,5 +77,11 @@ FREE CHOISE is a modern e-commerce platform that provides a seamless shopping ex
 3. Configure the database connection
 4. Run the application
 
- 
+ ## Contact
+- Email: mohamedihsas001@gmail.com
+- Phone: 076 xxx xxxx
+- Address: 123 main street colombo , Srilanka
+
+## License
+© 2024 FREE CHOISE. All rights reserved.
 
