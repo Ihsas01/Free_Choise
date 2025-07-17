@@ -65,23 +65,4 @@ FREE CHOISE is a modern e-commerce platform that provides a seamless shopping ex
 - Loading animations
 - Dynamic content loading
 
-## Security Features
-- Secure user authentication
-- Password encryption
-- Session management
-- SQL injection prevention
-- XSS protection
 
-## Getting Started
-1. Clone the repository
-2. Set up your local development environment
-3. Configure the database connection
-4. Run the application
-
-## Contact
-- Email: mohamedihsas001@gmail.com
-- Phone: 076 xxx xxxx
-- Address: 123 main street colombo , Srilanka
-
-## License
-© 2024 FREE CHOISE. All rights reserved. 
